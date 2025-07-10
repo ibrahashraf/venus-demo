@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Zain:ital,wght@0,200;0,300;0,400;0,700;0,800;0,900;1,300;1,400&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import 'keen-slider/keen-slider.min.css';
+
+html {
+  scroll-behavior: smooth;
+}
+
+.container {
+  max-width: 95%;
+  margin-right: auto;
+  margin-left: auto;
+}
+@layer utilities {
+  .animate-slideUpFade {
+    @apply transition-all duration-300 ease-out;
+    transform: translateY(10px);
+    opacity: 0;
+    animation: slideUpFade 0.3s forwards;
+  }
+  .animate-slideFromLeft {
+    @apply transition-all duration-300 ease-out;
+    transform: translateX(100px);
+    /* opacity: 0; */
+    animation: slideFromLeft 0.3s forwards;
+  }
+
+  @keyframes slideUpFade {
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  @keyframes slideFromLeft {
+    to {
+      transform: translateX(0);
+      /* opacity: 1; */
+    }
+  }
+}
