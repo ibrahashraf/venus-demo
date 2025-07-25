@@ -40,9 +40,12 @@ export function CartContextProvider({ children }) {
                   quantity: item.quantity,
                   stock: item.stock,
                   price: item.price,
+                  isFree: item.isFree || false,
+                  promotionId: item.promotionId || null
                 });
               }
               ls.removeItem("cart");
+              ls.setItem("cartMigrated", "true");
               toast.success("تم حفظ المشتريات في حساب المستخدم")
             } catch (error) {
               console.error("failed to migrate local cart", error);
@@ -54,7 +57,7 @@ export function CartContextProvider({ children }) {
         fetchServerCart();
       });
     } else {
-      if (ls) {
+      if (ls?.getItem("cartMigrated") !== "true") {
         const saved = ls.getItem("cart");
         if (saved) {
           try {
@@ -95,6 +98,8 @@ export function CartContextProvider({ children }) {
         quantity: item.quantity,
         stock: item.stock,
         price: item.price,
+        isFree: item.isFree,
+        promotionId: item.promotionId
       })));
     } catch (error) {
       console.error("Error fetching Cart", error);
@@ -245,39 +250,63 @@ export function CartContextProvider({ children }) {
 
 
   const increaseQuantity = (productId, selectedColor, selectedSize, stock) => {
-    setCart( prev => 
-      prev.map(item => {
-        if (
-          (item._id || item.productId) === productId && 
-          item.selectedColor === selectedColor && 
-          item.selectedSize === selectedSize
-        ) {
-          if ((item.quantity || 1) < (stock || Infinity)) {
-            return { ...item, quantity: (item.quantity || 1) + 1};
-          } else {
-            toast.warning("الكميه المطلوبه غير متوفره في المخزن");
+    if (isLoggedIn) {
+      if (stock < 1) {
+        toast.warning("الكميه المطلوبه غير متوفره في المخزن");
+        return;
+      }
+      axios.put("/api/cart", {
+        productId,
+        selectedColor,
+        selectedSize,
+        action: "increase",
+      });
+      fetchServerCart();
+    } else {
+      setCart( prev => 
+        prev.map(item => {
+          if (
+            (item._id || item.productId) === productId && 
+            item.selectedColor === selectedColor && 
+            item.selectedSize === selectedSize
+          ) {
+            if ((item.quantity || 1) < (stock || Infinity)) {
+              return { ...item, quantity: (item.quantity || 1) + 1};
+            } else {
+              toast.warning("الكميه المطلوبه غير متوفره في المخزن");
+            }
           }
-        }
-        return item;
-      })
-    );
+          return item;
+        })
+      );
+    }
   };
 
 
   const decreaseQuantity = (productId, selectedColor, selectedSize) => {
-    setCart( prev => 
-      prev.map(item => {
-        if (
-          (item._id || item.productId) === productId && 
-          item.selectedColor === selectedColor && 
-          item.selectedSize === selectedSize
-        ) {
-          const newQty = (item.quantity || 1) - 1;
-          return newQty > 0 ? { ...item, quantity: newQty } : 0;
-        }
-        return item;
-      }).filter(item => item.quantity > 0)
-    );
+    if (isLoggedIn) {
+      axios.put("/api/cart", {
+        productId,
+        selectedColor,
+        selectedSize,
+        action: "decrease",
+      });
+      fetchServerCart();
+    } else {
+      setCart( prev => 
+        prev.map(item => {
+          if (
+            (item._id || item.productId) === productId && 
+            item.selectedColor === selectedColor && 
+            item.selectedSize === selectedSize
+          ) {
+            const newQty = (item.quantity || 1) - 1;
+            return newQty > 0 ? { ...item, quantity: newQty } : 0;
+          }
+          return item;
+        }).filter(item => item.quantity > 0)
+      );
+    }
   };
 
 

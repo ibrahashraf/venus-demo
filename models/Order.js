@@ -12,7 +12,7 @@ const OrderSchema = new Schema({
           size: String,
         }
     ],
-    phone: Number,
+    phone: String,
     name: String,
     address: String,
     city: String,
@@ -27,7 +27,7 @@ const OrderSchema = new Schema({
     total: Number,
     paymentMethod: {
         type: String,
-        enum: ['Paymob', 'Pay on Delivery'],
+        enum: ['Card', 'Wallet', 'Pay on Delivery'],
         default: 'Pay on Delivery',
     },
     status: {

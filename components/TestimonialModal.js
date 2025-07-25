@@ -62,14 +62,13 @@ export default function TestimonialModal( { isOpen, onClose }) {
         id="TestimonialModalBackground"
         onClick={handleBackgroundClick}
     >
-        <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md relative animate-fade-in" >
+        <div className="bg-white p-10 rounded-sm shadow-lg w-full max-w-md relative" >
             <button onClick={onClose} className="absolute top-3 right-3 text-gray-500 hover:text-black">
                 <Close />
             </button>
-            <h2 className="text-xl font-bold">Submit a Testimonial</h2>
+            <h2 className="text-xl text-center font-bold">ما تقييمك للتجربة الخاصة بنا</h2>
             <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-4 bg-white rounded shadow-md">
                 <div className="flex flex-col mb-4 items-center">
-                    <label className="block mb-1 font-medium">تقييمك</label>
                     <div className="flex gap-1">
                         {[1, 2, 3, 4, 5].map((star) => (
                         <Star
@@ -89,17 +88,17 @@ export default function TestimonialModal( { isOpen, onClose }) {
                     placeholder="اسمك"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="p-2 border border-gray-300 rounded"
+                    className="w-full  rounded-sm p-3 focus:outline-none border-b border-gray-300 focus:border-black"
                 />
 
                 <textarea
                     placeholder="تعليقك"
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
-                    className="p-2 border border-gray-300 rounded h-24"
+                    className="w-full  rounded-sm p-3 focus:outline-none border-b border-gray-300 focus:border-black"
                 ></textarea>
-                <button type="submit" className={`p-2 bg-blue-600 text-white rounded ${loading ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={loading}>
-                    {loading ? 'Submitting...' : 'Submit'}
+                <button type="submit" className={`p-2 bg-blue-600 text-white font-bold rounded-sm ${loading ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={loading}>
+                    {loading ? 'جاري الارسال...' : 'ارسال'}
                 </button>
             </form>
         </div>

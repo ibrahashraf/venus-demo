@@ -1,12 +1,11 @@
 import React, { useContext } from 'react'
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import Image from "next/image";
 import Link from "next/link";
 import { CartContext } from '@/contexts/CartContext';
 
 export default function CartItems({ products }) {
-  const { cart, removeProduct, increaseQuantity, decreaseQuantity } = useContext(CartContext);
+  const { cart, increaseQuantity, decreaseQuantity } = useContext(CartContext);
 
   return (
     <>
@@ -20,27 +19,39 @@ export default function CartItems({ products }) {
         return (
           <div
             key={productId + cartItem.selectedColor + cartItem.selectedSize}
-            className="flex gap-5 items-center p-4 bg-gray-50 rounded-md hover:shadow-md transition"
+            className="flex gap-5 items-center"
           >
-            <Image
-              alt={cartItem.title}
-              src={images?.[0]}
-              width={60}
-              height={60}
-              className="rounded-md object-cover"
-            />
-            <div className="flex flex-col flex-1">
+            <div className='relative h-48 aspect-[3/4]'>
+              <Image
+                alt={cartItem.title}
+                src={images?.[0]}
+                fill
+                className="rounded-sm object-cover"
+              />
+            </div>
+            <div className="flex flex-col flex-1 gap-1">
               <div className="flex items-center gap-2">
-                <p className="font-semibold">{cartItem.title}</p>
+                <p className="font-light text-2xl">{cartItem.title}</p>
                 {isFree && (
                   <span className="bg-green-200 text-green-800 text-xs font-semibold px-2 py-1 rounded-full">
-                    🎁 Free Gift
+                    Free Gift
                   </span>
                 )}
               </div>
-              <p className="text-lg text-gray-700">
+              <p className="text-lg font-bold text-gray-700">
                 {cartItem.price} L.E
               </p>
+
+              {cartItem.selectedColor && (
+                <p className="text-sm text-gray-600">
+                  اللون: {cartItem.selectedColor}
+                </p>
+              )}
+              {cartItem.selectedSize && (
+                <p className="text-sm text-gray-600">
+                  المقاس: {cartItem.selectedSize}
+                </p>
+              )}
 
               {!isFree && (
                 <div className="flex items-center gap-3 mt-2">
@@ -59,12 +70,6 @@ export default function CartItems({ products }) {
                       +
                     </button>
                   </div>
-                  <button
-                    onClick={() => removeProduct(productId, cartItem.selectedColor, cartItem.selectedSize)}
-                    className="text-red-500 hover:text-red-700"
-                  >
-                    <DeleteForeverIcon />
-                  </button>
                 </div>
               )}
 

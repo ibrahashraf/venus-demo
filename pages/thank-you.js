@@ -12,15 +12,15 @@ export default function ThankYouPage() {
         <div className="flex flex-col items-center justify-center text-center py-20 px-5">
           <h1 className="text-4xl font-bold mb-4 text-green-600">شكراً لطلبك!</h1>
           <p className="text-xl mb-6">
-            تم استلام طلبك بنجاح وسنتواصل معك قريباً لتأكيد الطلب والتوصيل.
+            تم استلام طلبك بنجاح وسنتواصل معك قريباً.
           </p>
-          <Link href="/" className="text-white bg-black px-6 py-3 rounded-full hover:bg-white hover:text-black border border-black transition">
+          <Link href="/" className="text-white bg-black px-4 py-2 rounded-sm hover:bg-white hover:text-black border border-black transition">
             العودة إلى الصفحة الرئيسية
           </Link>
-          <div className="mt-10">
+          <div className="mt-5">
             <button
               onClick={() => setShowModal(true)}
-              className="text-white bg-green-600 px-6 py-3 rounded-full hover:bg-green-700 transition"
+              className="text-white bg-green-600 px-4 py-2 rounded-sm hover:bg-green-700 transition"
             >
               اترك لنا تقييمك
             </button>

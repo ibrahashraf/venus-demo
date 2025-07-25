@@ -84,8 +84,14 @@ export default function Header() {
     };
   }, []);
 
+  const handleSignOut = () => {
+    localStorage.removeItem('cartMigrated');
+    localStorage.removeItem('cart');
+    signOut();
+  };
+
   return (
-    <header className={`transition duration-500 ease-in-out py-4 px-6 sticky top-0 z-50 ${isScrolled ? 'bg-neutral-800' : 'bg-transparent'}`} dir='rtl'>
+    <header className={`transition duration-500 ease-in-out py-4 px-6 sticky top-0 z-50 ${isScrolled ? 'bg-primary' : 'bg-transparent'}`} dir='rtl'>
       <div className="container mx-auto flex justify-between items-center">
         {/* User Section */}
         <div className="flex items-center gap-5">
@@ -117,7 +123,7 @@ export default function Header() {
                     </Link>
                     <button
                       onClick={() => {
-                        signOut();
+                        handleSignOut();
                         setDropdownOpenUser(false);
                       }}
                       className="block w-full text-left px-4 py-2 hover:bg-gray-100 hover:text-red-500 rounded-b-lg transition"

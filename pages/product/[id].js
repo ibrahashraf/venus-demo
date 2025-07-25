@@ -9,14 +9,11 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Product } from "@/models/Product";
 import { event } from "@/lib/gtag";
 import 'animate.css';
-import Image1 from '@/public/assets/image1.jpg';
-import Image2 from '@/public/assets/image2.jpg';
-import Image3 from '@/public/assets/image3.jpg';
-import Image4 from '@/public/assets/image4.jpg';
 import SignInModal from "@/components/SignInModal";
 import ImageCarousel from "@/components/ImageCarousel";
+import ProductsSlider from "@/components/ProductsSlider";
 
-export default function ProductPage({ product }) {
+export default function ProductPage({ product, relatedProducts }) {
   const { addProduct, cart, removeProduct } = useContext(CartContext);
   const { wishlist, addToWishlist, removeFromWishlist, isLoggedIn } = useContext(WishListContext);
   const { getDiscountedPrice, getPromotionLabel, loading } = useContext(PromotionDisplayContext);
@@ -27,7 +24,6 @@ export default function ProductPage({ product }) {
   const [discountedPrice, setDiscountedPrice ] = useState(null);
   const [isAdding, setIsAdding] = useState(false);
   const [wishlistLoading, setWishlistLoading] = useState(false);
-  const images = [Image1, Image2, Image3, Image4];
   
 
   useEffect(() => {
@@ -138,7 +134,7 @@ export default function ProductPage({ product }) {
         <div className="container mx-auto px-4">
           <div className="flex flex-col lg:flex-row gap-12">
             <div className="relative flex justify-center items-center lg:w-1/2 px-5 ">
-              <ImageCarousel images={images} alt={product.title} />
+              <ImageCarousel images={product.images} alt={product.title} />
             </div>
             <div className="w-full lg:w-2/3 flex flex-col gap-6">
               <div className="animate__animated animate__fadeIn animate__delay-2s">
@@ -242,6 +238,12 @@ export default function ProductPage({ product }) {
                   })}
                 </div>
               </div>
+              {product.description && (
+                <div className="text-gray-700 leading-relaxed py-4 max-w-xl">
+                  <p>{product.description}</p>
+                </div>
+              )}
+
               { outOfStock 
                   ? (
                     <div className="bg-red-600 w-fit text-white py-2 px-8 rounded-sm shadow-md  ">
@@ -278,18 +280,42 @@ export default function ProductPage({ product }) {
             </div>
           </div>
         </div>
+        <div>
+          {
+            relatedProducts.length > 0
+            ? (
+              <div className="mt-12 container">
+                <h2 className="text-3xl text-center font-bold mb-4 animate__animated animate__fadeIn">منتجات ذات صلة</h2>
+                <ProductsSlider products={relatedProducts}/>
+              </div>
+            )
+            : null
+          }
+          
+        </div>
       </div>
     </>
   );
 }
 
 export async function getServerSideProps(context) {
-  await mongooseConnect();
   const { id } = context.query;
+
+  await mongooseConnect();
+
   const product = await Product.findById(id).lean();
+
+  const relatedProducts = await Product.find({
+    category: product.category,
+    _id: { $ne: product._id },
+  })
+    .limit(8)
+    .lean();
+
   return {
     props: {
       product: JSON.parse(JSON.stringify(product)),
+      relatedProducts: JSON.parse(JSON.stringify(relatedProducts)),
     },
   };
 }

@@ -52,6 +52,45 @@ export default async function handle(req, res) {
     return res.json(cartDoc);
   }
 
+  if (method === "PUT") {
+    const { productId, selectedColor, selectedSize, action } = req.body;
+    const cart = await Cart.findOne({ userId });
+
+    if (!cart) {
+      return res.status(404).json({ error: "Cart not found" });
+    }
+
+    const item = cart.items.find(
+      (item) =>
+        item.productId.equals(productId) &&
+        item.selectedColor === selectedColor &&
+        item.selectedSize === selectedSize
+    );
+
+    if (!item) {
+      return res.status(404).json({ error: "Item not found in cart" });
+    }
+
+    if (action === "increase") {
+      item.quantity += 1;
+    } else if (action === "decrease") {
+      item.quantity -= 1;
+      if (item.quantity < 1) {
+        // Remove the item if quantity < 1
+        cart.items = cart.items.filter(i => i !== item);
+      }
+    } else if (action === "set") {
+      item.quantity = quantity;
+    } else {
+      return res.status(400).json({ error: "Invalid action" });
+    }
+
+    cart.updatedAt = new Date();
+    await cart.save();
+    return res.json(cart);
+  }
+
+
   if (method === "DELETE") {
     const { productId, selectedColor, selectedSize } = req.body;
     const cart = await Cart.findOne({ userId });

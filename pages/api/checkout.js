@@ -20,37 +20,9 @@ export default async function handler(req, res) {
 
   const {
     name, phone, address, city, governorate, cart, subtotal, shippingCost,
-    totalBeforeDiscount, promotionIds, discount, total, paymentMethod, couponCode, recaptchaToken
+    totalBeforeDiscount, promotionIds, discount, total, paymentMethod, couponCode
   } = req.body;
 
-   if ( !user ) {
-     if (!recaptchaToken) {
-       return res.status(400).json({ error: 'reCAPTCHA token is required' });
-     }
-  }
-
-  try {
-    if ( !user ) {    
-      const recaptchaVerifyUrl = `https://www.google.com/recaptcha/api/siteverify`;
-      const response = await axios.post(
-        recaptchaVerifyUrl,
-        new URLSearchParams({
-          secret: process.env.RECAPTCHA_SECRET_KEY,
-          response: recaptchaToken,
-        }),
-        { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
-      );
-
-      const { success, score, action } = response.data;
-
-      if (!success || (score !== undefined && score < 0.5)) {
-        return res.status(400).json({ error: 'reCAPTCHA verification failed' });
-      }
-    }
-  } catch (error) {
-    console.error("reCAPTCHA verification error:", error.response?.data || error.message);
-    return res.status(500).json({ error: 'reCAPTCHA verification error' });
-  }
 
   if (!name || !phone || !address || !city || !governorate || !cart?.length || !paymentMethod) {
     return res.status(400).json({ error: 'Missing required fields' });
@@ -125,7 +97,11 @@ export default async function handler(req, res) {
     total,
   });
   // === Online Payment ===
-  if ( paymentMethod === "Paymob" ) {
+  if ( paymentMethod !== "Pay on Delivery" ) {
+    const integrationIds = {
+      "Card" : process.env.PAYMOB_CARD_INTEGRATION_ID,
+      "Wallet": process.env.PAYMOB_WALLET_INTEGRATION_ID,
+    }
     try {
       const auth = await axios.post("https://accept.paymob.com/api/auth/tokens", {
         api_key: process.env.PAYMOB_API_KEY,
@@ -165,7 +141,7 @@ export default async function handler(req, res) {
           state: governorate,
         },
         currency: "EGP",
-        integration_id: process.env.PAYMOB_INTEGRATION_ID,
+        integration_id: integrationIds[paymentMethod],
         callback_url: `${process.env.NGROK_URL}/api/paymob-callback`,
         return_url: `${process.env.NGROK_URL}/api/payment-status`,
       });
