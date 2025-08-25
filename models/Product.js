@@ -11,9 +11,12 @@ const ProductSchema = new Schema({
             size: String,
             color: String,
             stock: Number,
+            compareAtPrice: Number,
             price: Number,
         }
     ],
+    metaTitle: { type: String, trim: true },
+    metaDescription: { type: String, trim: true }
 }, {
     timestamps: true
 });

@@ -6,6 +6,16 @@
 
 html {
   scroll-behavior: smooth;
+  padding: 0;
+  margin: 0;
+  font-family: 'Cairo', sans-serif;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 .container {
@@ -13,6 +23,8 @@ html {
   margin-right: auto;
   margin-left: auto;
 }
+
+
 @layer utilities {
   .animate-slideUpFade {
     @apply transition-all duration-300 ease-out;
@@ -20,11 +32,45 @@ html {
     opacity: 0;
     animation: slideUpFade 0.3s forwards;
   }
+  .animate-slideDown {
+    @apply transition-all duration-300 ease-out;
+    transform: translateY(-1000px);
+    animation: slideDown 1s forwards 0.5s;
+  }
+  .animate-slideRight {
+    @apply transition-all duration-300 ease-out;
+    transform: translateX(-10000px);
+    animation: slideRight 2s forwards 0.5s;
+  }
   .animate-slideFromLeft {
     @apply transition-all duration-300 ease-out;
     transform: translateX(100px);
     /* opacity: 0; */
     animation: slideFromLeft 0.3s forwards;
+  }
+  .animate-slideFromRight {
+    @apply transition-all duration-300 ease-out;
+    transform: translateX(-100px);
+    /* opacity: 0; */
+    animation: slideFromRight 0.3s forwards;
+  }
+  .skeleton {
+    @apply relative overflow-hidden bg-gray-200 rounded;
+  }
+  .skeleton::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      white,
+      transparent
+    );
+    animation: shimmer 1.2s infinite;
   }
 
   @keyframes slideUpFade {
@@ -33,10 +79,33 @@ html {
       opacity: 1;
     }
   }
+
+  @keyframes slideDown {
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideRight {
+    to {
+      transform: translateX(0);
+    }
+  }
   @keyframes slideFromLeft {
     to {
       transform: translateX(0);
       /* opacity: 1; */
+    }
+  }
+  @keyframes slideFromRight{
+    to {
+      transform: translateX(0);
+      /* opacity: 1; */
+    }
+  }
+  @keyframes shimmer {
+    100% {
+      left: 100%;
     }
   }
 }

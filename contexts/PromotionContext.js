@@ -1,111 +1,170 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { CartContext } from "./CartContext";
-import axios from "axios";
-
+import axiosClient from "@/lib/axiosClient";
+ 
 export const PromotionContext = createContext({
     discounts: [],
-    bogoFreeItems: [],
     appliedPromotions: [],
+    promotionProgress: [],
 });
 
 export function PromotionContextProvider({ children }) {
-    const { cart, setCart } = useContext(CartContext);
-    const [ bogoFreeItems, setBogoFreeItems ] = useState([]);
+    const { cart } = useContext(CartContext);
     const [discounts, setDiscounts] = useState([]);
     const [appliedPromotions, setAppliedPromotions] = useState([]);
+    const [promotionProgress, setPromotionProgress] = useState([]);
 
+    // NEW: coupon state & summary
+    const [code, setCode] = useState(null);
+    const [appliedCoupon, setAppliedCoupon] = useState(null);
+    const [couponDiscount, setCouponDiscount] = useState(0);
+    const [couponError, setCouponError] = useState(null);
 
-    
-    
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
     useEffect(() => {
 
         if (!cart || cart.length === 0) {
             setDiscounts([]);
-            setBogoFreeItems([]);
             setAppliedPromotions([]);
+            setPromotionProgress([]);
+            setAppliedCoupon(null);
+            setCouponDiscount(0);
+            setCouponError(null);
             return;
         }
 
+        const payload = {
+            cart: cart.map(item => ({
+                productId: item.product?._id || item._id || item.productId,
+                price: item.price,
+                quantity: item.quantity,
+            }))
+        };
+
         const applyPromotions = async () => {
-            console.log("⚙️ Running applyPromotions based on updated cart...");
+            setLoading(true);
+            setError(null);
             try {
-                const { data } = await axios.post("/api/promotions/apply", {
-                    cart: cart.map(item => ({
-                        productId: item.product?._id || item._id || item.productId,
-                        price: item.price,
-                        quantity: item.quantity,
-                    }))
-                });
+                // If a coupon code is active, call applycode so the code gets priority
+                if (code) {
+                    const { data } = await axiosClient.post("/api/promotions/applycode", { ...payload, code }, { skipRedirect: true });
+                    // handle response shape
+                    const discountsRes = Array.isArray(data.discounts) ? data.discounts : [];
+                    setDiscounts(discountsRes);
+                    if (Array.isArray(data.appliedPromotions) && data.appliedPromotions.length > 0) {
+                        setAppliedPromotions(data.appliedPromotions);
+                    } 
+                    else if (data.appliedCoupon) {
+                        setAppliedPromotions([data.appliedCoupon]);
+                    } else {
+                        setAppliedPromotions([]);
+                    }
+                    setPromotionProgress(Array.isArray(data.promotionProgress) ? data.promotionProgress : []);
+                    setAppliedCoupon(data.appliedCoupon || null);
+                    setCouponDiscount(Number(data.couponDiscount || 0));
+                    setCouponError(null);
+                } else {
+                    // no coupon — call regular apply
+                    const { data } = await axiosClient.post("/api/promotions/apply", payload, { skipRedirect: true });
+                    setDiscounts(Array.isArray(data.discounts) ? data.discounts : []);
+                    setAppliedPromotions(Array.isArray(data.appliedPromotions) ? data.appliedPromotions : []);
+                    setPromotionProgress(Array.isArray(data.promotionProgress) ? data.promotionProgress : []);
+                    setAppliedCoupon(null);
+                    setCouponDiscount(0);
+                }
+            } catch (err) {
+                console.error(" Error applying promotions:", err);
+                // on error clear promotion info to avoid stale positive discounts
+                setDiscounts([]);
+                setAppliedPromotions([]);
+                setPromotionProgress([]);
+                setAppliedCoupon(null);
+                setCouponDiscount(0);
 
-                const { discounts = [], freeItems = [], appliedPromotions = [] } = data;
-
-                setDiscounts(discounts);
-                setBogoFreeItems(freeItems); // Can be used for display if needed
-                setAppliedPromotions(appliedPromotions);
-
-                console.log("✅ Applied promotions:", appliedPromotions);
-                console.log("🎁 Free items calculated:", freeItems);
-                console.log("💸 Discounts:", discounts);
-
-            } catch (error) {
-                console.error("❌ Error applying promotions:", error);
+                if (code) {
+                    const serverMsg = err?.response?.data?.error || err?.message || "تعذر تطبيق الكوبون";
+                    setCouponError(serverMsg);
+                } else {
+                    setError(err.response?.data?.error || err.message || "Failed to apply promotions");
+                }
+            } finally {
+                setLoading(false);
             }
         };
 
         applyPromotions();
-    }, [cart]);
+    }, [cart, code]); // <-- runs when cart or code changes
 
-    useEffect(() => {
-        if (!cart || cart.length === 0) return;
-
-        const cleanUpInvalidFreeGifts = () => {
-            const newCart = [...cart];
-            let changed = false;
-
-            for (const promo of appliedPromotions.filter(p => p.promotionType === 'bogo')) {
-            const buyProductIds = promo.buyProducts.map(id => id.toString());
-            const totalBuyQty = cart.reduce((sum, item) => {
-                const pid = (item.product?._id || item._id || item.productId)?.toString();
-                return item.isFree ? sum : buyProductIds.includes(pid) ? sum + item.quantity : sum;
-            }, 0);
-
-            const stillEligible = totalBuyQty >= promo.buyQty;
-
-            if (!stillEligible) {
-                const before = newCart.length;
-                // remove free items tied to this promo
-                for (let i = newCart.length - 1; i >= 0; i--) {
-                const item = newCart[i];
-                if (item.isFree && item.promotionId?.toString() === promo._id.toString()) {
-                    newCart.splice(i, 1);
-                }
-                }
-                if (newCart.length !== before) {
-                changed = true;
-                }
+    // Minimal helper functions to control coupon from UI (exposed below)
+    async function applyCode(newCode) {
+        if (!newCode) return { success: false, error: "ادخل كود الكوبون" };
+        const normalized = String(newCode).trim().toUpperCase();
+        setCouponError(null);
+        setCode(normalized);
+        try {
+            setLoading(true);
+            const payload = {
+                cart: cart.map(item => ({
+                    productId: item.product?._id || item._id || item.productId,
+                    price: item.price,
+                    quantity: item.quantity,
+                })),
+                code: normalized,
+            };
+            const { data } = await axiosClient.post("/api/promotions/applycode", payload, { skipRedirect: true });
+            // update state synchronously to ensure UI updates fast
+            const discountsRes = Array.isArray(data.discounts) ? data.discounts : [];
+            setDiscounts(discountsRes);
+            if (Array.isArray(data.appliedPromotions) && data.appliedPromotions.length > 0) {
+                setAppliedPromotions(data.appliedPromotions);
+            } else if (data.appliedCoupon) {
+                setAppliedPromotions([data.appliedCoupon]);
+            } else {
+                setAppliedPromotions([]);
             }
-            }
+            setPromotionProgress(Array.isArray(data.promotionProgress) ? data.promotionProgress : []);
+            setAppliedCoupon(data.appliedCoupon || null);
+            setCouponDiscount(Number(data.couponDiscount || 0));
+            setCouponError(null);
+            setLoading(false);
+            return { success: true };
+        } catch (err) {
+            setLoading(false);
+            const serverMsg = err?.response?.data?.error || err?.message || "Failed to apply coupon";
+            setCouponError(serverMsg);
+            // keep code state so user can retry or remove
+            setCode(String(newCode).trim().toUpperCase());
+            return { success: false, error: serverMsg };
+        }
+        // effect will pick it up and call applycode
+        // optionally we can optimistically set loading here, but effect will handle it
+    }
 
-            if (changed) {
-            // Call your `replaceCart(newCart)` or update CartContext directly
-            setCart(newCart); // <-- make sure CartContext supports this function
-            }
-        };
-
-        cleanUpInvalidFreeGifts();
-    }, [cart, appliedPromotions]);
-
-
-
-
-
+    async function removeCode() {
+        // clear code and re-run apply (effect will run)
+        setCode(null);
+        setAppliedCoupon(null);
+        setCouponDiscount(0);
+        setCouponError(null);
+    }
 
     return (
         <PromotionContext.Provider 
             value={{ 
                 discounts,
-                bogoFreeItems,
                 appliedPromotions,
+                promotionProgress,
+                // coupon helpers & state
+                code,
+                applyCode,
+                removeCode,
+                appliedCoupon,
+                couponDiscount,
+                couponError,
+                loading,
+                error,
             }}
         >
             {children}

@@ -27,7 +27,7 @@ export default async function handler(req, res) {
         return res.status(201).json(testimonial);
     }
     if (method === "GET") {
-        const testimonials = await Testimonial.find({ approved: true }).populate("user", "name email").sort({ createdAt: -1 });
+        const testimonials = await Testimonial.find({ approved: true }).sort({ createdAt: -1 });
         return res.status(200).json(testimonials);
     }
 }

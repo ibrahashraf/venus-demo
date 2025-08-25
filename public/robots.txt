@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+Disallow: /delete-data
+Disallow: /network-error
+Disallow: /Orders
+Disallow: /Cart
+Disallow: /WishList
+Disallow: /payment-status
+Disallow: /thank-you
+
+Sitemap: https://yourdomain.com/sitemap.xml

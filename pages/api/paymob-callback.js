@@ -2,6 +2,7 @@ import { mongooseConnect } from "@/lib/mongoose";
 import { Promotion } from "@/models/Promotion";
 import { Order } from "@/models/Order";
 import { Product } from "@/models/Product";
+import { Cart } from "@/models/Cart";
 
 
 export default async function handler(req, res) {
@@ -13,7 +14,6 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Payment failed' });
   }
   if (!orderId) {
-    console.log('Order ID not found', obj);
     return res.status(400).json({ error: 'Order ID not found' });
   }
 
@@ -34,15 +34,17 @@ export default async function handler(req, res) {
         }
         await product.save();
       }
-    }
-    const couponCode = obj?.order?.coupon_code;
-    if (couponCode) {
+    } 
+    if (order.couponCodeId) {
+      const couponCode = order.couponCodeId;
       await Promotion.findOneAndUpdate(
-        { code: couponCode },
+        { _id: couponCode },
         { $inc: { codeUsageCount: 1 } },
-        { new: true }
       );
     }
+
+    await Cart.deleteOne({ userId: order.user });
+
     res.status(200).json({ success: true });
   } catch (error) {
     console.error('Error updating order:', error);

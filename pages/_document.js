@@ -31,6 +31,9 @@ export default function Document() {
         <div id="modal-root"></div>
         <div id="modal-root-testimonial"></div>
         <div id="search-modal-root"></div>
+        <div id="user-modal-root"></div>
+        <div id="delete-user-modal-root"></div>
+        <div id="shipping-form-modal-root"></div>
         <Main />
         <NextScript />
       </body>

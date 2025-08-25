@@ -1,5 +1,5 @@
 import { useKeenSlider } from "keen-slider/react"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import Image from "next/image"
 import { Close, KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material"
 
@@ -62,11 +62,11 @@ export default function CarouselModal({ images, alt, initialIndex = 0, onClose }
                     className="keen-slider__slide flex justify-center items-center overflow-hidden"
                 >
                     <Image
-                    src={src}
-                    alt={alt}
-                    width={300}
-                    height={400}
-                    className="object-contain w-[300px] h-[400px] sm:w-[450px] sm:h-[600px]"
+                        src={src}
+                        alt={alt}
+                        width={300}
+                        height={400}
+                        className="object-contain w-[300px] h-[400px] sm:w-[450px] sm:h-[600px]"
                     />
                 </div>
                 ))}

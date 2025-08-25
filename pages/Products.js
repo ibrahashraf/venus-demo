@@ -1,22 +1,26 @@
 import Header from "@/components/Header";
 import ProductBox from "@/components/ProductBox";
-import { mongooseConnect } from "@/lib/mongoose";
-import { Product } from "@/models/Product";
 import { ArrowForward, ArrowBack, Close, FilterList, Sort } from "@mui/icons-material";
-import axios from "axios";
 import {  useEffect, useRef, useState } from "react";
 import ReactSlider from 'react-slider';
 import { useRouter } from "next/router";
+import Footer from "@/components/Footer";
+import ProductSkeleton from "@/components/ProductSkeleton";
+import ErrorBoundary from "@/components/ErrorBoundary";
+import axiosClient from "@/lib/axiosClient";
+import Head from "next/head";
 
 
-export default function Products({ products }) {
+export default function Products({  }) {
+  const [ products, setProducts ] = useState([]);
+  const [ page, setPage ] = useState(1);
+  const [ pages, setPages ] = useState(1);
+  const [ loading, setLoading ] = useState(false);
+
   const [ categories, setCategories ] = useState([]);
-  const [ selectedCategories, setSelectedCategories ] = useState([]);
+  const [ selectedCategory, setSelectedCategory ] = useState(null);
   const [ selectedSizes, setSelectedSizes ] = useState([]);
   const [ selectedColors, setSelectedColors ] = useState([]);
-  const [ priceRange, setPriceRange ] = useState([0, 0]);
-  const [ minPrice, setMinPrice ] = useState(0);
-  const [ maxPrice, setMaxPrice ] = useState(0);
   const [ filteredProducts, setFilteredProducts ] = useState(products);
   const [ sizes, setSizes ] = useState([]);
   const [ colors, setColors ] = useState([]);
@@ -27,16 +31,55 @@ export default function Products({ products }) {
   const router = useRouter();
   const sortRef = useRef();
   const sortButtonRef = useRef();
+  const limit = 32  ;
+  
+  useEffect(() => {
+    async function fetchProducts() {
+      setLoading(true);
+      try {
+        const { data } = await axiosClient.get(`/api/products?page=${page}&limit=${limit}`);
 
+        if (page === 1) {
+          setProducts(data.products);
+        } else {
+          setProducts((prev) => [...prev, ...data.products]);
+        }
+
+        setPages(data.pages);
+      } catch (error) {
+        console.error("Failed to fetch products:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchProducts();
+  }, [ page ]);
 
   useEffect(() => {
     const { category } = router.query;
-    if (category) {
-      setSelectedCategories(
-        categories.find((c) => c._id === category)
-      );
+    if (!category || !categories.length) return;
+
+    const Wantedcategory = categories.reduce((found, c) => {
+      if (found) return found;
+
+      if (String(c._id) === String(category)) {
+        return c; // ✅ parent match
+      }
+
+      const child = c.children?.find(child => String(child._id) === String(category));
+      if (child) {
+        return child; // ✅ child match
+      }
+
+      return null;
+    }, null);
+
+    if (Wantedcategory) {
+      setSelectedCategory(Wantedcategory);
     }
   }, [router.query, categories]);
+
 
 
   useEffect(() => {
@@ -61,9 +104,9 @@ export default function Products({ products }) {
   }, [openSort]);
 
   useEffect(() => {
-    axios.get("/api/categories").then(res => {
+    axiosClient.get("/api/categories").then(res => {
       setCategories(res.data);
-    })
+    }).catch(err => console.log(err));
     const uniqueSizes = [
       ...new Set(products.flatMap((product) => product.variants.map((v) => v.size))),
     ];
@@ -73,34 +116,21 @@ export default function Products({ products }) {
 
     setSizes(uniqueSizes);
     setColors(uniqueColors);
-    const allPrices = products.flatMap(p =>
-      p.variants?.map(v => v.price).filter(p => typeof p === 'number') || []
-    );
   
-    if (allPrices.length > 0) {
-      const min = Math.min(...allPrices);
-      const max = Math.max(...allPrices);
-      setMinPrice(min);
-      setMaxPrice(max);
-      setPriceRange([min, max]);
-    }
-
   }, [products]);
 
   useEffect(() => {
-    let filtered = products;
+    let filtered = [...products];
 
-    if (selectedCategories.length > 0) {
-      const selectedAndChildCategoryIds = selectedCategories.flatMap(category => {
-        const ids = [category._id];
-        if (Array.isArray(category.children)) {
-          ids.push(...category.children.map(child => child._id));
-        }
-        return ids;
-      })
-    
+    if (selectedCategory) {
+      let selectedAndChildCategoryIds = [selectedCategory._id];
+
+      if (Array.isArray(selectedCategory.children)) {
+        selectedAndChildCategoryIds.push(...selectedCategory.children.map(child => child._id));
+      }
+
       filtered = filtered.filter(product =>
-        selectedAndChildCategoryIds.includes(product.category)
+        selectedAndChildCategoryIds.includes(product.category?.toString())
       );
     }
     
@@ -111,10 +141,6 @@ export default function Products({ products }) {
 
     if (selectedColors.length > 0) {
       filtered = filtered.filter(product => product.variants.some(variant => selectedColors.includes(variant.color)));
-    }
-
-    if (priceRange) {
-      filtered = filtered.filter(product => product.variants.some(variant => variant.price >= priceRange[0] && variant.price <= priceRange[1]));
     }
 
     if (sortOption === 'newest') {
@@ -131,13 +157,13 @@ export default function Products({ products }) {
 
     setFilteredProducts(filtered);
     
-  }, [selectedCategories, selectedSizes, selectedColors, priceRange, products, sortOption]);
+  }, [selectedCategory, selectedSizes, selectedColors, products, sortOption]);
 
   const handleCategoryChange = (category) => {
-    if (selectedCategories.includes(category)) {
-      setSelectedCategories(selectedCategories.filter((c) => c._id !== category._id));
+    if (selectedCategory?._id === category._id) {
+      setSelectedCategory(null);
     } else {
-      setSelectedCategories([...selectedCategories, category]);
+      setSelectedCategory(category);
     }
   };
 
@@ -159,13 +185,14 @@ export default function Products({ products }) {
   const handleBackgroundClick = (e) => {
       if (e.target.id === "sideBarBackground") {
         setOpenFilters(false);
+        setActiveFilter(null);
       }
     };
 
   const FilterButton = ({ title, onClick }) => (
     <button 
       onClick={onClick}
-      className="flex justify-between items-center text-2xl  text-gray-800 bg-neutral-100 px-4 py-3 rounded-sm shadow hover:bg-neutral-200"
+      className="flex justify-between items-center text-2xl  text-neutral-800 px-4 py-3 rounded-sm shadow-sm border-b hover:bg-neutral-100"
     >
       <span>{title}</span>
       <ArrowBack className="text-xl" />
@@ -173,255 +200,283 @@ export default function Products({ products }) {
   )
 
   const FilterOverlay = ({children}) => (
-    <div className=" w-full h-full p-4 flex flex-col space-y-5 overflow-y-auto flex-grow ">
+    <div className=" w-full overflow-y-auto h-[60vh] p-4 flex flex-col space-y-5  flex-grow ">
       {children}
     </div>
   );
 
   return (
     <>
+      <Head>
+        <title>المتجر | Venus Outlet فينوس اوتليت</title>
+        <meta
+          name="description"
+          content="استكشف أحدث تشكيلات الملابس النسائية وملابس الأطفال من Venus Outlet فينوس اوتليت، تسوق أونلاين واستفد من العروض المميزة في مصر."
+        />
+      </Head>
       <Header />
-      <div className=" min-h-screen bg-neutral-50">
-        {/* Overlay when filters are open */}
-        {openFilters && (
-          <div className="fixed inset-0 bg-black bg-opacity-40 z-40" />
-        )}
+      <ErrorBoundary>
+        <div className=" min-h-screen bg-neutral-50">
+          {/* Overlay when filters are open */}
+          {openFilters && (
+            <div className="fixed inset-0 bg-black bg-opacity-40 z-40" />
+          )}
 
-        {/* Sidebar */}
-        {openFilters && (
-          <div onClick={handleBackgroundClick} id="sideBarBackground" className="fixed inset-0 z-[51]  flex items-center justify-center bg-black/50">
-          <aside className={"bg-neutral-50  shadow-lg border-neutral-200 fixed  py-6 h-screen w-screen md:w-1/2 lg:w-1/3 xl:w-1/4 top-0 right-0 z-50 animate-slideFromLeft"}>
-            <div className="flex items-center justify-between p-4 ">
-              <button onClick={() => setActiveFilter(null)}>
-                {activeFilter !== null && (
-                  <ArrowForward className="text-3xl" />
-                )}
-              </button>
-              <h2 className="text-2xl font-bold">
-                {activeFilter === null && "خيارات التصفية"}
-                {activeFilter === "category" && "الفئات"}
-                {activeFilter === "size" && "الحجم"}
-                {activeFilter === "color" && "اللون"}
-                {activeFilter === "price" && "السعر"}
-              </h2>
-              <button onClick={() => {setOpenFilters(false); setActiveFilter(null);}}>
-                <Close className="text-4xl" />
-              </button>
-            </div>
-            <div className="flex flex-col gap-6   p-6 w-full ">
-              {activeFilter === null && (
-                <div className="flex flex-col gap-4">
-                  <FilterButton title={`الفئات ${selectedCategories.length > 0 ? `(${selectedCategories.length})` : ""}`} onClick={() => setActiveFilter("category")} />
-                  <FilterButton title={`الحجم ${selectedSizes.length > 0 ? `(${selectedSizes.length})` : ""}`} onClick={() => setActiveFilter("size")} />
-                  <FilterButton title={`اللون ${selectedColors.length > 0 ? `(${selectedColors.length})` : ""}`} onClick={() => setActiveFilter("color")} />
-                  <FilterButton title={"السعر"} onClick={() => setActiveFilter("price")} />
-                </div>
-              )} 
-              { activeFilter === "category" && (
-                  <FilterOverlay title={"الفئات"}>
-                    {categories.map((category) => (
-                      <>
-                        <label key={category._id} className="flex items-center gap-5 text-lg">
+          {/* Sidebar */}
+          {openFilters && (
+            <div onClick={handleBackgroundClick} id="sideBarBackground" className="fixed inset-0 z-[51]  flex items-center justify-center bg-black/50">
+            <aside className={"bg-neutral-50  shadow-lg border-neutral-200 fixed  py-6 h-screen w-screen md:w-1/2 lg:w-1/3 xl:w-1/4 top-0 right-0 z-50 animate-slideFromLeft"}>
+              <div className="flex items-center justify-between p-4 ">
+                <button onClick={() => setActiveFilter(null)}>
+                  {activeFilter !== null && (
+                    <ArrowForward className="text-3xl" />
+                  )}
+                </button>
+                <h2 className="text-2xl font-bold">
+                  {activeFilter === null && "خيارات التصفية"}
+                  {activeFilter === "category" && "الفئات"}
+                  {activeFilter === "size" && "الحجم"}
+                  {activeFilter === "color" && "اللون"}
+                  {activeFilter === "price" && "السعر"}
+                </h2>
+                <button onClick={() => {setOpenFilters(false); setActiveFilter(null);}}>
+                  <Close className="text-4xl" />
+                </button>
+              </div>
+              <div className="flex flex-col gap-6   p-6 w-full ">
+                {activeFilter === null && (
+                  <div className="flex flex-col gap-4">
+                    <FilterButton title={`الفئات ${selectedCategory ? `(${selectedCategory.name})` : ""}`} onClick={() => setActiveFilter("category")} />
+                    <FilterButton title={`الحجم ${selectedSizes.length > 0 ? `(${selectedSizes.length})` : ""}`} onClick={() => setActiveFilter("size")} />
+                    <FilterButton title={`اللون ${selectedColors.length > 0 ? `(${selectedColors.length})` : ""}`} onClick={() => setActiveFilter("color")} />
+                  </div>
+                )} 
+                { activeFilter === "category" && (
+                    <FilterOverlay title={"الفئات"}>
+                      {categories.map((category) => (
+                        <>
+                          <label key={category._id} className="flex items-center gap-5 text-lg">
+                            <input 
+                              type="checkbox"
+                              checked={selectedCategory?._id === category._id}
+                              onChange={() => handleCategoryChange(category)}
+                              className="w-5 h-5"
+                              hidden
+                            />
+                            <div className="w-6 h-6 bg-white border border-neutral-500 rounded-sm p-1">
+                              {selectedCategory?._id === category._id && 
+                                <div className="bg-accent w-full h-full z-10 rounded-sm"></div>
+                              }
+                            </div>
+                            <span>{category.name}</span>
+                          </label>
+                          {category.children.length > 0 && (
+                            <>
+                              {category.children.map((child) => (
+                                <label key={child._id} className="flex items-center gap-5 text-lg">
+                                  <input 
+                                    type="checkbox"
+                                    checked={selectedCategory?._id === child._id}
+                                    onChange={() => handleCategoryChange(child)}
+                                    className="w-5 h-5"
+                                    hidden
+                                  />
+                                  <div className="w-6 h-6 bg-white border border-neutral-500 rounded-sm p-1">
+                                    {selectedCategory?._id === child._id && 
+                                      <div className="bg-accent w-full h-full z-10 rounded-sm"></div>
+                                    }
+                                  </div>
+                                  <span>{child.name}</span>
+                                </label>
+                              ))}
+                            </>
+                          )}
+                        </>
+                      ))}
+                    </FilterOverlay>
+                  )
+                }
+                { activeFilter === "size" && (
+                    <FilterOverlay title={"الحجم"}>
+                      {sizes.map((size) => (
+                        <label key={size} className="flex items-center gap-5 text-lg">
                           <input 
                             type="checkbox"
-                            checked={selectedCategories.includes(category)}
-                            onChange={() => handleCategoryChange(category)}
+                            checked={selectedSizes.includes(size)}
+                            onChange={() => handleSizeChange(size)}
                             className="w-5 h-5"
                             hidden
                           />
                           <div className="w-6 h-6 bg-white border border-neutral-500 rounded-sm p-1">
-                            {selectedCategories.includes(category) && 
+                            {selectedSizes.includes(size) && 
                               <div className="bg-accent w-full h-full z-10 rounded-sm"></div>
                             }
                           </div>
-                          <span>{category.name}</span>
+                          <span>{size}</span>
                         </label>
-                        {category.children.length > 0 && (
-                          <>
-                            {category.children.map((child) => (
-                              <label key={child._id} className="flex items-center gap-5 text-lg">
-                                <input 
-                                  type="checkbox"
-                                  checked={selectedCategories.includes(child)}
-                                  onChange={() => handleCategoryChange(child)}
-                                  className="w-5 h-5"
-                                  hidden
-                                />
-                                <div className="w-6 h-6 bg-white border border-neutral-500 rounded-sm p-1">
-                                  {selectedCategories.includes(child) && 
-                                    <div className="bg-accent w-full h-full z-10 rounded-sm"></div>
-                                  }
-                                </div>
-                                <span>{child.name}</span>
-                              </label>
-                            ))}
-                          </>
-                        )}
-                      </>
-                    ))}
-                  </FilterOverlay>
-                )
-              }
-              { activeFilter === "size" && (
-                  <FilterOverlay title={"الحجم"}>
-                    {sizes.map((size) => (
-                      <label key={size} className="flex items-center gap-5 text-lg">
-                        <input 
-                          type="checkbox"
-                          checked={selectedSizes.includes(size)}
-                          onChange={() => handleSizeChange(size)}
-                          className="w-5 h-5"
-                          hidden
-                        />
-                        <div className="w-6 h-6 bg-white border border-neutral-500 rounded-sm p-1">
-                          {selectedSizes.includes(size) && 
-                            <div className="bg-accent w-full h-full z-10 rounded-sm"></div>
-                          }
-                        </div>
-                        <span>{size}</span>
-                      </label>
-                    ))}
-                  </FilterOverlay>
-                )
-              }
-              { activeFilter === "color" && (
-                  <FilterOverlay title={"اللون"}>
-                    {colors.map((color) => (
-                      <label key={color} className="flex items-center gap-5 text-lg">
-                        <input 
-                          type="checkbox"
-                          checked={selectedColors.includes(color)}
-                          onChange={() => handleColorChange(color)}
-                          className="w-5 h-5"
-                          hidden
-                        />
-                        <div className="w-6 h-6 bg-white border border-neutral-500 rounded-sm p-1">
-                          {selectedColors.includes(color) && 
-                            <div className="bg-accent w-full h-full z-10 rounded-sm"></div>
-                          }
-                        </div>
-                        <span>{color}</span>
-                      </label>
-                    ))}
-                  </FilterOverlay>
-                )
-              }
-              { activeFilter === "price" && (
-                  <FilterOverlay title={"السعر"}>
-                    {/* <div className="relative"> */}
-                      <ReactSlider
-                        className="w-full h-2  rounded-full mt-10"
-                        thumbClassName="h-5 -top-1.5 w-5 bg-black border-2 border-white rounded-full cursor-pointer shadow-md hover:scale-110 transition-transform duration-200"
-                        trackClassName="bg-black h-2 rounded-full"
-                        min={minPrice}
-                        max={maxPrice}
-                        value={priceRange}
-                        onChange={setPriceRange}
-                        pearling
-                        minDistance={10}
-                        renderThumb={(props, state) => (
-                          <div {...props}>
-                            <div className="absolute -top-14 left-1/2 -translate-x-1/2 border border-neutral-500 text-sm font-semibold px-2 py-1 rounded-sm shadow">
-                              {state.valueNow} EGP
-                            </div>
+                      ))}
+                    </FilterOverlay>
+                  )
+                }
+                { activeFilter === "color" && (
+                    <FilterOverlay title={"اللون"}>
+                      {colors.map((color) => (
+                        <label key={color} className="flex items-center gap-5 text-lg">
+                          <input 
+                            type="checkbox"
+                            checked={selectedColors.includes(color)}
+                            onChange={() => handleColorChange(color)}
+                            className="w-5 h-5"
+                            hidden
+                          />
+                          <div className="w-6 h-6 bg-white border border-neutral-500 rounded-sm p-1">
+                            {selectedColors.includes(color) && 
+                              <div className="bg-accent w-full h-full z-10 rounded-sm"></div>
+                            }
                           </div>
-                        )}
-                      />
-                    {/* </div> */}
-                  </FilterOverlay>
-                )
-              }
-                {/* Reset Filters Button */}
-                <div className="flex flex-col justify-center w-full">
-                  <button
-                    onClick={() => {
-                      setSelectedSizes([]);
-                      setSelectedColors([]);
-                      setPriceRange([minPrice, maxPrice]);
-                      setSelectedCategories([]);
-                    }}
-                    className="w-full bg-accent hover:bg-red-700 text-white py-2 rounded-sm font-bold shadow-md transition-all"
-                    disabled={!selectedSizes.length && !selectedColors.length && !selectedCategories.length && priceRange[0] === minPrice && priceRange[1] === maxPrice}
-                  >
-                    تصفية الكل
-                  </button>
-                </div>
-                <div>
-                  <button
-                    onClick={() => {
-                      setOpenFilters(false);
-                    }}
-                    className="w-full bg-primary hover:bg-neutral-800 text-white py-2 rounded-sm font-bold shadow-md transition-all"
-                  >
-                    عرض النتائج
-                  </button>
-                </div>
+                          <span>{color}</span>
+                        </label>
+                      ))}
+                    </FilterOverlay>
+                  )
+                }
+                  {/* Reset Filters Button */}
+                  <div className="flex flex-col gap-5 absolute bottom-16 sm:bottom-4 w-full p-6 right-0">
+                    <div className="flex flex-col justify-center w-full ">
+                      <button
+                        onClick={() => {
+                          setSelectedSizes([]);
+                          setSelectedColors([]);
+                          setSelectedCategory(null);
+                        }}
+                        className="w-full bg-accent hover:bg-red-700 text-white py-2 rounded-sm font-bold shadow-md transition-all"
+                        disabled={!selectedSizes.length && !selectedColors.length && !selectedCategory}
+                      >
+                        تصفية الكل
+                      </button>
+                    </div>
+                    <div>
+                      <button
+                        onClick={() => {
+                          setOpenFilters(false);
+                          setActiveFilter(null);
+                        }}
+                        className="w-full bg-primary hover:bg-neutral-800 text-white py-2 rounded-sm font-bold shadow-md transition-all"
+                      >
+                        عرض النتائج
+                      </button>
+                    </div>
+                  </div>
+              </div>
+            </aside>
             </div>
-          </aside>
-          </div>
-        )}
-  
-        {/* Main Content */}
-        <main className="flex-1 p-8">
-          {/*  mobile Filter button */}
-          <div className="sticky top-16 sm:top-20 w-full z-30 bg-neutral-50 py-2 flex justify-between items-center  ">
-            <button
-              className=" flex gap-2 items-center font-semibold py-3 px-1 underline text-md md:text-xl"
-              onClick={() => setOpenFilters(true)}
-            >
-              خيارات التصفية
-              {selectedCategories.length + selectedSizes.length + selectedColors.length > 0 && (
-                ` ( ${selectedCategories.length + selectedSizes.length + selectedColors.length} )`
-              )}
-              <FilterList />
-            </button>
-            <div>
+          )}
+    
+          {/* Main Content */}
+          <main className="flex-1 p-8">
+            {/*  mobile Filter button */}
+            <div className="sticky top-16 sm:top-20 w-full z-30 bg-neutral-50 py-2  ">
+              <div className="  flex justify-between items-center">
+                <button
+                  className=" flex sm:gap-2 items-center font-semibold py-3 px-1 underline text-md md:text-xl"
+                  onClick={() => setOpenFilters(true)}
+                >
+                  خيارات التصفية
+                  {  selectedSizes.length + selectedColors.length + Boolean(selectedCategory) > 0 && (
+                    ` ( ${ selectedSizes.length + selectedColors.length + Boolean(selectedCategory)} )`
+                  )}
+                  <FilterList />
+                </button>
+                <div>
 
-            <button
-              className=" flex gap-2 items-center font-semibold py-3 px-1 underline text-md md:text-xl"
-              onClick={() => setOpenSort(!openSort)}
-              ref={sortButtonRef}
-            >
-              ترتيب حسب
-              <Sort />
-            </button>
-            {openSort && (
-              <div ref={sortRef} className="absolute top-16 left-0 w-60 z-30 bg-neutral-50 flex flex-col shadow-md border border-gray-200">
-                <button 
-                  onClick={() => {setOpenSort(false); setSortOption("newest")}}
-                  className={`w-full border-b border-gray-200 text-lg text-right p-2 ${sortOption === "newest" ? " bg-neutral-200" : ""}`}
+                  <button
+                    className=" flex sm:gap-2 items-center font-semibold py-3 px-1 underline text-md md:text-xl"
+                    onClick={() => setOpenSort(!openSort)}
+                    ref={sortButtonRef}
+                  >
+                    ترتيب حسب
+                    <Sort />
+                  </button>
+                  {openSort && (
+                    <div ref={sortRef} className="absolute top-16 left-0 w-60 z-30  flex flex-col  bg-white text-black shadow-lg rounded-sm border ">
+                      <button 
+                        onClick={() => {setOpenSort(false); setSortOption("newest")}}
+                        className={`block w-full px-4 py-2 hover:bg-gray-100 hover:text-red-500 rounded-b-lg transition text-right ${sortOption === "newest" ? " bg-neutral-200" : ""}`}
+                      >
+                        الأحدث
+                      </button>
+                      <button 
+                        onClick={() => {setOpenSort(false); setSortOption("price-highest")}}
+                        className={`block w-full px-4 py-2 hover:bg-gray-100 hover:text-red-500 rounded-b-lg transition text-right ${sortOption === "price-highest" ? " bg-neutral-200" : ""}`}
+                      >
+                        السعر: الأقل أولاً
+                      </button>
+                      <button 
+                        onClick={() => {setOpenSort(false); setSortOption("price-lowest")}}
+                        className={`block w-full px-4 py-2 hover:bg-gray-100 hover:text-red-500 rounded-b-lg transition text-right ${sortOption === "price-lowest" ? " bg-neutral-200" : ""}`}
+                      >
+                        السعر: الأعلى أولاً
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+              {/* breadcrumbs */}
+              { selectedCategory && (<div className="justify-self-start max-sm:text-md mt-2 pb-2">
+                 <button className="text-neutral-500 hover:text-primary" onClick={() => setSelectedCategory(null)}>الكل</button>
+                {
+                  selectedCategory?.parentCategory ? (
+                    <>
+                      <button className="text-neutral-500 hover:text-primary" onClick={() => setSelectedCategory(categories.find((c) => c._id === selectedCategory?.parentCategory))}> / {categories.find((c) => c._id === selectedCategory?.parentCategory)?.name}</button>
+                      <span> / {selectedCategory?.name}</span>
+                    </>
+                  ) : (
+                    <span> / {selectedCategory?.name}</span>
+                  ) 
+                  
+                }
+              </div>)}
+            </div>
+    
+            {/* Products Grid */}
+            { loading 
+              ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-4 gap-6 mt-20">
+                  {[...Array(8)].map((_, index) => (
+                    <div key={index}>
+                      <ProductSkeleton />
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-4 gap-6 mt-20">
+                  {filteredProducts.map((product) => (
+                    <div
+                      key={product._id}
+                    >
+                      <ProductBox {...product} />
+                    </div>
+                  ))}
+                </div>
+              )
+            }
+
+            {page < pages && (
+              <div className="flex justify-center mt-6">
+                <button
+                  onClick={() => setPage(page + 1)}
+                  disabled={loading}
+                  className="px-6 py-2 bg-black text-white rounded-lg"
                 >
-                  الأحدث
-                </button>
-                <button 
-                  onClick={() => {setOpenSort(false); setSortOption("price-highest")}}
-                  className={`w-full border-b border-gray-200 text-lg text-right p-2 ${sortOption === "price-highest" ? " bg-neutral-200" : ""}`}
-                >
-                  السعر: الأقل أولاً
-                </button>
-                <button 
-                  onClick={() => {setOpenSort(false); setSortOption("price-lowest")}}
-                  className={`w-full text-lg text-right p-2 ${sortOption === "price-lowest" ? " bg-neutral-200" : ""}`}
-                >
-                  السعر: الأعلى أولاً
+                  {loading ? "جار التحميل..." : "تحميل المزيد"}
                 </button>
               </div>
             )}
-            </div>
-          </div>
-  
-          {/* Products Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-4 gap-6 mt-20">
-            {filteredProducts.map((product) => (
-              <div
-                key={product._id}
-              >
-                <ProductBox {...product} />
-              </div>
-            ))}
-          </div>
-        </main>
-      </div>
+
+          </main>
+        </div>
+      </ErrorBoundary>
+      <Footer />
     </>
   );
   
@@ -429,16 +484,4 @@ export default function Products({ products }) {
   
 }
 
-export async function getServerSideProps() {
-  await mongooseConnect();
-
-  const products = await Product.find({}, null, { sort: { _id: -1 } });
-
-
-  return {
-    props: {
-      products: JSON.parse(JSON.stringify(products)),
-    }
-  };
-}
 

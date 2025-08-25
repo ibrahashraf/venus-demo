@@ -4,7 +4,10 @@ import FacebookProvider from "next-auth/providers/facebook";
 import { mongooseConnect } from "@/lib/mongoose";
 import { User } from "@/models/User";
 
-export default NextAuth({
+const isSecure =
+  (process.env.NEXTAUTH_URL || "").startsWith("https://");
+
+export const authOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
@@ -15,13 +18,33 @@ export default NextAuth({
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
     }),
   ],
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+    updateAge: 24 * 60 * 60,   // refresh session once/day
+  },
+
+  cookies: {
+    sessionToken: {
+      name: isSecure ? "__Secure-next-auth.session-token" : "next-auth.session-token",
+      options: {
+        httpOnly: true,
+        path: "/",
+        secure: isSecure,
+        // Lax is ok for most OAuth flows, but payment providers sometimes POST back.
+        // If your Paymob return uses POST, use "none". (Secure MUST be true.)
+        sameSite: isSecure ? "none" : "lax",
+      },
+    },
+  },
+  
   callbacks: {
     async signIn({ user }) {
       await mongooseConnect();
 
-      const existingUser = await User.findOne({ email: user.email });
-      if (!existingUser) {
-        await User.create({
+      const existing = await User.findOne({ email: user.email });
+      if (!existing) {
+        existing = await User.create({
           name: user.name,
           email: user.email,
           image: user.image,
@@ -30,20 +53,25 @@ export default NextAuth({
 
       return true;
     },
+    async jwt({ token }) {
+      await mongooseConnect();
+       if (token?.email) {
+        const dbUser = await User.findOne({  email: token.email }).select("_id");
+        if (dbUser?._id) token.userId = dbUser._id.toString();
+       }
+       return token;
+    },
+
     async session({ session, token }) {
-      if (token?.sub) {
-        session.user.id = token.sub;
+      if (token?.userId) {
+        session.user.id = token.userId;
       } else {
       }
       return session;
     },
   
-    async jwt({ token, user }) {
-      if (user) {
-        token.sub = user.id;
-      }
-      return token;
-    },
   },
-});
+};
+
+export default NextAuth(authOptions);
 

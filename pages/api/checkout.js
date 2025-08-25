@@ -4,8 +4,8 @@ import { authOptions } from "./auth/[...nextauth]";
 import { Product } from "@/models/Product";
 import { Order } from "@/models/Order";
 import { User } from "@/models/User";
-import axios from "axios";
 import { Promotion } from "@/models/Promotion";
+import axiosClient from "@/lib/axiosClient";
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -19,8 +19,20 @@ export default async function handler(req, res) {
   const user = userEmail ? await User.findOne({ email: userEmail }) : null;
 
   const {
-    name, phone, address, city, governorate, cart, subtotal, shippingCost,
-    totalBeforeDiscount, promotionIds, discount, total, paymentMethod, couponCode
+    name
+    , phone
+    , address
+    , city
+    , governorate
+    , cart
+    , subtotal
+    , shippingCost
+    , totalBeforeDiscount
+    , promotionIds
+    , discount
+    , total
+    , paymentMethod
+    , couponCodeId
   } = req.body;
 
 
@@ -70,57 +82,74 @@ export default async function handler(req, res) {
       );
     }
     // update coupon usage limit
-    if (couponCode) {
+    if (couponCodeId) {
       await Promotion.findOneAndUpdate(
-        { code: couponCode },
+        { _id: couponCodeId },
         { $inc: { codeUsageCount: 1 } },
       );
     }
 
+    const orderDoc = await Order.create({
+      user: user?._id || null,
+      line_items,
+      name,
+      phone,
+      address,
+      city,
+      governorate,
+      paid: false,
+      paymentMethod,
+      subtotal,
+      shippingCost,
+      totalBeforeDiscount,
+      promotionIds: promotionIds || [],
+      couponCodeId: couponCodeId || null,
+      discount: discount || null,
+      total,
+    });
 
     res.status(201).json({ success: true });
   }
-  const orderDoc = await Order.create({
-    user: user?._id || null,
-    line_items,
-    name,
-    phone,
-    address,
-    city,
-    governorate,
-    paid: false,
-    paymentMethod,
-    subtotal,
-    shippingCost,
-    totalBeforeDiscount,
-    discount: discount || null,
-    total,
-  });
   // === Online Payment ===
-  if ( paymentMethod !== "Pay on Delivery" ) {
-    const integrationIds = {
-      "Card" : process.env.PAYMOB_CARD_INTEGRATION_ID,
-      "Wallet": process.env.PAYMOB_WALLET_INTEGRATION_ID,
-    }
+  if ( paymentMethod === "Paymob" ) {
+
+    const orderDoc = await Order.create({
+      user: user?._id || null,
+      line_items,
+      name,
+      phone,
+      address,
+      city,
+      governorate,
+      paid: false,
+      paymentMethod,
+      subtotal,
+      shippingCost,
+      totalBeforeDiscount,
+      promotionIds: promotionIds || [],
+      couponCodeId: couponCodeId || null,
+      discount: discount || null,
+      total,
+    });
+    
     try {
-      const auth = await axios.post("https://accept.paymob.com/api/auth/tokens", {
+      const auth = await axiosClient.post("https://accept.paymob.com/api/auth/tokens", {
         api_key: process.env.PAYMOB_API_KEY,
-      });
+      }, { skipRedirect: true });
 
       const token = auth.data.token;
 
-      const paymobOrder = await axios.post("https://accept.paymob.com/api/ecommerce/orders", {
+      const paymobOrder = await axiosClient.post("https://accept.paymob.com/api/ecommerce/orders", {
         auth_token: token,
         delivery_needed: false,
         amount_cents: total * 100,
         currency: "EGP",
         items: [],
         merchant_order_id: orderDoc._id,
-        coupon_code: couponCode || null,
-      });
+      }, { skipRedirect: true });
 
 
-      const paymentKey = await axios.post("https://accept.paymob.com/api/acceptance/payment_keys", {
+      const paymentKey = await axiosClient.post("https://accept.paymob.com/api/acceptance/payment_keys", {
         auth_token: token,
         amount_cents: total * 100,
         expiration: 3600,
@@ -141,10 +170,10 @@ export default async function handler(req, res) {
           state: governorate,
         },
         currency: "EGP",
-        integration_id: integrationIds[paymentMethod],
+        integration_id: process.env.PAYMOB_INTEGRATION_ID,
         callback_url: `${process.env.NGROK_URL}/api/paymob-callback`,
         return_url: `${process.env.NGROK_URL}/api/payment-status`,
-      });
+      }, { skipRedirect: true });
       
 
       const paymentUrl = `https://accept.paymob.com/api/acceptance/iframes/${process.env.PAYMOB_IFRAME_ID}?payment_token=${paymentKey.data.token}`;

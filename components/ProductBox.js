@@ -8,19 +8,19 @@ import Link from "next/link";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import 'animate.css';
-import { ClipLoader } from "react-spinners";
+import { PuffLoader } from "react-spinners";
 import SignInModal from "./SignInModal";
 
 export default function ProductBox( product ) {
   const firstAvailableVariant = product.variants.find(v => v.stock > 0);
   const { addProduct, removeProduct, cart } = useContext(CartContext);
   const { getDiscountedPrice, getPromotionLabel, loading } = useContext(PromotionDisplayContext);
-  const { wishlist, addToWishlist, removeFromWishlist, isLoggedIn } = useContext(WishListContext);
+  const { wishlist, addToWishlist, removeFromWishlist, isLoggedIn } = useContext(WishListContext); 
   const [showModal, setShowModal] = useState(false);
   const [selectedSize, setSelectedSize] = useState(firstAvailableVariant?.size || product.variants[0]?.size || "");
   const [selectedColor, setSelectedColor] = useState(firstAvailableVariant?.color || product.variants[0]?.color || "");
   const [price, setPrice] = useState(firstAvailableVariant?.price || 0);
+  const [compareAtPrice, setCompareAtPrice] = useState(firstAvailableVariant?.compareAtPrice || 0);
   const [discountedPrice, setDiscountedPrice ] = useState(null)
   const [isAdded, setIsAdded] = useState(false);
   const [wishlistLoading, setWishlistLoading] = useState(false);
@@ -81,7 +81,8 @@ export default function ProductBox( product ) {
     const selectedVariant = groupedVariants[selectedColor]?.[selectedSize];
     if (selectedVariant) {
       setPrice(selectedVariant.price);
-      setDiscountedPrice(getDiscountedPrice(product, selectedVariant))
+      setDiscountedPrice(getDiscountedPrice(product, selectedVariant));
+      setCompareAtPrice(selectedVariant.compareAtPrice || 0);
     }
   }, [selectedSize, selectedColor, product.variants, loading]);
 
@@ -164,7 +165,7 @@ export default function ProductBox( product ) {
   
   
   return (
-    <div ref={boxRef} className="bg-neutral-50 rounded overflow-hidden shadow-sm hover:shadow-md transition border border-neutral-100">
+    <div ref={boxRef} className="bg-neutral-50 rounded overflow-hidden shadow-sm hover:shadow-md transition">
       <div className="block relative aspect-[3/4]  overflow-hidden   bg-gray-100 group">
         {!outOfStock && 
           ( <div
@@ -180,7 +181,7 @@ export default function ProductBox( product ) {
             >
             <div className="text-left p-2">
               <Link href={url} >
-                <OpenInNewIcon className="text-[34px] text-neutral-50 bg-primary rounded" />
+                <OpenInNewIcon sx={{ fontSize: 40 }} className="mr-2 text-neutral-50 bg-primary rounded" />
               </Link>
             </div>
             <div className={`flex justify-between h-[13%] relative z-20 transition duration-300
@@ -198,7 +199,7 @@ export default function ProductBox( product ) {
                   disabled={isAdding}
                   className={`flex items-center justify-center w-4/5 h-full transition bg-primary text-neutral-50`}
                 >
-                  <ClipLoader color="#ffffff" size={16} />
+                  <PuffLoader color="#ffffff" size={30} />
                 </button> 
                 : isAdded ?
                   <button
@@ -217,7 +218,7 @@ export default function ProductBox( product ) {
                   {cartStep === 'idle' && (<ShoppingCart size={20} />)}
                   {cartStep === 'size' && (
                     <div 
-                      className={`absolute inset-0  flex gap-2 justify-center items-center bg-neutral-600  animate-slideUpFade
+                      className={`absolute inset-0  flex gap-2 justify-center items-center bg-neutral-300  animate-slideUpFade
                       `}
                     >
                       {availableSizes.map((size) => {
@@ -241,7 +242,7 @@ export default function ProductBox( product ) {
                     </div>
                   )}
                   {cartStep === 'color' && (
-                    <div className="absolute inset-0 flex gap-2 justify-center items-center bg-black/90  animate-slideUpFade">
+                    <div className="absolute inset-0 flex gap-2 justify-center items-center bg-neutral-300  animate-slideUpFade">
                       {availableColors.map((color) => {
                         const out = !isSizeInStock(selectedSize, color);
                         return (
@@ -276,10 +277,10 @@ export default function ProductBox( product ) {
                 title={inWishlist ? "Remove from Wishlist" : "Add to Wishlist"}
               >
                 { wishlistLoading ? (
-                  <ClipLoader
+                  <PuffLoader
                     color="#000000"
                     loading={wishlistLoading}
-                    size={16}
+                    size={30}
                     aria-label="Loading Spinner"
                     data-testid="loader"
                   />
@@ -295,7 +296,7 @@ export default function ProductBox( product ) {
         }
         <Image
           src={product.images?.[0]}
-          alt={product.title}
+          alt={product.description}
           width={400}
           height={600}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
@@ -323,6 +324,11 @@ export default function ProductBox( product ) {
             <div className="text-md flex gap-2" dir="ltr">
               <p className="text-accent font-bold ml-1"> {discountedPrice} LE</p>
               <span className="line-through text-gray-500"> {price} LE</span>
+            </div>
+          ) : compareAtPrice ? (
+            <div className="text-md flex gap-2" dir="ltr">
+              <p className="text-accent font-bold ml-1"> {price} LE</p>
+              <span className="line-through text-gray-500"> {compareAtPrice} LE</span>
             </div>
           ) : (
             <div  dir="ltr" className="text-sm font-bold text-gray-700">{price} LE</div>

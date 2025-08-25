@@ -1,9 +1,10 @@
-import axios from "axios"
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { createPortal } from "react-dom";
 import { Close, Star } from "@mui/icons-material";
 import { useRouter } from "next/router";
+import axiosClient from "@/lib/axiosClient";
+import Button from "./ui/Button";
 
 
 
@@ -12,6 +13,7 @@ export default function TestimonialModal( { isOpen, onClose }) {
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState('');
     const [loading, setLoading] = useState(null);
+    const [ error, setError ] = useState(null);
     const router = useRouter();
 
     useEffect(() => {
@@ -31,26 +33,27 @@ export default function TestimonialModal( { isOpen, onClose }) {
         e.preventDefault();
         
         if (!name || !rating || !comment) {
-            toast.error('Please fill in all fields');
+            toast.error('يرجى ملء جميع الحقول', );
             return;
         }
         try {
             setLoading(true);
-            const response = await axios.post('/api/testimonials', {
+            const response = await axiosClient.post('/api/testimonials', {
                 name,
                 rating,
                 comment,
-            });
+            }, {skipRedirect: true});
             if (response.status === 201) {
                 router.push('/');
-                toast.success('Thank you for your testimonial!');
+                toast.success('شكراً لتقييمك!');
                 onClose();
                 setName('');
                 setRating(0);
                 setComment('');
             }
         } catch (error) {
-            toast.error(error.response?.data?.error || 'Submission failed');
+            setError("حدث خطأ ما. يرجى المحاولة مجدداً");
+            setTimeout(() => setError(null), 3000);
         } finally {
             setLoading(false);
         }
@@ -97,9 +100,10 @@ export default function TestimonialModal( { isOpen, onClose }) {
                     onChange={(e) => setComment(e.target.value)}
                     className="w-full  rounded-sm p-3 focus:outline-none border-b border-gray-300 focus:border-black"
                 ></textarea>
-                <button type="submit" className={`p-2 bg-blue-600 text-white font-bold rounded-sm ${loading ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={loading}>
+                { error && <p className="text-red-500">{error}</p>}
+                <Button type="submit" variant="primary" className={`p-2  font-bold }`} disabled={loading}>
                     {loading ? 'جاري الارسال...' : 'ارسال'}
-                </button>
+                </Button>
             </form>
         </div>
     </div>,

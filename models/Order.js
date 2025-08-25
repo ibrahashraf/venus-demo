@@ -21,13 +21,13 @@ const OrderSchema = new Schema({
     subtotal: Number,
     shippingCost: Number,
     totalBeforeDiscount: Number,
-    couponCode: {type: String, default: null},
     promotionIds: [{ type: mongoose.Types.ObjectId, ref: 'Promotion' }],
+    couponCodeId: { type: mongoose.Types.ObjectId, ref: 'Promotion' },
     discount: Number,
     total: Number,
     paymentMethod: {
         type: String,
-        enum: ['Card', 'Wallet', 'Pay on Delivery'],
+        enum: ['Paymob', 'Pay on Delivery'],
         default: 'Pay on Delivery',
     },
     status: {

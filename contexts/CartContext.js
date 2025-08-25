@@ -1,8 +1,10 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import axios from "axios";
 import { toast } from "sonner";
 import { event } from "@/lib/gtag";
+import axiosClient from "@/lib/axiosClient";
+import { ShoppingCart } from "@mui/icons-material";
+import Link from "next/link";
 
 export const CartContext = createContext({
   cart: [],
@@ -31,7 +33,7 @@ export function CartContextProvider({ children }) {
             try {
               const localCart = JSON.parse(saved);
               for (const item of localCart) {
-                await axios.post("/api/cart", {
+                await axiosClient.post("/api/cart", {
                   productId: item._id,
                   title: item.title,
                   images: item.images,
@@ -40,9 +42,8 @@ export function CartContextProvider({ children }) {
                   quantity: item.quantity,
                   stock: item.stock,
                   price: item.price,
-                  isFree: item.isFree || false,
                   promotionId: item.promotionId || null
-                });
+                }, { skipRedirect: true });
               }
               ls.removeItem("cart");
               ls.setItem("cartMigrated", "true");
@@ -87,7 +88,7 @@ export function CartContextProvider({ children }) {
 
   const fetchServerCart = async () => {
     try {
-      const res = await axios.get("/api/cart");
+      const res = await axiosClient.get("/api/cart", { skipRedirect: true });
       const serverCart = res.data?.items || [];
       setCart(serverCart.map((item) => ({
         _id: item.productId._id,
@@ -98,7 +99,6 @@ export function CartContextProvider({ children }) {
         quantity: item.quantity,
         stock: item.stock,
         price: item.price,
-        isFree: item.isFree,
         promotionId: item.promotionId
       })));
     } catch (error) {
@@ -109,14 +109,14 @@ export function CartContextProvider({ children }) {
 
 
   const addProduct = async (product) => {
-    const { _id, images, title, selectedColor, selectedSize ,stock , price, category, isFree, promotionId} = product;
+    const { _id, images, title, selectedColor, selectedSize ,stock , price, category, promotionId} = product;
     if (isLoggedIn) {
       if (stock < 1) {
-          toast.warning(`${title} غير متوفر حاليا بالمخزن`);
+          toast.warning(`غير متوفر حاليا بالمخزن ${title}`);
           return;
         }
       try {
-        await axios.post("/api/cart", {
+        await axiosClient.post("/api/cart", {
           productId: _id,
           title,
           images,
@@ -125,10 +125,14 @@ export function CartContextProvider({ children }) {
           quantity: 1,
           price,
           category,
-          isFree: isFree || false,
           promotionId: promotionId || null,
-        });
-        toast.success(`الى المشتريات ${title} تمت اضافه`);
+        }, { skipRedirect: true });
+        toast.success(
+          <div className="flex flex-col gap-4 justify-center items-center w-full">
+            <div>تمت اضافه {title} للمشتريات</div>
+            <Link href="/Cart" className=" w-full border border-accent text-accent hover:bg-accent hover:text-white transition  text-center py-2">عرض المشتريات  <ShoppingCart sx={{ fontSize: "16px" }} /></Link>
+          </div>
+        );
         fetchServerCart();
       } catch (error) {
         console.error("Failed to add product", error);
@@ -144,7 +148,7 @@ export function CartContextProvider({ children }) {
       if (existingIndex !== -1) {
         const updated = [...cart];
         if (updated[existingIndex].quantity >= stock) {
-          toast.warning(`${title} نفذت الكميه المتاحه من `);
+          toast.warning(` نفذت الكميه المتاحه من ${title}`);
           return;
         }
         updated[existingIndex].quantity += 1;
@@ -162,12 +166,18 @@ export function CartContextProvider({ children }) {
             stock,
             price, 
             category,
-            isFree: isFree || false ,
             promotionId: promotionId || null,
           },
         ]);
       }
-      toast.success(`الي المشتريات ${title} تمت اضافه`);
+      toast.success(
+        <div className="flex flex-col gap-4 justify-center items-center w-full">
+          <div>تمت اضافه {title} للمشتريات</div>
+          <Link href="/Cart" className=" w-full border border-accent text-accent hover:bg-accent hover:text-white transition text-center py-2">عرض المشتريات  <ShoppingCart sx={{ fontSize: "16px" }} /></Link>
+        </div>
+      , {
+        pauseOnHover: false
+      });
     }
     event({
       action: "add_to_cart",
@@ -189,13 +199,13 @@ export function CartContextProvider({ children }) {
   };
 
 
-  const removeProduct = async (productId, selectedColor, selectedSize, title, category, price) => {
+  const removeProduct = async (productId, selectedColor, selectedSize) => {
     if (isLoggedIn) {
       try {
-        await axios.delete("/api/cart", {
+        await axiosClient.delete("/api/cart", {
           data: {productId, selectedColor, selectedSize },
-        });
-        fetchServerCart();
+        }, { skipRedirect: true });
+        await fetchServerCart();
         toast.error("تم حذف المنتج من المشتريات");
       } catch (error) {
         console.error("falied to remove product", error);
@@ -214,30 +224,13 @@ export function CartContextProvider({ children }) {
       );
       toast.error("تم حذف المنتج من المشتريات");
     }
-    event({
-      action: "remove_from_cart",
-      params: {
-        send_to: process.env.GANALYTICS_ID,
-        currency: "EGP",
-        value: price,
-        items: [
-          {
-            item_name: title,
-            item_id: productId,
-            price: price,
-            quantity: 1,
-            item_category: category,
-          },
-        ],
-      },
-    });
   };
 
 
   const clearCart = async () => {
     if (isLoggedIn) {
       try {
-        await axios.delete("/api/cart", {data: {}});
+        await axiosClient.delete("/api/cart", {data: {}}, { skipRedirect: true });
         fetchServerCart();
       } catch (error) {
         console.error("Failed to clear cart", error);
@@ -249,19 +242,24 @@ export function CartContextProvider({ children }) {
   };
 
 
-  const increaseQuantity = (productId, selectedColor, selectedSize, stock) => {
+  const increaseQuantity = async (productId, selectedColor, selectedSize, stock, quantity) => {
     if (isLoggedIn) {
-      if (stock < 1) {
+      if (quantity >= stock) {
         toast.warning("الكميه المطلوبه غير متوفره في المخزن");
         return;
       }
-      axios.put("/api/cart", {
-        productId,
-        selectedColor,
-        selectedSize,
-        action: "increase",
-      });
-      fetchServerCart();
+      try {
+        
+        await axiosClient.put("/api/cart", {
+          productId,
+          selectedColor,
+          selectedSize,
+          action: "increase",
+        }, { skipRedirect: true });
+        await fetchServerCart();
+      } catch (error) {
+        console.error("Failed to increase quantity", error);
+      }
     } else {
       setCart( prev => 
         prev.map(item => {
@@ -283,15 +281,19 @@ export function CartContextProvider({ children }) {
   };
 
 
-  const decreaseQuantity = (productId, selectedColor, selectedSize) => {
+  const decreaseQuantity = async (productId, selectedColor, selectedSize) => {
     if (isLoggedIn) {
-      axios.put("/api/cart", {
-        productId,
-        selectedColor,
-        selectedSize,
-        action: "decrease",
-      });
-      fetchServerCart();
+      try {
+        await axiosClient.put("/api/cart", {
+          productId,
+          selectedColor,
+          selectedSize,
+          action: "decrease",
+        }, { skipRedirect: true });
+        await  fetchServerCart();
+      } catch (error) {
+        console.error("Failed to decrease quantity", error);
+      }
     } else {
       setCart( prev => 
         prev.map(item => {

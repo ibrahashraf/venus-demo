@@ -1,14 +1,21 @@
-import { getProviders, signIn } from "next-auth/react";
+import { getProviders, signIn, useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { BarLoader } from "react-spinners";
 
 export default function SignInModal({ onClose }) {
   const [providers, setProviders] = useState(null);
-  const [mounted, setMounted] = useState(false); 
+  const [mounted, setMounted] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [signingIn, setSigningIn] = useState(false);
   const modalRef = useRef();
+  const { update } = useSession(); // allows refreshing the session
 
   useEffect(() => {
-    getProviders().then(setProviders);
+    getProviders().then((data) => {
+      setProviders(data);
+      setLoading(false);
+    });
     setMounted(true);
   }, []);
 
@@ -17,11 +24,27 @@ export default function SignInModal({ onClose }) {
       onClose();
     }
   };
+
+  const handleSignIn = async (providerId) => {
+    setSigningIn(true);
+
+    const result = await signIn(providerId, { redirect: false });
+
+    if (!result?.error) {
+      await update(); // refresh session so checkout can see new user
+      onClose(); // close modal
+    } else {
+      console.error(result.error);
+    }
+
+    setSigningIn(false);
+  };
+
   const modalContent = (
     <div
       id="modalBackground"
       onClick={handleBackgroundClick}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" // just a semi-transparent dark bg
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
     >
       <div
         ref={modalRef}
@@ -35,26 +58,33 @@ export default function SignInModal({ onClose }) {
           &times;
         </button>
 
-        <h1 className="text-2xl font-bold mb-6 text-black">
-          <span className="text-red-600 text-4xl font-bold">Venus Outlet</span> تسجيل الدخول إلى
-        </h1>
+        {loading || signingIn ? (
+          <div className="w-full py-3">
 
-        <div className="flex flex-col gap-4">
-          {providers &&
-            Object.values(providers).map((provider) => (
-              <button
-                key={provider.name}
-                onClick={() => signIn(provider.id, { callbackUrl: "/" })}
-                className="w-full py-3 border border-red-600 text-black font-bold rounded hover:bg-red-600 hover:text-white"
-              >
-                <span className="text-2xl mr-1">{provider.name}</span> تسجيل الدخول بواسطة
-              </button>
-            ))}
-        </div>
+            <BarLoader color="#dc133f" height={5} width="100%" />
+          </div>
+        ) : (
+          <div className="flex flex-col gap-4">
+            { !signingIn && providers &&
+              Object.values(providers).map((provider) => (
+                <button
+                  key={provider.name}
+                  onClick={() => handleSignIn(provider.id)}
+                  disabled={signingIn}
+                  className={`w-full py-3 border border-red-600 text-black font-bold rounded flex items-center justify-center hover:bg-red-600 hover:text-white transition ${
+                    signingIn ? "opacity-60 cursor-not-allowed" : ""
+                  }`}
+                >
+                         تسجيل الدخول بواسطة  <span className="text-2xl mr-1">{provider.name}</span>
+                </button>
+              ))}
+          </div>
+        )}
       </div>
     </div>
-  )
+  );
+
   if (!mounted) return null;
-  
-  return createPortal(modalContent, document.getElementById("modal-root"))
+
+  return createPortal(modalContent, document.getElementById("modal-root"));
 }

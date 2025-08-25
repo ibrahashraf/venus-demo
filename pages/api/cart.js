@@ -12,7 +12,6 @@ export default async function handle(req, res) {
   if (!session) return res.status(401).json({ error: "Not authenticated" });
   const user = await User.findOne({ email: session.user.email });
   const userId = user._id;
-  console.log(userId);
 
   if (method === "GET") {
     const cart = await Cart.findOne({ userId }).populate("items.productId");

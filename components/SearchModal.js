@@ -1,19 +1,32 @@
-import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Close, Search } from "@mui/icons-material";
 import ProductBox from "./ProductBox";
+import ProductSkeleton from "./ProductSkeleton";
+import axiosClient from "@/lib/axiosClient";
 
 export default function SearchModal({ onClose }) {
-    const [products, setProducts] = useState([]);
+    const [products, setProducts] = useState([]); 
     const [categories, setCategories] = useState([]); 
     const [ searchTerm, setSearchTerm ] = useState("");
     const [filteredProducts, setFilteredProducts] = useState([]);
+    const [loading, setLoading] = useState(false);
     const searchModalRef = useRef();
 
     useEffect(() => {
-        axios.get('/api/products').then(res => setProducts(res.data));
-        axios.get('/api/categories').then(res => setCategories(res.data));
+        setLoading(true);
+        Promise.all([
+          axiosClient.get('/api/products'),
+          axiosClient.get('/api/categories')
+        ])
+          .then(([productsRes, categoriesRes]) => {
+            setProducts(productsRes.data);
+            setCategories(categoriesRes.data);
+          })
+          .catch((error) => {
+            console.error('Error fetching products:', error);
+          })
+          .finally(() => setLoading(false)); 
     }, []);
 
     useEffect(() => {
@@ -52,13 +65,14 @@ export default function SearchModal({ onClose }) {
     <div
         id='searchModalBackground'
         className="fixed inset-0 z-[51]  flex items-center justify-center bg-black/50"
+        
         onClick={handleBackgroundClick}
     >
       <div
         ref={searchModalRef}
         className="bg-white z-[1000] overflow-y-auto animate-slideFromLeft  shadow-lg border-neutral-200 fixed  py-6 h-screen w-screen md:w-1/2 xl:w-1/3  top-0 right-0   "
       >
-        <div className="flex items-center gap-2 px-2 relative">
+        <div className="flex items-center gap-2 px-2 relative ">
           <Search className="absolute top-4 right-4 text-neutral-500 text-2xl z-10"  />
           <input
             type="text"
@@ -69,7 +83,7 @@ export default function SearchModal({ onClose }) {
           />
           { searchTerm.trim().length > 0 && (
             <button
-              onClick={() =>setSearchTerm("")}
+              onClick={() => {setSearchTerm("");}}
               
             >
               <Close className=" absolute top-4 left-16 text-neutral-700 text-2xl z-10 " />
@@ -82,41 +96,57 @@ export default function SearchModal({ onClose }) {
             <Close className=" text-primary text-4xl " />
           </button>
         </div>
-        {searchTerm.trim().length > 3 
-          && (
-            <>
-              <div className="p-4 mt-8">
-                <h2 className="text-xl font-bold mb-4">
-                  {filteredProducts.length > 0 ?
-                 ` نتائج البحث عن  
-                  "${searchTerm}"`
-                  :
-                  " لا توجد نتائج مطابقة"
-                  }
-                </h2>
+        <div className="max-h-[85vh] overflow-y-auto mt-3">
+
+          {searchTerm.trim().length > 3 
+            && (
+              <>
+                <div className="p-4 mt-8">
+                  <h2 className="text-xl font-bold mb-4">
+                    {filteredProducts.length > 0 ?
+                  ` نتائج البحث عن  
+                    "${searchTerm}"`
+                    :
+                    " لا توجد نتائج مطابقة"
+                    }
+                  </h2>
+                  <div
+                    className="grid grid-cols-2 gap-4"
+                  >
+                    {filteredProducts.map(product => (
+                      <div key={product._id}>
+                        <ProductBox {...product} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )
+          }
+          <div className="p-4 mt-8">
+            <h2 className="text-xl font-bold mb-4">احدث الاضافات</h2>
+            {loading 
+              ? (
                 <div
                   className="grid grid-cols-2 gap-4"
                 >
-                  {filteredProducts.map(product => (
+                  <ProductSkeleton />
+                  <ProductSkeleton />
+                  <ProductSkeleton />
+                  <ProductSkeleton />
+                </div>
+              ) : (
+                <div
+                  className="grid grid-cols-2 gap-4"
+                >
+                  {LatestProducts.map(product => (
                     <div key={product._id}>
                       <ProductBox {...product} />
                     </div>
                   ))}
                 </div>
-              </div>
-            </>
-          )
-        }
-        <div className="p-4 mt-8">
-          <h2 className="text-xl font-bold mb-4">احدث الاضافات</h2>
-          <div
-            className="grid grid-cols-2 gap-4"
-          >
-            {LatestProducts.map(product => (
-              <div key={product._id}>
-                <ProductBox {...product} />
-              </div>
-            ))}
+              )
+            }
           </div>
         </div>
       </div>

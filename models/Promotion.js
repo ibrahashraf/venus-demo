@@ -12,7 +12,7 @@ const PromotionSchema = new Schema({
 
     promotionType: {
         type: String,
-        enum: [ 'auto', 'minSubtotal', 'minQuantity', 'bogo' ],
+        enum: [ 'auto', 'minSubtotal', 'minQuantity' ],
         default: 'auto',
         required: true,
     },
@@ -20,12 +20,8 @@ const PromotionSchema = new Schema({
     minSubtotal: { type: Number },
     // quantity
     minQuantity: { type: Number },
-    // bogo
-    buyQty: { type: Number },
-    getQty: { type: Number },
-    buyProducts: [{ type: mongoose.Types.ObjectId, ref: 'Product' }],
-    getProducts: [{ type: mongoose.Types.ObjectId, ref: 'Product' }],
-    // all except bogo
+    
+    // all 
     appliesTo: {
         type: String,
         enum: ['all', 'products', 'categories'],
@@ -35,14 +31,13 @@ const PromotionSchema = new Schema({
     categories: [{ type: mongoose.Types.ObjectId, ref: 'Category' }],
     discountType: {
         type: String,
-        enum: ['percentage', 'fixed', 'freeItem'],
+        enum: ['percentage', 'fixed'],
     },
     discountValue: { type: Number },
-
-
-    // all
     startsAt: { type: Date },
     endsAt: { type: Date },
+    showOnHome: { type: Boolean, default: true },
+    showTime: { type: Boolean, default: true },
     isActive: { type: Boolean, default: true },
 
 }, { timestamps: true });

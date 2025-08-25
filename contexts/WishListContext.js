@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect } from "react";
-import axios from "axios";
 import { useSession } from "next-auth/react";
+import axiosClient from "@/lib/axiosClient";
 
 export const WishListContext = createContext();
 
@@ -12,7 +12,7 @@ export function WishListContextProvider({ children }) {
   const fetchWishlist = async () => {
     if (isLoggedIn) {
       try {
-        const res = await axios.get("/api/wishlist");
+        const res = await axiosClient.get("/api/wishlist", { skipRedirect: true });
         setWishlist(res.data.items || []);
       } catch (err) {
         console.error("Error fetching wishlist:", err);
@@ -25,7 +25,7 @@ export function WishListContextProvider({ children }) {
   const addToWishlist = async (product) => {
     if (!isLoggedIn) return false;
     try {
-      await axios.post("/api/wishlist", product);
+      await axiosClient.post("/api/wishlist", product, { skipRedirect: true });
       await fetchWishlist();
       return true;
     } catch (err) {
@@ -35,7 +35,7 @@ export function WishListContextProvider({ children }) {
 
   const removeFromWishlist = async (productId) => {
     try {
-      await axios.delete("/api/wishlist", { data: { productId } });
+      await axiosClient.delete("/api/wishlist", { data: { productId } }, { skipRedirect: true });
       await fetchWishlist();
     } catch (err) {
       console.error("Remove from wishlist failed:", err);

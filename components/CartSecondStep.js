@@ -1,12 +1,14 @@
 import CheckoutItems from "@/components/CheckoutItems";
 import ShippingForm from "@/components/ShippingForm";
-import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { event } from "@/lib/gtag";
 import { useContext } from "react";
 import { CartContext } from "@/contexts/CartContext";
-import { LockIcon } from "lucide-react"; 
 import { Edit, Lock } from "@mui/icons-material";
+import ErrorBoundary from "./ErrorBoundary";
+import axiosClient from "@/lib/axiosClient";
+import { PuffLoader } from "react-spinners";
+import Button from "./ui/Button";
 
 export default function CartSecondStep( { 
   products, 
@@ -17,7 +19,6 @@ export default function CartSecondStep( {
   state, 
   dispatch, 
   shippingOptions, 
-  setShippingOptions, 
   setCartStep, 
   editMode,
   setEditMode,
@@ -26,50 +27,41 @@ export default function CartSecondStep( {
   totalBeforeDiscount,
   appliedPromotions,
   appliedCoupon,
-  appliedCouponDiscount,
+  couponDiscount,
 } ) {
   
-  const [rememberAddress, setRememberAddress] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [formError, setFormError] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState("Pay on Delivery");
   const { clearCart } = useContext(CartContext);
   const hasPopulated = useRef(false);
 
 
-  
-
   const proceedToThirdStep = async () => {
     setCartStep("third");
   };
   const submitForm = async (localState) => {
-    if (
-      !localState.name ||
-      !localState.phone ||
-      !localState.address ||
-      !localState.city ||
-      !localState.governorate
-    ) {
-      alert("يرجى ملء جميع الحقول");
-      return;
-    }
     try {
-      await axios.put("/api/shipping-info", {
+      await axiosClient.put("/api/shipping-info", {
         name: localState.name,
         phone: localState.phone,
         address: localState.address,
         city: localState.city,
         governorate: localState.governorate,
-      });
+      }, {skipRedirect: true});
     } catch (err) {
       console.error("Error saving address", err);
+      setFormError("حدث خطأ في حفظ البيانات");
+      setTimeout(() => setFormError(null), 3000);
     }
     dispatch({ type: "SET_ALL_FIELDS", payload: localState });
     setEditMode(false);
   }
 
   const goToPayment = async () => {
-    if (!state.name || !state.phone || !state.address || !state.city || !state.governorate || editMode) {
-      alert("يرجى ملء جميع الحقول");
+    if (editMode) {
+      setFormError("يرجى حفظ بيانات الشحن");
+      setTimeout(() => setFormError(null), 3000);
       return;
     }
       
@@ -93,7 +85,7 @@ export default function CartSecondStep( {
     });
       
     try {
-      const res = await axios.post("/api/checkout", {
+      const res = await axiosClient.post("/api/checkout", {
         name: state.name,
         phone: state.phone,
         address: state.address,
@@ -101,17 +93,14 @@ export default function CartSecondStep( {
         governorate: state.governorate,
         cart,
         subtotal,
-        shippingCost: state.shippingCost,
+        shippingCost,
         totalBeforeDiscount,
-        promotionIds: [
-          ...(Array.isArray(appliedPromotions) ? appliedPromotions.map(p => p._id) : []),
-          ...(appliedCoupon ? [appliedCoupon._id] : []),
-        ],
-        discount: appliedCouponDiscount || discountAmount,
+        promotionIds: appliedPromotions.map(promotion => promotion._id) || [],
+        discount: discountAmount,
         total,
         paymentMethod: paymentMethod,
-        CouponCode: appliedCoupon,
-      });
+        couponCodeId: appliedCoupon?._id || null,
+      }, {skipRedirect: true});
       if (paymentMethod === "Pay on Delivery") {
         window.location.href = "/thank-you";
         clearCart();
@@ -119,8 +108,8 @@ export default function CartSecondStep( {
         window.location.href = res.data.url;
       }
     } catch (error) {
-      alert("حدث خطأ أثناء معالجة الطلب");
-        console.error(error);
+      setFormError("حدث خطأ في الدفع");
+      console.error(error);
     } finally {
       setIsLoading(false);
     }
@@ -130,12 +119,14 @@ export default function CartSecondStep( {
   return (
     <div className="grid grid-cols-1 lg:max-w-[85%] lg:mx-auto lg:grid-cols-[3fr_2fr] gap-8 p-6">
       {/* Cart Items */}
-      <div className="bg-white shadow rounded-sm p-6 text-right space-y-6">
-        <CheckoutItems products={products} />
+      <div className="bg-secondary shadow rounded-sm p-6 text-right space-y-6">
+        <ErrorBoundary>
+          <CheckoutItems products={products} />
+        </ErrorBoundary>
       </div>
     
       {/* Checkout Form */}
-      <div className="bg-white shadow  rounded-sm p-6 space-y-5 text-right">
+      <div className="bg-secondary shadow  rounded-sm p-6 space-y-5 text-right">
         <h2 className="text-2xl font-bold mt-0">معلومات التوصيل</h2>
         {!editMode ? (
           <div className="space-y-2 border relative rounded-sm p-4">
@@ -157,9 +148,6 @@ export default function CartSecondStep( {
               state={state}
               onSubmit={submitForm}
               shippingOptions={shippingOptions}
-              setShippingOptions={setShippingOptions}
-              setRememberAddress={setRememberAddress}
-              rememberAddress={rememberAddress}
             />
           </>
         )}
@@ -167,25 +155,15 @@ export default function CartSecondStep( {
               
         {/* Totals */}
         <div className="border-y">
-          <label className={`flex items-center gap-2 py-4 px-4 border-b rounded-sm ${paymentMethod === "Card" ? "bg-neutral-100" : ""}`}>
+          <label className={`flex items-center gap-2 py-4 px-4 border-b rounded-sm ${paymentMethod === "Paymob" ? "bg-neutral-100" : ""}`}>
             <input
               type="radio"
               name="paymentMethod"
               value="Paymob"
-              checked={paymentMethod === "Card"}
-              onChange={() => setPaymentMethod("Card")}
+              checked={paymentMethod === "Paymob"}
+              onChange={() => setPaymentMethod("Paymob")}
             />
             <span>الدفع ببطاقة ائتمان</span>
-          </label>
-          <label className={`flex items-center gap-2 py-4 px-4 border-b rounded-sm ${paymentMethod === "Wallet" ? "bg-neutral-100" : ""}`}>
-            <input
-              type="radio"
-              name="paymentMethod"
-              value="Paymob"
-              checked={paymentMethod === "Wallet"}
-              onChange={() => setPaymentMethod("Wallet")}
-            />
-            <span>الدفع من المحفظة الالكترونية</span>
           </label>
           <label className={`flex items-center gap-2 py-4 px-4  rounded-sm ${paymentMethod === "Pay on Delivery" ? "bg-neutral-100"  : ""}`}>
             <input
@@ -219,7 +197,7 @@ export default function CartSecondStep( {
           {discountAmount > 0 && (
             <div className="flex justify-between text-lg text-green-600">
               <span>خصم</span>
-              <span>-{discountAmount} L.E</span>
+              <span>{couponDiscount || discountAmount} L.E -</span>
             </div>
           )}
           <div className="flex justify-between text-xl font-bold border-t pt-3">
@@ -227,14 +205,24 @@ export default function CartSecondStep( {
             <span>{total} L.E</span>
           </div>
         </div>
-        <button
-          className={`w-full bg-black text-white font-bold py-3 rounded-md border-black border hover:bg-white  hover:text-black transition`}
+        {formError && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+            <span className="block sm:inline">{formError}</span>
+          </div>
+        )}
+        <Button
+          variant="primary"
+          className={`w-full font-semibold py-3 text-lg `}
           onClick={goToPayment}
+          disabled={isLoading}
         >
-            المواصلة للدفع  
-          <Lock fontSize="small" />
-        </button>
-                
+          {isLoading ? (
+            'جاري التحميل'
+            ) : paymentMethod === 'Pay on Delivery' 
+            ? 'اتمام الطلب' 
+            : (<> الذهاب للدفع <Lock fontSize="small" /></>)
+          }
+        </Button>
       </div>
     </div>
   );

@@ -2,11 +2,20 @@ import { useState } from "react";
 import Link from "next/link";
 import Header from "@/components/Header";
 import TestimonialModal from "@/components/TestimonialModal";
+import Footer from "@/components/Footer";
+import Head from "next/head";
 
 export default function ThankYouPage() {
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false); 
   return (
     <>
+    <Head>
+      <title>شكراً لطلبك | Venus Outlet فينوس اوتليت</title>
+      <meta
+        name="description"
+        content="شكراً لطلبك! تم استلام طلبك بنجاح وسنتواصل معك قريباً."
+      />
+    </Head>
       <Header />
       <div>
         <div className="flex flex-col items-center justify-center text-center py-20 px-5">
@@ -14,8 +23,8 @@ export default function ThankYouPage() {
           <p className="text-xl mb-6">
             تم استلام طلبك بنجاح وسنتواصل معك قريباً.
           </p>
-          <Link href="/" className="text-white bg-black px-4 py-2 rounded-sm hover:bg-white hover:text-black border border-black transition">
-            العودة إلى الصفحة الرئيسية
+          <Link href="/Orders" className="text-white bg-black px-4 py-2 rounded-sm hover:bg-white hover:text-black border border-black transition">
+            عرض الطلبات
           </Link>
           <div className="mt-5">
             <button
@@ -28,6 +37,7 @@ export default function ThankYouPage() {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

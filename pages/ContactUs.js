@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Header from '@/components/Header';
 import {
   Phone as PhoneIcon,
   WhatsApp as WhatsAppIcon,
@@ -11,17 +10,64 @@ import {
   LocationOn as LocationOnIcon,
   ContentCopy as ContentCopyIcon,
   CheckCircle as CheckCircleIcon,
+  DoneAll as DoneAllIcon,
   LocalGroceryStore as LocalGroceryStoreIcon,
 } from '@mui/icons-material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import Head from 'next/head';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import { PuffLoader } from 'react-spinners';
+import { toast } from 'sonner';
+import axiosClient from '@/lib/axiosClient';
 
 export default function ContactPage() {
+  const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const [showWhyUs, setShowWhyUs] = useState(false);
-
+  
+  const onSubmit = async (e) => {
+      e.preventDefault();
+      if (!e.target.phone.value) {
+          toast.error('يرجى ادخال رقم الهاتف');
+          return;
+      }
+      setLoading(true);
+      try {
+          const response = await axiosClient.post("/api/subscribe", {
+              phone: e.target.phone.value,   
+          },{ skipRedirect: true });
+          if (response.status === 201) {
+              toast.success("تم الاشتراك بنجاح");
+              e.target.reset();
+          }
+      } catch (error) {
+          toast.error(error.response.data.message);
+      } finally {
+          setLoading(false);
+      }
+  }
   return (
     <>
+      <Head>
+        <title>تواصل معنا | Venus Outlet فينوس اوتليت</title>
+        <meta
+          name="description"
+          content="تواصل مع Venus Outlet فينوس اوتليت للاستفسارات أو الشكاوى أو التعاون. زوروا فروعنا في المنصورة والإسكندرية."
+        />
+        <meta property="og:title" content="تواصل معنا | Venus Outlet فينوس اوتليت" />
+        <meta
+          property="og:description"
+          content="تواصل مع Venus Outlet فينوس اوتليت للاستفسارات أو الشكاوى أو التعاون. زوروا فروعنا في المنصورة والإسكندرية."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://yourdomain.com/ContactUs" />
+        <meta property="og:image" content="https://yourdomain.com/og-image.jpg" />
+        <meta property="og:locale" content="ar_AR" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
       <Header />
       <main className="bg-gray-50 min-h-screen py-10 px-4">
         <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-2xl p-6 md:p-10">
@@ -37,10 +83,28 @@ export default function ContactPage() {
               label="راسلنا على واتساب"
               href="https://wa.me/201147111094"
             />
+            <div dir="rtl" className="text-center rounded-xl border border-gray-200 shadow-md w-full px-6 py-4">
+              <h3 className="text-lg font-bold">اشترك معنا</h3>
+              <p className="text-sm text-neutral-500">استقبل أحدث العروض على واتساب</p>
+              <form
+                onSubmit={ (e) => {onSubmit(e)}}
+                className="flex mt-3"
+              >
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="رقم موبايلك"
+                  className="flex-[3] p-2 rounded-r-lg border border-neutral-300 focus:outline-none text-right"
+                />
+                <button type="submit" className="bg-neutral-500 flex-[1] flex items-center justify-center hover:bg-neutral-600 transition text-secondary px-4 py-2 rounded-l-lg">
+                  {loading ? (<PuffLoader color="#fff" size={20} />) : 'اشترك'}
+                </button>
+              </form>
+            </div>
             <LinkButton
               icon={<LocalGroceryStoreIcon sx={{ fontSize: 30 }} className="text-red-500" />}
               label="Shopping Online"
-              href="https://0265-102-186-158-76.ngrok-free.app"
+              href="/"
             />
             <LinkButton
               icon={<FacebookIcon className="text-blue-800" />}
@@ -96,7 +160,7 @@ export default function ContactPage() {
           </div>
         </div>
       </main>
-
+      <Footer />
       {showWhyUs && (
         <div className="fixed inset-0 z-[1001] flex items-center justify-center bg-black bg-opacity-50 px-4">
           <div className="bg-white rounded-2xl shadow-xl max-w-2xl w-full p-6 relative text-right">
@@ -119,6 +183,7 @@ export default function ContactPage() {
           </div>
         </div>
       )}
+
     </>
   );
 }
@@ -162,19 +227,16 @@ function LinkPhoneWithCopy({ phone }) {
     >
       <div className="flex items-center gap-3">
         <PhoneIcon className="text-blue-600 text-2xl" />
-        <span>{phone}</span>
+        <span dir='ltr'>{phone}</span>
       </div>
 
       <button
         onClick={handleCopy}
-        className="text-gray-500 hover:text-green-600 focus:outline-none"
+        className="text-gray-500 hover:text-green-600 p-4 focus:outline-none"
         title="نسخ الرقم"
       >
         {copied ? (
-          <div className="flex items-center text-green-600 text-sm font-medium">
-            <CheckCircleIcon fontSize="small" className="ml-1" />
-            تم النسخ
-          </div>
+            <DoneAllIcon fontSize="small" color='green' />
         ) : (
           <ContentCopyIcon fontSize="small" />
         )}

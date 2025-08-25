@@ -1,22 +1,23 @@
 import { useContext, useEffect, useReducer, useState } from "react";
-import axios from "axios";
 import { CartContext } from "@/contexts/CartContext";
 import { PromotionContext } from "@/contexts/PromotionContext";
 import Header from "@/components/Header";
 import { useSession } from "next-auth/react";
-import { mongooseConnect } from "@/lib/mongoose";
-import { Product } from "@/models/Product";
 import CartFirstStep from "@/components/CartFirstStep";
 import CartSecondStep from "@/components/CartSecondStep";
+import Footer from "@/components/Footer";
+import { ArrowForward, RemoveShoppingCart } from "@mui/icons-material";
+import Link from "next/link";
+import ErrorBoundary from "@/components/ErrorBoundary";
+import axiosClient from "@/lib/axiosClient";
+import Head from "next/head";
 
-export default function Cart({ products }) {
+export default function Cart() {
   const [ cartStep, setCartStep ] = useState("first");
   const { cart } = useContext(CartContext);
-  const { appliedPromotions, discounts } = useContext(PromotionContext);
-  const [couponCode, setCouponCode] = useState("");
-  const [couponError, setCouponError] = useState("");
+  const { appliedPromotions, discounts, promotionProgress } = useContext(PromotionContext);
   const [appliedCoupon, setAppliedCoupon] = useState(null);
-  const [isApplyingCoupon, setIsApplyingCoupon] = useState(false);
+  const [couponDiscount, setCouponDiscount] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const { data: session } = useSession();
   const [shippingInfo, setShippingInfo] = useState(null);
@@ -24,6 +25,8 @@ export default function Cart({ products }) {
   const [shippingCost, setShippingCost] = useState(0);
   const [estimatedDelivery, setEstimatedDelivery] = useState('');
   const [shippingLoading, setShippingLoading] = useState(true);
+  const [products, setProducts] = useState([]);
+  const [productsLoading, setProductsLoading] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const user = session?.user;
 
@@ -53,7 +56,7 @@ export default function Cart({ products }) {
     }
   }
 
-  const [state, dispatch] = useReducer(formReducer, initialState);
+  const [state, dispatch] = useReducer(formReducer, initialState); 
   
   
   const subtotal = cart.reduce(
@@ -66,11 +69,6 @@ export default function Cart({ products }) {
     0
   );
   
-  const couponDiscount = appliedCoupon
-  ? appliedCoupon.discountType === "percentage"
-  ? subtotal * (appliedCoupon.discountValue / 100)
-  : appliedCoupon.discountValue
-  : 0;
   
   const totalBeforeShipping = Math.max(0, subtotal - (couponDiscount || discountAmount));
   const totalBeforeDiscount = subtotal + shippingCost;
@@ -87,7 +85,12 @@ export default function Cart({ products }) {
   }, [state.governorate, shippingOptions]);
 
   useEffect(() => {
-    axios.get("/api/shipping").then(res => setShippingOptions(res.data));
+    setProductsLoading(true);
+    axiosClient.get("/api/products").then(res => setProducts(res.data)).catch(err => console.error(err)).finally(() => setProductsLoading(false));
+  }, [])
+
+  useEffect(() => {
+    axiosClient.get("/api/shipping").then(res => setShippingOptions(res.data)).catch(err => console.error(err));
   }, []);
 
   useEffect(() => {
@@ -95,7 +98,7 @@ export default function Cart({ products }) {
 
     const fetchShippingInfo = async () => {
       try {
-        const res = await axios.get("/api/shipping-info");
+        const res = await axiosClient.get("/api/shipping-info");
         const info = res.data.shippingInfo;
 
         const hasInfo = info && Object.keys(info).length > 0;
@@ -128,46 +131,50 @@ export default function Cart({ products }) {
     switch (cartStep) {
       case "first":
         return (
-          <CartFirstStep
-            products={products}
-            appliedCoupon={appliedCoupon}
-            setAppliedCoupon={setAppliedCoupon}
-            couponCode={couponCode}
-            setCouponCode={setCouponCode}
-            isApplyingCoupon={isApplyingCoupon}
-            setIsApplyingCoupon={setIsApplyingCoupon}
-            couponError={couponError}
-            setCouponError={setCouponError}
-            appliedPromotions={appliedPromotions}
-            subtotal={subtotal}
-            cart={cart}
-            discountAmount={discountAmount}
-            couponDiscount={couponDiscount}
-            totalBeforeShipping={totalBeforeShipping}
-            user={user}
-            proceedToSecondStep={proceedToSecondStep}
-            setShowModal={setShowModal}
-            showModal={showModal} 
-          />
+          <ErrorBoundary>
+            <CartFirstStep
+              products={products}
+              productsLoading={productsLoading}
+              appliedCoupon={appliedCoupon}
+              setAppliedCoupon={setAppliedCoupon}
+              appliedPromotions={appliedPromotions}
+              promotionProgress={promotionProgress}
+              subtotal={subtotal}
+              cart={cart}
+              discountAmount={discountAmount}
+              couponDiscount={couponDiscount}
+              setCouponDiscount={setCouponDiscount}
+              totalBeforeShipping={totalBeforeShipping}
+              user={user}
+              proceedToSecondStep={proceedToSecondStep}
+              setShowModal={setShowModal}
+              showModal={showModal} 
+            />
+          </ErrorBoundary>
         );
       case "second":
         return (
-          <CartSecondStep 
-            products={products} 
-            cart={cart} 
-            subtotal={subtotal} 
-            discountAmount={discountAmount} 
-            total={total} 
-            state={state} 
-            dispatch={dispatch} 
-            setCartStep={setCartStep}
-            shippingOptions={shippingOptions}
-            setShippingOptions={setShippingOptions}
-            editMode={editMode}
-            setEditMode={setEditMode}
-            shippingCost={shippingCost}
-            estimatedDelivery={estimatedDelivery}
-          />
+          <ErrorBoundary>
+            <CartSecondStep 
+              products={products} 
+              cart={cart} 
+              subtotal={subtotal} 
+              discountAmount={discountAmount} 
+              total={total} 
+              state={state} 
+              dispatch={dispatch} 
+              shippingOptions={shippingOptions}
+              setCartStep={setCartStep}
+              editMode={editMode}
+              setEditMode={setEditMode}
+              shippingCost={shippingCost}
+              estimatedDelivery={estimatedDelivery}
+              totalBeforeDiscount={totalBeforeDiscount}
+              appliedPromotions={appliedPromotions}
+              appliedCoupon={appliedCoupon}
+              couponDiscount={couponDiscount}
+            />
+          </ErrorBoundary>
         ) ;
       default:
         return null;
@@ -175,24 +182,29 @@ export default function Cart({ products }) {
   };
   return (
     <>
+    <Head>
+      <title>سلة التسوق | Venus Outlet فينوس اوتليت</title>
+      <meta
+        name="description"
+        content="عرض وتعديل منتجاتك المختارة من Venus Outlet فينوس اوتليت قبل إتمام عملية الشراء."
+      />
+    </Head>
       <Header />
+      {cartStep === 'second' && 
+      <button onClick={() => setCartStep('first')} className=" text-2xl pt-6 pr-6">
+        <ArrowForward /> العودة
+      </button>
+      }
       {cart.length === 0 ? (
-        <div className="flex items-center justify-center h-72 text-2xl text-gray-500">
-          لا توجد منتجات في السلة
+        <div className="flex flex-col items-center justify-center text-gray-500 my-40">
+          <RemoveShoppingCart className="w-16 h-16 mb-4" />
+          <p className="text-lg">لا توجد منتجات في السلة</p>
+          <Link href="/Products" className="text-primary bg-neutral-50 rounded-sm px-5 py-2 mt-4 border border-primary hover:bg-primary hover:text-neutral-50 transition">تصفح المتجر</Link>
         </div>
       ) : (
         <CartDisplay />
       )}
+      <Footer />
     </>
   );
-}
-
-export async function getServerSideProps() {
-  await mongooseConnect();
-  const products = await Product.find({ "variants.stock": { $gt: 0 } });
-  return {
-    props: {
-      products: JSON.parse(JSON.stringify(products)),
-    },
-  };
 }

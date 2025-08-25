@@ -1,41 +1,98 @@
-import BOGOHeroBanner from "@/components/BOGOHeroBanner";
+import BranchesSection from "@/components/BranchesSection";
+import CategoriesSection from "@/components/CategoriesSection";
+import ErrorBoundary from "@/components/ErrorBoundary";
 import Featured from "@/components/Featured";
+import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import LatestProducts from "@/components/LatestProducts";
-import PromoTeaserSection from "@/components/PromoTeaserSection";
-import { mongooseConnect } from "@/lib/mongoose";
-import { Product } from "@/models/Product";
+import PromotionBanner from "@/components/PromotionBanner";
+import TestiSection from "@/components/TestiSection";
+import Error from "./_error";
+import Head from "next/head";
+import CategoryShowSection from "@/components/CategoryShowSection";
+import SubscriptionSection from "@/components/SubscriptionSection";
+import axiosClient from "@/lib/axiosClient";
 
-export default function Home({ featuredProduct, latestProducts, allProducts }) {
+export default function Home({ latestProducts, categoriesWithProducts, error, statusCode }) {
+  if (error) {
+    return <Error statusCode={statusCode || 500} />;
+  }
   return (
-    <div>
+    <>
+      <Head>
+        <title>
+          Venus Outlet | فينوس اوتليت  
+        </title>
+        <meta
+          name="description"
+          content="Venus Outlet فينوس اوتليت تقدم تشكيلات من ملابس النساء والأطفال بعروض رائعة في فروع المنصورة والإسكندرية."
+        />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="canonical" href="https://yourdomain.com/" />
+        <meta
+          property="og:title"
+          content="Venus Outlet فينوس اوتليت | ملابس نسائية وأطفال"
+        />
+        <meta
+          property="og:description"
+          content="Venus Outlet فينوس اوتليت تقدم تشكيلات من ملابس النساء والأطفال بعروض رائعة في فروع المنصورة والإسكندرية."
+        />
+        <meta property="og:image" content="https://yourdomain.com/og-image.jpg" />
+        <meta property="og:url" content="https://yourdomain.com/" />
+        <meta property="og:type" content="website" />
+      </Head>
       <Header />
-      <Featured featuredProduct={featuredProduct} />
-      <PromoTeaserSection products={allProducts}/>
-      <BOGOHeroBanner  />
-      <LatestProducts latestProducts={latestProducts} />
-    </div>
+      <Featured />
+      <ErrorBoundary>
+        <LatestProducts latestProducts={latestProducts} />
+      </ErrorBoundary>
+      <ErrorBoundary>
+        <CategoriesSection />
+      </ErrorBoundary>
+      <ErrorBoundary>
+        <PromotionBanner  />
+      </ErrorBoundary>
+      {categoriesWithProducts.map(({ category, products }) => (
+        <ErrorBoundary key={category._id}>
+          <CategoryShowSection category={category} products={products} />
+        </ErrorBoundary>
+      ))}
+      <ErrorBoundary>
+        <BranchesSection />
+      </ErrorBoundary>
+      <ErrorBoundary>
+        <SubscriptionSection />
+      </ErrorBoundary>
+      <ErrorBoundary>
+        <TestiSection />
+      </ErrorBoundary>
+      <Footer />
+    </>
   );
 }
 
-export async function getServerSideProps() {
-  const featuredProductId = "68068dcddd84e59882523ca6";
-  await mongooseConnect();
+export async function getServerSideProps() { 
+  try {
+    const { data } = await axiosClient.get(`${process.env.NEXTAUTH_URL}/api/home`);
 
-  const featuredProduct = await Product.findById(featuredProductId);
-  const allProducts = await Product.find({}, null, {
-    sort: { createdAt: -1 },
-  });
+    return {
+      props: {
+        latestProducts: data.latestProducts || [],
+        categoriesWithProducts: data.categoriesWithProducts || [],
+        error: null,
+        statusCode: null,
+      },
+    };
+  } catch (error) {
+    console.error("Error in getServerSideProps:", error);
 
-  const inStockProducts = allProducts.filter(product =>
-    product.variants?.some(variant => variant.stock > 0)
-  ).slice(0, 8);
-
-  return {
-    props: {
-      featuredProduct: JSON.parse(JSON.stringify(featuredProduct)),
-      latestProducts: JSON.parse(JSON.stringify(inStockProducts)),
-      allProducts: JSON.parse(JSON.stringify(allProducts)),
-    },
-  };
+    return {
+      props: {
+        latestProducts: [],
+        categoriesWithProducts: [],
+        error: error.message,
+        statusCode: 500,
+      },
+    };
+  }
 }

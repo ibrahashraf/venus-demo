@@ -9,7 +9,6 @@ const CartItemSchema = new Schema({
   quantity: { type: Number, default: 1 },
   stock: { type: Number, default: 1 },
   price: Number,
-  isFree: { type: Boolean, default: false },
   promotionId: { type: mongoose.Schema.Types.ObjectId, ref: 'Promotion', required: false },
 });
 
