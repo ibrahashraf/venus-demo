@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Image from "next/image";
 import Link from "next/link";
 import { CartContext } from '@/contexts/CartContext';
@@ -100,7 +101,7 @@ export default function CartItems({ products }) {
                   >
                     {loadingKey === `${productId}-${cartItem.selectedColor}-${cartItem.selectedSize}-dec`
                       ? <PuffLoader color="#111111" size={23} />
-                      : '-'
+                      : cartItem.quantity > 1 ? '-' : <DeleteIcon fontSize="small" />
                     }
                   </button>
                   <span className="px-4">{cartItem.quantity || 1}</span>
