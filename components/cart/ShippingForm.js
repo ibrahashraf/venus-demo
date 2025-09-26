@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Button from "./ui/Button";
+import Button from "../ui/Button";
 
 export default function ShippingForm({ state, shippingOptions, onSubmit }) {
   const [localState, setLocalState] = useState(state);

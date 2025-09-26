@@ -6,7 +6,7 @@ import { PromotionDisplayContext } from "@/contexts/PromotionDisplayContext";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { event } from "@/lib/gtag";
-import SignInModal from "@/components/SignInModal";
+import SignInModal from "@/components/modals/SignInModal";
 import ImageCarousel from "@/components/ImageCarousel";
 import ProductsSlider from "@/components/ProductsSlider";
 import Footer from "@/components/Footer";
@@ -501,7 +501,7 @@ export async function getServerSideProps(context) {
   try {
     const { id } = context.query;
   
-    const { data } = await axiosClient.get(`${process.env.NEXTAUTH_URL}/api/products/${id}`);
+    const { data } = await axiosClient.get(`${process.env.WEBSITE_URL}/api/products/${id}`);
   
     return {
       props: {

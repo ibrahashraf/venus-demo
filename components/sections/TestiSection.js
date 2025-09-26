@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import TestiSlider from "./TestiSlider";
-import TestimonialModal from "./TestimonialModal";
-import ErrorBoundary from "./ErrorBoundary";
+import TestiSlider from "../TestiSlider";
+import TestimonialModal from "../modals/TestimonialModal";
+import ErrorBoundary from "../ErrorBoundary";
 import axiosClient from "@/lib/axiosClient";
-import Button from "./ui/Button";
+import Button from "../ui/Button";
 
 
 export default function TestiSection() {

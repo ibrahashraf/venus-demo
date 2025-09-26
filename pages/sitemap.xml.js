@@ -45,7 +45,7 @@ function generateSiteMap({ products, branches, categories }) {
 export async function getServerSideProps({ res }) {
   try {
 
-    const { data } = await axiosClient.get(`${process.env.NEXTAUTH_URL}/api/sitemap`); 
+    const { data } = await axiosClient.get(`${process.env.WEBSITE_URL}/api/sitemap`); 
   
     const sitemap = generateSiteMap(data);
   

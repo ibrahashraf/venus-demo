@@ -5,7 +5,7 @@ import { mongooseConnect } from "@/lib/mongoose";
 import { User } from "@/models/User";
 
 const isSecure =
-  (process.env.NEXTAUTH_URL || "").startsWith("https://");
+  (process.env.WEBSITE_URL || "").startsWith("https://");
 
 export const authOptions = {
   providers: [

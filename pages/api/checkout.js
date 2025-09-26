@@ -171,8 +171,8 @@ export default async function handler(req, res) {
         },
         currency: "EGP",
         integration_id: process.env.PAYMOB_INTEGRATION_ID,
-        callback_url: `${process.env.NGROK_URL}/api/paymob-callback`,
-        return_url: `${process.env.NGROK_URL}/api/payment-status`,
+        callback_url: `${process.env.WEBSITE_URL}/api/paymob-callback`,
+        return_url: `${process.env.WEBSITE_URL}/api/payment-status`,
       }, { skipRedirect: true });
       
 

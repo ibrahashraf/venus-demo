@@ -34,7 +34,7 @@ export default function WhatsAppButton() {
         }
         aria-label="Chat on WhatsApp"
       >
-        { isOpen ? (<Close className='text-[35px] sm:text-[40px]' />) : (<WhatsAppIcon className='text-[35px] sm:text-[40px]' />)}
+        { isOpen ? (<Close fontSize='large' className='text-[35px] sm:text-[60px]' />) : (<WhatsAppIcon fontSize='large' className='text-[35px] sm:text-[60px]' />)}
       </button>
       { isOpen && (
         <div className='bg-[#25D366] animate-slideFromLeft hover:bg-[#10602e] transition duration-200 ease-in-out text-secondary font-bold py-1 rounded-md px-4 flex justify-center items-center'>

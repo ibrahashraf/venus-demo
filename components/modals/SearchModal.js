@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Close, Search } from "@mui/icons-material";
-import ProductBox from "./ProductBox";
-import ProductSkeleton from "./ProductSkeleton";
+import ProductBox from "../ProductBox";
+import ProductSkeleton from "../ProductSkeleton";
 import axiosClient from "@/lib/axiosClient";
 
 export default function SearchModal({ onClose }) {

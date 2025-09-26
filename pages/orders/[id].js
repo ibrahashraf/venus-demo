@@ -81,7 +81,7 @@ export default function OrderCancelPage({ order, error, statusCode }) {
 export async function getServerSideProps(context) {
     try {
         const { id } = context.params;
-        const { data } = await axiosClient.get(`${process.env.NEXTAUTH_URL}/api/orders/${id}`); 
+        const { data } = await axiosClient.get(`${process.env.WEBSITE_URL}/api/orders/${id}`); 
         return {
             props: {
                 order: data || null,

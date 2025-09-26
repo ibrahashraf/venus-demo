@@ -108,10 +108,10 @@ export default function Footer() {
                         <p dir="ltr">© {new Date().getFullYear()} Venus Outlet. All rights reserved.</p>
                     </div>
                     <div className="flex gap-2 mt-4 lg:mt-0">
-                        <a href="https://www.facebook.com/venusegypt2017" className="hover:text-[#1877F2]" aria-label="Facebook"><Facebook fontSize="medium"  /></a>
-                        <a href="https://www.instagram.com/venus.outlet.egypt" className="hover:text-[#E1306C]"  aria-label="Instagram"><Instagram fontSize="medium" /></a>
-                        <a href="https://t.me/venus_mansoura" className="hover:text-[#0088CC]" aria-label="Telegram"><Telegram fontSize="medium"  /></a>
-                        <a href="https://www.tiktok.com/@venus.outlet" className="hover:text-black" aria-label="TikTok"><MusicNote fontSize="medium"  /></a>
+                        <a target="_blank" href="https://www.facebook.com/venusegypt2017" className="hover:text-[#1877F2]" aria-label="Facebook"><Facebook fontSize="medium"  /></a>
+                        <a target="_blank" href="https://www.instagram.com/venus.outlet.egypt" className="hover:text-[#E1306C]"  aria-label="Instagram"><Instagram fontSize="medium" /></a>
+                        <a target="_blank" href="https://t.me/venus_mansoura" className="hover:text-[#0088CC]" aria-label="Telegram"><Telegram fontSize="medium"  /></a>
+                        <a target="_blank" href="https://www.tiktok.com/@venus.outlet" className="hover:text-black" aria-label="TikTok"><MusicNote fontSize="medium"  /></a>
                     </div>
                 </div>
             </div>

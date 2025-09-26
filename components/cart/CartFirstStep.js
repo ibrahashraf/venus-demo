@@ -1,9 +1,9 @@
 import { useEffect, useState, useContext } from "react";
 import { PromotionContext } from "@/contexts/PromotionContext";
 import CartItems from "./CartItems";
-import SignInModal from "./SignInModal";
-import ErrorBoundary from "./ErrorBoundary";
-import Button from "./ui/Button";
+import SignInModal from "../modals/SignInModal";
+import ErrorBoundary from "../ErrorBoundary";
+import Button from "../ui/Button";
 
 export default function CartFirstStep(
     {   

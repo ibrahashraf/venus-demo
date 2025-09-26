@@ -1,7 +1,7 @@
 import Link from "next/link";
-import ErrorBoundary from "./ErrorBoundary";
-import ProductsSlider from "./ProductsSlider";
-import Button from "./ui/Button";
+import ErrorBoundary from "../ErrorBoundary";
+import ProductsSlider from "../ProductsSlider";
+import Button from "../ui/Button";
 
 
 export default function CategoryShowSection({category, products}) {

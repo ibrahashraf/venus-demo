@@ -1,16 +1,16 @@
-import BranchesSection from "@/components/BranchesSection";
-import CategoriesSection from "@/components/CategoriesSection";
+import BranchesSection from "@/components/sections/BranchesSection";
+import CategoriesSection from "@/components/sections/CategoriesSection";
 import ErrorBoundary from "@/components/ErrorBoundary";
-import Featured from "@/components/Featured";
+import Featured from "@/components/sections/Featured";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import LatestProducts from "@/components/LatestProducts";
-import PromotionBanner from "@/components/PromotionBanner";
-import TestiSection from "@/components/TestiSection";
+import PromotionBanner from "@/components/sections/PromotionBanner";
+import TestiSection from "@/components/sections/TestiSection";
 import Error from "./_error";
 import Head from "next/head";
-import CategoryShowSection from "@/components/CategoryShowSection";
-import SubscriptionSection from "@/components/SubscriptionSection";
+import CategoryShowSection from "@/components/sections/CategoryShowSection";
+import SubscriptionSection from "@/components/sections/SubscriptionSection";
 import axiosClient from "@/lib/axiosClient";
 
 export default function Home({ latestProducts, categoriesWithProducts, error, statusCode }) {
@@ -73,7 +73,7 @@ export default function Home({ latestProducts, categoriesWithProducts, error, st
 
 export async function getServerSideProps() { 
   try {
-    const { data } = await axiosClient.get(`${process.env.NEXTAUTH_URL}/api/home`);
+    const { data } = await axiosClient.get(`${process.env.WEBSITE_URL}/api/home`);
 
     return {
       props: {

@@ -4,9 +4,9 @@ import React, { useContext, useState, useRef, useEffect } from 'react';
 import { CartContext } from '@/contexts/CartContext';
 import { WishListContext } from "@/contexts/WishListContext";
 import { Menu, Close, ShoppingCart, FavoriteBorder, PersonOutline, Search, Login } from '@mui/icons-material';
-import SignInModal from '@/components/SignInModal';
-import SearchModal from './SearchModal';
-import UserModal from "./UserModal";
+import SignInModal from '@/components/modals/SignInModal';
+import SearchModal from '@/components/modals/SearchModal';
+import UserModal from "@/components/modals/UserModal";
 import { useRouter } from "next/router";
 import axiosClient from "@/lib/axiosClient";
 

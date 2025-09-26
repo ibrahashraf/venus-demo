@@ -10,7 +10,7 @@ import Footer from "@/components/Footer";
 import axiosClient from "@/lib/axiosClient";
 import Head from "next/head";
 import Link from "next/link";
-import TestimonialModal from "@/components/TestimonialModal";
+import TestimonialModal from "@/components/modals/TestimonialModal";
 import Button from "@/components/ui/Button";
 
 export default function PaymentStatus() {

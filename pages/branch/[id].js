@@ -1,4 +1,4 @@
-import CarouselModal from '@/components/CarouselModal';
+import CarouselModal from '@/components/modals/CarouselModal';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import Image from 'next/image';
@@ -61,7 +61,7 @@ export async function getServerSideProps(context) {
     try {
         const { id } = context.query;
       
-        const { data } = await axiosClient.get(`${process.env.NEXTAUTH_URL}/api/branches/?id=${id}`);
+        const { data } = await axiosClient.get(`${process.env.WEBSITE_URL}/api/branches/?id=${id}`);
         return {
           props: {
             branch: data || null,

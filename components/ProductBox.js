@@ -9,7 +9,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { PuffLoader } from "react-spinners";
-import SignInModal from "./SignInModal";
+import SignInModal from "./modals/SignInModal";
 
 export default function ProductBox( product ) {
   const firstAvailableVariant = product.variants.find(v => v.stock > 0);

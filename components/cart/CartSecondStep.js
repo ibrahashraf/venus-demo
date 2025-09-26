@@ -1,14 +1,14 @@
-import CheckoutItems from "@/components/CheckoutItems";
-import ShippingForm from "@/components/ShippingForm";
+import CheckoutItems from "@/components/cart/CheckoutItems";
+import ShippingForm from "@/components/cart/ShippingForm";
 import { useRef, useState } from "react";
 import { event } from "@/lib/gtag";
 import { useContext } from "react";
 import { CartContext } from "@/contexts/CartContext";
 import { Edit, Lock } from "@mui/icons-material";
-import ErrorBoundary from "./ErrorBoundary";
+import ErrorBoundary from "../ErrorBoundary";
 import axiosClient from "@/lib/axiosClient";
 import { PuffLoader } from "react-spinners";
-import Button from "./ui/Button";
+import Button from "../ui/Button";
 
 export default function CartSecondStep( { 
   products, 

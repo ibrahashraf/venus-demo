@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 import { Close, Star } from "@mui/icons-material";
 import { useRouter } from "next/router";
 import axiosClient from "@/lib/axiosClient";
-import Button from "./ui/Button";
+import Button from "../ui/Button";
 
 
 

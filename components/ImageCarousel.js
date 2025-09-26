@@ -2,7 +2,7 @@ import { useKeenSlider } from 'keen-slider/react'
 import { useState } from 'react'
 import Image from 'next/image'
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material'
-import CarouselModal from './CarouselModal'
+import CarouselModal from './modals/CarouselModal'
 import 'keen-slider/keen-slider.min.css'
 
 export default function ImageCarousel({ images = [], alt = '' }) {

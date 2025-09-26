@@ -2,7 +2,7 @@ import { createPortal } from "react-dom";
 import { Close } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import axiosClient from "@/lib/axiosClient";
-import Button from "./ui/Button";
+import Button from "../ui/Button";
 
 export default function ShippingFormModal({ onClose }) {
     const [shippingInfo, setShippingInfo] = useState({ name: "", phone: "", address: "", city: "", governorate: "" });
