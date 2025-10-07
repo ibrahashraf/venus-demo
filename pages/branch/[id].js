@@ -27,8 +27,8 @@ export default function BranchPage({ branch, error, statusCode }) {
                 content=" Venus Outlet فينوس اوتليت تقدم تشكيلات من ملابس النساء والأطفال بعروض رائعة في فروع المنصورة والإسكندرية."
             />
             <meta property="og:type" content="website" />
-            <meta property="og:url" content={`https://yourdomain.com/branch/${branch._id}`}/>
-            <meta property="og:image" content="https://yourdomain.com/og-image.jpg" />
+            <meta property="og:url" content={`https://venusoutlet.net/branch/${branch._id}`}/>
+            <meta property="og:image" content="https://venusoutlet.net/og-image.jpg" />
             <meta property="og:locale" content="ar_AR" />
             <link rel="icon" href="/favicon.ico" />
         </Head>

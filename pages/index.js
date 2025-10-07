@@ -28,7 +28,7 @@ export default function Home({ latestProducts, categoriesWithProducts, error, st
           content="Venus Outlet فينوس اوتليت تقدم تشكيلات من ملابس النساء والأطفال بعروض رائعة في فروع المنصورة والإسكندرية."
         />
         <link rel="icon" href="/favicon.ico" />
-        <link rel="canonical" href="https://yourdomain.com/" />
+        <link rel="canonical" href="https://venusoutlet.net/" />
         <meta
           property="og:title"
           content="Venus Outlet فينوس اوتليت | ملابس نسائية وأطفال"
@@ -37,8 +37,8 @@ export default function Home({ latestProducts, categoriesWithProducts, error, st
           property="og:description"
           content="Venus Outlet فينوس اوتليت تقدم تشكيلات من ملابس النساء والأطفال بعروض رائعة في فروع المنصورة والإسكندرية."
         />
-        <meta property="og:image" content="https://yourdomain.com/og-image.jpg" />
-        <meta property="og:url" content="https://yourdomain.com/" />
+        <meta property="og:image" content="https://venusoutlet.net/og-image.jpg" />
+        <meta property="og:url" content="https://venusoutlet.net/" />
         <meta property="og:type" content="website" />
       </Head>
       <Header />

@@ -1,6 +1,6 @@
 import axiosClient from "@/lib/axiosClient";
 
-const BASE_URL = "https://yourdomain.com"; // Change to your real domain
+const BASE_URL = "https://venusoutlet.net";
 
 function generateSiteMap({ products, branches, categories }) {
   const staticPages = [

@@ -9,4 +9,4 @@ Disallow: /WishList
 Disallow: /payment-status
 Disallow: /thank-you
 
-Sitemap: https://yourdomain.com/sitemap.xml
+Sitemap: https://venusoutlet.net/sitemap.xml

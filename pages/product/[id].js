@@ -190,7 +190,7 @@ export default function ProductPage({ product, relatedProducts, error, statusCod
             },
             "offers": {
               "@type": "Offer",
-              "url": `https://yourstore.com/product/${product._id}`,
+              "url": `https://venusoutlet.net/product/${product._id}`,
               "priceCurrency": "EGP",
               "price": variant?.price || "",
               "availability": outOfStock 

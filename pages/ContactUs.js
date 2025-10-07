@@ -62,8 +62,8 @@ export default function ContactPage() {
           content="تواصل مع Venus Outlet فينوس اوتليت للاستفسارات أو الشكاوى أو التعاون. زوروا فروعنا في المنصورة والإسكندرية."
         />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://yourdomain.com/ContactUs" />
-        <meta property="og:image" content="https://yourdomain.com/og-image.jpg" />
+        <meta property="og:url" content="https://venusoutlet.net/ContactUs" />
+        <meta property="og:image" content="https://venusoutlet.net/og-image.jpg" />
         <meta property="og:locale" content="ar_AR" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
