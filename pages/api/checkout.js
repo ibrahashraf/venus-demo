@@ -176,7 +176,7 @@ export default async function handler(req, res) {
       }, { skipRedirect: true });
       
 
-      const paymentUrl = `https://accept.paymob.com/api/acceptance/payments/pay?payment_token=${paymentKey.data.token}`;
+      const paymentUrl = `https://accept.paymob.com/unifiedcheckout/?payment_token=${paymentKey.data.token}`;
 
 
       res.status(200).json({ url: paymentUrl });
