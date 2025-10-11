@@ -25,7 +25,7 @@ const [isScrolled, setIsScrolled] = useState(false);
         <div className="relative z-[49] w-full overflow-hidden flex flex-col items-center  px-6 space-y-24">
           <div className='flex justify-between max-md:flex-col gap-10 md:gap-32 items-end'>
             <h1  
-              className="animate-slideDown leading-normal text-[64px] sm:text-[72px] md:text-[84px] lg:text-[100px] md:text[96px] font-bold text-right text-primary"
+              className="animate-slideDown leading-normal text-[58px] sm:text-[72px] md:text-[84px] lg:text-[100px] md:text[96px] font-bold text-right text-primary"
               >أفضل جودة  <br />بأفضل سعر</h1>
             <Link
               href={'/Products'}
