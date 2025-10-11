@@ -176,7 +176,7 @@ export default async function handler(req, res) {
       }, { skipRedirect: true });
       
 
-      const paymentUrl = `https://accept.paymob.com/api/acceptance/iframes/${process.env.PAYMOB_IFRAME_ID}?payment_token=${paymentKey.data.token}`;
+      const paymentUrl = `https://accept.paymobsolutions.com/api/acceptance/checkout/${paymentKey.data.token}`;
 
       res.status(200).json({ url: paymentUrl });
 
