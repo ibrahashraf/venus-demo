@@ -111,79 +111,99 @@ export default async function handler(req, res) {
     res.status(201).json({ success: true });
   }
   // === Online Payment ===
-  if ( paymentMethod === "Paymob" ) {
+  if (paymentMethod === "Paymob") {
 
-    const orderDoc = await Order.create({
-      user: user?._id || null,
-      line_items,
-      name,
-      phone,
-      address,
-      city,
-      governorate,
-      paid: false,
-      paymentMethod,
-      subtotal,
-      shippingCost,
-      totalBeforeDiscount,
-      promotionIds: promotionIds || [],
-      couponCodeId: couponCodeId || null,
-      discount: discount || null,
-      total,
-    });
-    
-    try {
-      const auth = await axiosClient.post("https://accept.paymob.com/api/auth/tokens", {
-        api_key: process.env.PAYMOB_API_KEY,
-      }, { skipRedirect: true });
+    const items = line_items.map(item => ({
+      name: item.title,
+      amount: Math.round(item.price * item.quantity * 100),
+      quantity: item.quantity,
+    }));
 
-      const token = auth.data.token;
+    // Add shipping as a pseudo-item (if it exists)
+    if (shippingCost > 0) {
+      items.push({
+        name: "Shipping",
+        amount: Math.round(shippingCost * 100),
+        quantity: 1,
+      });
+    }
 
-      const paymobOrder = await axiosClient.post("https://accept.paymob.com/api/ecommerce/orders", {
-        auth_token: token,
-        delivery_needed: false,
-        amount_cents: total * 100,
+    // If you have a discount, represent it as a negative amount
+    if (discount > 0) {
+      items.push({
+        name: "Discount",
+        amount: -Math.round(discount * 100),
+        quantity: 1,
+      });
+    }
+
+// Now compute the total in cents
+const totalCents = items.reduce((sum, item) => sum + item.amount, 0);
+  const orderDoc = await Order.create({
+    user: user?._id || null,
+    line_items,
+    name,
+    phone,
+    address,
+    city,
+    governorate,
+    paid: false,
+    paymentMethod,
+    subtotal,
+    shippingCost,
+    totalBeforeDiscount,
+    promotionIds: promotionIds || [],
+    couponCodeId: couponCodeId || null,
+    discount: discount || null,
+    total,
+  });
+
+  try {
+    // === 1. Create Intention ===
+    const intentionResponse = await axiosClient.post(
+      "https://accept.paymob.com/v1/intention/",
+      {
+        amount: totalCents,
         currency: "EGP",
-        items: [],
-        merchant_order_id: orderDoc._id,
-      }, { skipRedirect: true });
-
-
-      const paymentKey = await axiosClient.post("https://accept.paymob.com/api/acceptance/payment_keys", {
-        auth_token: token,
-        amount_cents: total * 100,
-        expiration: 3600,
-        order_id: paymobOrder.data.id,
+        payment_methods: [Number(process.env.PAYMOB_INTEGRATION_ID)],
+        items,
         billing_data: {
-          apartment: "NA",
-          email: userEmail || "customer@example.com",
-          floor: "NA",
           first_name: name,
+          last_name: ".",
+          email: userEmail || "customer@example.com",
+          phone_number: phone,
           street: address,
           building: "NA",
-          phone_number: phone,
-          shipping_method: "UNK",
-          postal_code: "NA",
+          floor: "NA",
+          apartment: "NA",
           city,
           country: "EG",
-          last_name: ".",
           state: governorate,
         },
-        currency: "EGP",
-        integration_id: process.env.PAYMOB_INTEGRATION_ID,
-        callback_url: `${process.env.WEBSITE_URL}/api/paymob-callback`,
-        return_url: `${process.env.WEBSITE_URL}/api/payment-status`,
-      }, { skipRedirect: true });
-      
+        extras: {
+          merchant_order_id: orderDoc._id.toString(),
+        },
+      },
+      {
+        headers: {
+          Authorization: `Token ${process.env.PAYMOB_SECRET_KEY}`,
+        },
+        skipRedirect: true,
+      }
+    );
 
-      const paymentUrl = `https://accept.paymob.com/api/acceptance/iframes/${process.env.PAYMOB_INTEGRATION_ID}?payment_token=${paymentKey.data.token}`;
 
+    const clientSecret = intentionResponse.data.client_secret;
 
-      res.status(200).json({ url: paymentUrl });
+    // === 2. Build Unified Checkout URL ===
+    const paymentUrl = `https://accept.paymob.com/unifiedcheckout/?publicKey=${process.env.PAYMOB_PUBLIC_KEY}&clientSecret=${clientSecret}`;
 
-    } catch (error) {
-      console.error("Paymob Error:", error.response?.data || error.message);
-      res.status(500).json({ error: "Payment initialization failed" });
-    }
+    res.status(200).json({ url: paymentUrl });
+
+  } catch (error) {
+    console.error("Paymob Unified Checkout Error:", error.response?.data || error.message);
+    res.status(500).json({ error: "Payment initialization failed" });
   }
+}
+
 }
