@@ -1,11 +1,9 @@
 export default async function handler(req, res) {
-  const { success, merchant_order_id, order_id } = req.query;
-
-  const orderId = merchant_order_id || order_id || "unknown";
+  const { success, merchant_order_id } = req.query;
 
   if (success === "true") {
-    return res.redirect(`/payment-status?success=true&order_id=${orderId}`);
+    return res.redirect(`/payment-status?success=true&order_id=${merchant_order_id}`);
   }
 
-  return res.redirect(`/payment-status?success=false&order_id=${orderId}`);
+  return res.redirect(`/payment-status?success=false&order_id=${merchant_order_id}`);
 }
