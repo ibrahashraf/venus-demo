@@ -32,7 +32,6 @@ export default async function handler(req, res) {
             productMap[product._id.toString()] = product;
         });
         const { discounts, appliedPromotions, promotionProgress } = applyPromotions(cart, productMap, promotions);
-        console.log("discounts", discounts, "appliedPromotions", appliedPromotions, "promotionProgress", promotionProgress);
         return res.json({ discounts, appliedPromotions, promotionProgress });
     } catch (error) {
         return res.status(500).json({ error: error.message });

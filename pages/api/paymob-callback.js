@@ -7,11 +7,8 @@ import { Cart } from "@/models/Cart";
 
 export default async function handler(req, res) {
   await mongooseConnect();
-  console.log("req.body", req.body);
   const obj = req.body.obj;
-  console.log("obj", obj);
-  const orderId = obj?.order?.merchant_order_id;
-  console.log("orderId", orderId);
+  const orderId = obj?.payment_key_claims?.extra?.order_id
   if (!obj?.success) {
     await Order.findByIdAndDelete(orderId);
     return res.status(400).json({ error: 'Payment failed' });
