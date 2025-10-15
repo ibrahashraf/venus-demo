@@ -181,7 +181,7 @@ const totalCents = items.reduce((sum, item) => sum + item.amount, 0);
           state: governorate,
         },
         extras: {
-          merchant_order_id: "ibrahimpaymob",
+          hello: "ibrahimpaymob",
         },
       },
       {
