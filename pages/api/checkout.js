@@ -157,7 +157,7 @@ const totalCents = items.reduce((sum, item) => sum + item.amount, 0);
     discount: discount || null,
     total,
   });
-
+  console.log("orderDoc._id.toString():", orderDoc._id.toString());
   try {
     // === 1. Create Intention ===
     const intentionResponse = await axiosClient.post(
@@ -181,7 +181,7 @@ const totalCents = items.reduce((sum, item) => sum + item.amount, 0);
           state: governorate,
         },
         extras: {
-          hello: "ibrahimpaymob",
+          merchant_order_id: orderDoc._id.toString(),
         },
       },
       {
