@@ -166,7 +166,6 @@ const totalCents = items.reduce((sum, item) => sum + item.amount, 0);
         amount: totalCents,
         currency: "EGP",
         payment_methods: [Number(process.env.PAYMOB_INTEGRATION_ID)],
-        merchant_order_id: "ibrahim ashraf elsayed",
         items,
         billing_data: {
           first_name: name,
@@ -180,6 +179,9 @@ const totalCents = items.reduce((sum, item) => sum + item.amount, 0);
           city,
           country: "EG",
           state: governorate,
+        },
+        extras: {
+          merchant_order_id: "ibrahimpaymob",
         },
       },
       {
