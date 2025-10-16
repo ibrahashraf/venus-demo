@@ -164,7 +164,7 @@ const totalCents = items.reduce((sum, item) => sum + item.amount, 0);
       {
         amount: totalCents,
         currency: "EGP",
-        payment_methods: [Number(process.env.PAYMOB_INTEGRATION_ID)],
+        payment_methods: [Number(process.env.PAYMOB_CARD_INTEGRATION_ID), Number(process.env.PAYMOB_WALLET_INTEGRATION_ID)],
         items,
         billing_data: {
           first_name: name,
