@@ -29,8 +29,8 @@ export default function DeleteData() {
             </li>
             <li>
               أو يمكنك مراسلتنا عبر البريد الإلكتروني{" "}
-              <a href="mailto:venus.outlet2015@gmail.com" className="text-blue-600">
-                venus.outlet2015@gmail.com
+              <a href="mailto:support@venusoutlet.net" className="text-blue-600">
+                support@venusoutlet.net
               </a>{" "}
               لطلب حذف الحساب.
             </li>

@@ -128,8 +128,8 @@ export default function ContactPage() {
             />
             <LinkButton
               icon={<EmailIcon className="text-red-500" />}
-              label="venus.outlet2015@gmail.com"
-              href="mailto:venus.outlet2015@gmail.com"
+              label="support@venusoutlet.net"
+              href="mailto:support@venusoutlet.net"
             />
 
             <button
