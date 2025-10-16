@@ -30,6 +30,7 @@ const OrderSchema = new Schema({
         enum: ['Paymob', 'Pay on Delivery'],
         default: 'Pay on Delivery',
     },
+    paymobOrderId: String,
     status: {
         type: String,
         enum: ['Pending', 'Confirmed', 'Shipped', 'Delivered', 'Cancelled'],
