@@ -1,4 +1,5 @@
 export default async function handler(req, res) {
+  console.log(req.query);
   const { success, merchant_order_id } = req.query;
 
   if (success === "true") {

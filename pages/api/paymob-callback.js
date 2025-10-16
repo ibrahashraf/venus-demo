@@ -11,7 +11,6 @@ export default async function handler(req, res) {
   
   const { hmac } = req.query;
   const obj = req.body.obj;
-  console.log("req.body", req.body);
   
   if (!verifyPaymobHmac(hmac, obj)) {
     console.warn("Invalid HMAC: Possible spoofed callback");
