@@ -7,10 +7,16 @@ import { Cart } from "@/models/Cart";
 
 export default async function handler(req, res) {
   await mongooseConnect();
+  
+  const { hmac } = req.query;
   const obj = req.body.obj;
   console.log("req.body", req.body);
-  console.log("req.query", req.query);
-  console.log("req.params", req.params);
+  
+  if (!verifyPaymobHmac(hmac, obj)) {
+    console.warn("Invalid HMAC: Possible spoofed callback");
+    return res.status(403).json({ error: "Invalid HMAC" });
+  }
+  
   const orderId = obj?.payment_key_claims?.extra?.order_id
   if (!obj?.success) {
     await Order.findByIdAndDelete(orderId);
