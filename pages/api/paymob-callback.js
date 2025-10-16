@@ -11,7 +11,6 @@ export default async function handler(req, res) {
   
   const { hmac } = req.query;
   const obj = req.body.obj;
-  console.log("obj", obj);
   if (!verifyPaymobHmac(hmac, obj)) {
     console.warn("Invalid HMAC: Possible spoofed callback");
     return res.status(403).json({ error: "Invalid HMAC" });
@@ -30,6 +29,8 @@ export default async function handler(req, res) {
     const order = await Order.findById(orderId);
     if (!order) return res.status(404).json({ error: 'Order not found' });
     order.paid = true;
+    order.paymobTrnxId = obj?.id;
+    order.paymobOrderId = obj?.order?.id;
     await order.save();
 
     for ( const item of order.line_items) {

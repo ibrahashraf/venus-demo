@@ -1,13 +1,11 @@
 import Header from "@/components/Header";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { event } from "@/lib/gtag";
 
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import Footer from "@/components/Footer";
-import axiosClient from "@/lib/axiosClient";
 import Head from "next/head";
 import Link from "next/link";
 import TestimonialModal from "@/components/modals/TestimonialModal";
@@ -27,34 +25,6 @@ export default function PaymentStatus() {
     }
   }, [router.query, router.isReady]);
 
-  useEffect(() => {
-  if (!router.isReady || status !== "success") return;
-  const fetchAndTrackOrder = async () => {
-    try {
-      const { order_id } = router.query;
-      const response = await axiosClient.get(`/api/order-status?id=${order_id}`, {skipRedirect: true});
-      const order = response.data;
-      event({
-        action: "purchase",
-        params: {
-          send_to: process.env.GANALYTICS_ID,
-          transaction_id: order_id,
-          value: order.total,
-          currency: "EGP",
-          items: order.items.map(item => ({
-            item_id: item.item_id,
-            item_name: item.item_name,
-            quantity: item.quantity,
-            price: item.price,
-          })),
-        },
-      });
-    } catch (error) {
-      console.error("Failed to fetch order or send GA event:", error); 
-    }
-  };
-  fetchAndTrackOrder();
-}, [status, router.query, router.isReady]);
 
   const statusDetails = {
     loading: {
