@@ -9,6 +9,8 @@ export default async function handler(req, res) {
   await mongooseConnect();
   const obj = req.body.obj;
   console.log("req.body", req.body);
+  console.log("req.query", req.query);
+  console.log("req.params", req.params);
   const orderId = obj?.payment_key_claims?.extra?.order_id
   if (!obj?.success) {
     await Order.findByIdAndDelete(orderId);
