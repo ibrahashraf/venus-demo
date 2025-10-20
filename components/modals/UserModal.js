@@ -57,7 +57,7 @@ export default function UserModal({ onClose }) {
                         تعديل بيانات الشحن
                     </button>
                     <Link href="/Orders" onClick={ () => onClose} >
-                        الطلبات السابقة
+                        متابعةالطلبات
                     </Link>
                     <button
                         onClick={() => {setOpenDelete(true)}}

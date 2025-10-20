@@ -50,6 +50,9 @@ export default function Home({ latestProducts, categoriesWithProducts, error, st
         <CategoriesSection />
       </ErrorBoundary>
       <ErrorBoundary>
+        <BranchesSection />
+      </ErrorBoundary>
+      <ErrorBoundary>
         <PromotionBanner  />
       </ErrorBoundary>
       {categoriesWithProducts.map(({ category, products }) => (
@@ -57,9 +60,6 @@ export default function Home({ latestProducts, categoriesWithProducts, error, st
           <CategoryShowSection category={category} products={products} />
         </ErrorBoundary>
       ))}
-      <ErrorBoundary>
-        <BranchesSection />
-      </ErrorBoundary>
       <ErrorBoundary>
         <SubscriptionSection />
       </ErrorBoundary>

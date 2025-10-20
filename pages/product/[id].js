@@ -395,7 +395,7 @@ export default function ProductPage({ product, relatedProducts, error, statusCod
                   </div>
                 </div>
                 {product.description && (
-                  <div className="text-gray-700 leading-relaxed py-4 max-w-xl">
+                  <div className="text-gray-700 leading-relaxed py-4 max-w-[200px] sm:max-w-xl">
                     <p>{product.description}</p>
                   </div>
                 )}

@@ -116,7 +116,9 @@ export default function OrdersPage() {
                   ) : null
                   }
                 { order.paid && order.status !== "Cancelled" && (<PDFDownloadLink document={<InvoicePDF order={order} />} fileName={`invoice${order._id}.pdf`}>
+                <p className="py-2 px-3 rounded-sm text-secondary bg-primary border border-primary hover:bg-secondary gover:text-primary">
                     {({ loading }) => (loading ? "جاري التحميل..." : "تحميل الفاتورة")}
+                </p>
                   </PDFDownloadLink>)}
                 </div>
               ))
