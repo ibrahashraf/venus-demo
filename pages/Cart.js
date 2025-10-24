@@ -76,6 +76,7 @@ export default function Cart() {
 
   const proceedToSecondStep = () => {
     setCartStep("second");
+    window.scrollTo(0, 0);
   };
 
   useEffect(() => {
