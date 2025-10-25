@@ -19,7 +19,7 @@ export default function CategoriesSection() {
   return (
     <div className="bg-neutral-200 min-h-[calc(100vh-73px)] md:min-h-[calc(100vh-80px)] relative overflow-hidden">
       {/* Accent Background */}
-      <div className="bg-accent w-24 sm:w-32 md:w-40 z-[9] h-full absolute top-0 right-[20%] transition" />
+      <div className="bg-accent w-24 sm:w-32 md:w-40 z-[9] h-full absolute top-0 right-[7%] sm:right-[20%] transition" />
 
       <div className="container h-full mx-auto text-center relative z-10 flex flex-col justify-center py-10">
         {/* Headline */}

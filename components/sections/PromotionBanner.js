@@ -163,7 +163,7 @@ export default function PromotionBanner() {
         </svg>
       </div>
 
-      <div className="bg-accent w-24 sm:w-32 md:w-40 absolute top-0 right-[20%] h-full " />
+      <div className="bg-accent w-24 sm:w-32 md:w-40 absolute top-0 right-[7%] sm:right-[20%] h-full " />
     </div>
 
   );

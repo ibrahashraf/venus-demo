@@ -23,24 +23,24 @@ const [isScrolled, setIsScrolled] = useState(false);
       >
           
         <div className="relative z-[49] w-full overflow-hidden flex flex-col items-center  px-6 space-y-24">
-          <div className='flex justify-between max-md:flex-col gap-6 md:gap-32 items-end'>
+          <div className='flex justify-between max-md:flex-col gap-10 md:gap-32 items-end'>
             <h1  
               className="animate-slideDown leading-normal text-[60px] sm:text-[72px] md:text-[84px] lg:text-[100px] md:text[96px] font-bold text-right text-primary"
               >أفضل جودة  <br />بأفضل سعر</h1>
             <Link
               href={'/Products'}
-              className="animate-slideRight bg-neutral-200 text-2xl md:text-3xl rounded-es-md rounded-se-md inline-block  px-8 py-5 text-accent rounded-sm  transition border-2 border-accent  hover:bg-accent hover:text-neutral-50  "
+              className="animate-slideRight bg-neutral-200/60  text-[27px] md:text-3xl rounded-es-xl rounded-se-xl inline-block  px-8 py-5 text-accent rounded-sm  transition border-2 border-accent  hover:bg-accent hover:text-neutral-50  "
             >
               تسوق الان
             </Link>
           </div>
-          <p className="animate-slideRight text-sm sm:text-md md:text-lg lg:text-2xl w-screen bg-black text-white  py-3">ملابس حريمي، أطفال، ورجالي بتصاميم عصرية، جودة عالية، وأسعار تنافسية — لأن الأناقة تبدأ من الاختيار الذكي.</p>
+          <p className="animate-slideRight text-sm leading-relaxed max-sm:px-4 font-semibold  sm:text-md md:text-lg lg:text-2xl w-screen  bg-primary text-secondary   py-3">ملابس حريمي، أطفال، ورجالي بتصاميم عصرية، جودة عالية، وأسعار تنافسية — لأن الأناقة تبدأ من الاختيار الذكي.</p>
         </div>
 
       </section>
-      <div className={`animate-slideDown  bg-accent w-24 sm:w-32 md:w-40 h-[100vh] absolute top-0 z-[48] transition right-[20%]`} />
+      <div className={`animate-slideDown  bg-accent w-24 sm:w-32 md:w-40 h-[100vh] absolute top-0 z-[48] transition right-[7%] sm:right-[20%]`} />
       <div className=' flex flex-col items-center justify-center text-secondary font-extralight text-center absolute top-11 max-sm:-top-10 right-0 overflow-hidden w-[98vw] h-[100vh]'>
-        <div className='flex items-center leading-none -ml-[100px] sm:-ml-[100px] md:-ml-[200px] lg:-ml-[300px] '>
+        {/* <div className='flex items-center leading-none -ml-[100px] sm:-ml-[100px] md:-ml-[200px] lg:-ml-[300px] '>
           <p className='font-sans tracking-widest text-[90px] sm:text-[180px] md:text-[200px]  lg:text-[300px]'>ENUS</p>
           <svg
             className={`transition  sm:mt-10 h-[70px] w-[150px] sm:h-[150px] sm:w-[300px] md:h-[180px] md:w-[360px] lg:h-[215px] lg:w-[480px] `}
@@ -60,7 +60,7 @@ const [isScrolled, setIsScrolled] = useState(false);
             </g>
           </svg>
         </div>
-        <p className=' font-sans tracking-widest text-[90px] sm:text-[180px] md:text-[200px]  lg:text-[300px]'>OUTLET</p>
+        <p className=' font-sans tracking-widest text-[90px] sm:text-[180px] md:text-[200px]  lg:text-[300px]'>OUTLET</p> */}
       </div>
     </>
   );
