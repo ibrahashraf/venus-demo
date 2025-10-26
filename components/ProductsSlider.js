@@ -9,7 +9,7 @@ export default function ProductsSlider({ products }) {
   const [sliderContainerRef, instanceRef] = useKeenSlider({
     loop: true,
     slides: {
-      perView: 1.2,
+      perView: 1,
       spacing: 10,
     },
     breakpoints: {
@@ -29,13 +29,13 @@ export default function ProductsSlider({ products }) {
     <section className=" relative p-10 z-10 max-sm:mb-10">
         <button
           onClick={() => instanceRef.current?.prev()}
-          className="absolute  left-[20%] max-sm:-bottom-10 sm:left-6 sm:top-1/2 -translate-y-1/2  z-10 bg-white   rounded-full p-2 shadow-md hover:bg-gray-100"
+          className="absolute text-white  left-3 top-1/2 -translate-y-1/2  z-10 bg-primary/50   rounded-full p-3 shadow-md "
         >
           <ChevronLeft fontSize="large"  />
         </button>
         <button
           onClick={() => instanceRef.current?.next()}
-          className="absolute  right-[20%] max-sm:-bottom-10 sm:right-6 sm:top-1/2 -translate-y-1/2  z-10 bg-white  rounded-full p-2 shadow-md hover:bg-gray-100"
+          className="absolute  text-white right-3 top-1/2 -translate-y-1/2  z-10 bg-primary/50  rounded-full p-3 shadow-md "
         >
           <ChevronRight fontSize="large"  />
         </button>

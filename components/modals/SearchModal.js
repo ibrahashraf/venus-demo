@@ -70,7 +70,7 @@ export default function SearchModal({ onClose }) {
     >
       <div
         ref={searchModalRef}
-        className="bg-white z-[1000] overflow-y-auto animate-slideFromLeft  shadow-lg border-neutral-200 fixed  py-6 h-screen w-screen md:w-1/2 xl:w-1/3  top-0 right-0   "
+        className="bg-white z-[1000] overflow-y-auto animate-slideFromLeft  shadow-lg border-neutral-200 fixed  py-6 h-screen w-screen md:w-1/2   top-0 right-0   "
       >
         <div className="flex items-center gap-2 px-2 relative ">
           <Search className="absolute top-4 right-4 text-neutral-500 text-2xl z-10"  />
@@ -111,7 +111,7 @@ export default function SearchModal({ onClose }) {
                     }
                   </h2>
                   <div
-                    className="grid grid-cols-2 gap-4"
+                    className="grid grid-cols-1 sm:grid-cols-2 gap-4"
                   >
                     {filteredProducts.map(product => (
                       <div key={product._id}>
@@ -128,7 +128,7 @@ export default function SearchModal({ onClose }) {
             {loading 
               ? (
                 <div
-                  className="grid grid-cols-2 gap-4"
+                  className="grid grid-cols-1 sm:grid-cols-2 gap-4"
                 >
                   <ProductSkeleton />
                   <ProductSkeleton />
@@ -137,7 +137,7 @@ export default function SearchModal({ onClose }) {
                 </div>
               ) : (
                 <div
-                  className="grid grid-cols-2 gap-4"
+                  className="grid grid-cols-1 sm:grid-cols-2 gap-4"
                 >
                   {LatestProducts.map(product => (
                     <div key={product._id}>

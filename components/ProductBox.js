@@ -318,7 +318,7 @@ export default function ProductBox( product ) {
 
 
       <Link href={url} className=" flex justify-between p-3">
-        <h3 className="text-sm font-semibold truncate text-gray-800">{product.title}</h3>
+        <h3 className="text-sm max-w-[55%] font-semibold truncate text-gray-800">{product.title}</h3>
         {!outOfStock && (
           discountedPrice ? (
             <div className="text-md flex gap-2" dir="ltr">
