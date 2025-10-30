@@ -48,7 +48,7 @@ export default function SignInModal({ onClose }) {
     >
       <div
         ref={modalRef}
-        className="bg-white p-6 rounded-lg w-full max-w-md text-center relative"
+        className="bg-white p-10 rounded-lg w-full max-w-md text-center relative"
       >
         {/* Close button */}
         <button
