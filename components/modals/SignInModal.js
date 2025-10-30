@@ -53,7 +53,7 @@ export default function SignInModal({ onClose }) {
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-600 hover:text-red-600 text-2xl font-bold"
+          className="absolute top-2 right-4 text-gray-600 hover:text-red-600 text-2xl font-bold"
         >
           &times;
         </button>
