@@ -155,16 +155,16 @@ export default function CartSecondStep( {
               
         {/* Totals */}
         <div className="border-y">
-          <label className={`flex items-center gap-2 py-4 px-4 border-b rounded-sm ${paymentMethod === "Paymob" ? "bg-neutral-100" : ""}`}>
-            <input
-              type="radio"
-              name="paymentMethod"
-              value="Paymob"
-              checked={paymentMethod === "Paymob"}
-              onChange={() => setPaymentMethod("Paymob")}
-            />
-            <span>الدفع ببطاقة ائتمان</span>
-          </label>
+          // <label className={`flex items-center gap-2 py-4 px-4 border-b rounded-sm ${paymentMethod === "Paymob" ? "bg-neutral-100" : ""}`}>
+          //   <input
+          //     type="radio"
+          //     name="paymentMethod"
+          //     value="Paymob"
+          //     checked={paymentMethod === "Paymob"}
+          //     onChange={() => setPaymentMethod("Paymob")}
+          //   />
+          //   <span>الدفع ببطاقة ائتمان</span>
+          // </label>
           <label className={`flex items-center gap-2 py-4 px-4  rounded-sm ${paymentMethod === "Pay on Delivery" ? "bg-neutral-100"  : ""}`}>
             <input
               type="radio"
