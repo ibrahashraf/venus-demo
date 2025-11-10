@@ -10,7 +10,7 @@ export default function CategoriesSection() {
 
   useEffect(() => {
     setLoading(true);
-    axiosClient.get("/api/categories").then((res) => {
+    axiosClient.get("/api/allcategories").then((res) => {
       setCategories(res.data);
     }).then((res) => {setCategories(prev => prev.filter(cat => cat.showOnBanner === true));})
     .catch((err) => console.log(err)).finally(() => setLoading(false));
