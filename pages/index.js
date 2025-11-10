@@ -44,13 +44,13 @@ export default function Home({ latestProducts, categoriesWithProducts, error, st
       <Header />
       <Featured />
       <ErrorBoundary>
-        <LatestProducts latestProducts={latestProducts} />
-      </ErrorBoundary>
-      <ErrorBoundary>
         <PromotionBanner  />
       </ErrorBoundary>
       <ErrorBoundary>
         <CategoriesSection />
+      </ErrorBoundary>
+      <ErrorBoundary>
+        <LatestProducts latestProducts={latestProducts} />
       </ErrorBoundary>
       <ErrorBoundary>
         <BranchesSection />
