@@ -47,13 +47,13 @@ export default function Home({ latestProducts, categoriesWithProducts, error, st
         <LatestProducts latestProducts={latestProducts} />
       </ErrorBoundary>
       <ErrorBoundary>
+        <PromotionBanner  />
+      </ErrorBoundary>
+      <ErrorBoundary>
         <CategoriesSection />
       </ErrorBoundary>
       <ErrorBoundary>
         <BranchesSection />
-      </ErrorBoundary>
-      <ErrorBoundary>
-        <PromotionBanner  />
       </ErrorBoundary>
       {categoriesWithProducts.map(({ category, products }) => (
         <ErrorBoundary key={category._id}>
