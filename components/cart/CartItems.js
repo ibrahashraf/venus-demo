@@ -60,7 +60,7 @@ export default function CartItems({ products }) {
             </div>
             <div className="flex flex-col flex-1 gap-1">
               <div className="flex items-center gap-2">
-                <p className="font-light text-2xl">{cartItem.title}</p>
+                <p className="font-light text-2xl max-sm:text-lg">{cartItem.title}</p>
               </div>
               { compareAtPrice ?
                 (
