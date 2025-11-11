@@ -42,7 +42,7 @@ export default function Home({ latestProducts, categoriesWithProducts, error, st
         <meta property="og:type" content="website" />
       </Head>
       <Header />
-      <Featured />
+      {/* <Featured /> */}
       <ErrorBoundary>
         <PromotionBanner  />
       </ErrorBoundary>
