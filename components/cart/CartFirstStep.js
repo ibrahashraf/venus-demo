@@ -34,6 +34,7 @@ export default function CartFirstStep(
         loading: couponLoading
     } = useContext(PromotionContext);
     const [couponCode, setCouponCode] = useState("");
+    const [showForm, setShowForm] = useState(false);
     useEffect(() => {
         if (cart.length === 0) removeCoupon();
     }, [cart]);
@@ -122,26 +123,43 @@ export default function CartFirstStep(
                 {/* Summary */}
                 <div className="bg-white shadow rounded-lg p-6 space-y-5 text-right">
                     {!ctxAppliedCoupon ? (
-                    <>
-                        <label className="font-medium block mb-1">هل تملك كود خصم؟</label>
-                        <div className="space-y-2">
-                            <input
+                    <div>
+                        {!showForm ? (
+                            <button
+                            onClick={() => setShowForm(true)}
+                            className="w-full bg-gray-100 border border-gray-300 text-gray-800 py-3 rounded hover:bg-gray-200 transition"
+                            >
+                            هل تملك كود خصم؟
+                            </button>
+                        ) : (
+                            <div>
+                            <label className="font-medium block mb-1">أدخل كود الخصم</label>
+                            <div className="space-y-2">
+                                <input
                                 type="text"
                                 placeholder="أدخل كود الخصم"
                                 value={couponCode}
                                 onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
                                 className="w-full rounded-sm p-3 border-b-2 border-gray-300 focus:outline-none focus:border-black"
-                            />
-                            <button
+                                />
+                                <button
                                 onClick={applyCoupon}
                                 className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition disabled:opacity-50"
                                 disabled={couponLoading || !couponCode.trim()}
-                            >
+                                >
                                 {couponLoading ? "جاري التحقق..." : "تفعيل الكوبون"}
-                            </button>
-                            {couponError && <p className="text-red-500">{couponError}</p>}
+                                </button>
+                                {couponError && <p className="text-red-500">{couponError}</p>}
+                                <button
+                                onClick={() => setShowForm(false)}
+                                className="text-sm text-gray-500 underline"
+                                >
+                                إخفاء
+                                </button>
+                            </div>
+                            </div>
+                        )}
                         </div>
-                    </>
                     ) : (
                     <div className="flex items-center justify-between bg-green-100 text-green-800 px-4 py-2 rounded">
                         <span>تم تطبيق الكوبون: {ctxAppliedCoupon.code}</span>
