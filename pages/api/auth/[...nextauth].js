@@ -1,8 +1,9 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import FacebookProvider from "next-auth/providers/facebook";
+import Credentials from "next-auth/providers/credentials";
 import { mongooseConnect } from "@/lib/mongoose";
 import { User } from "@/models/User";
+import bcrypt from "bcryptjs";
 
 const isSecure =
   (process.env.WEBSITE_URL || "").startsWith("https://");
@@ -13,11 +14,26 @@ export const authOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
+    Credentials({
+      name: "Credentials",
+      credentials: {
+        email: {},
+        password: {},
+      },
+      async authorize(credentials) {
+        await mongooseConnect();
+        const user = await User.findOne({ email: credentials.email });
+        if (!user || !user.verified) throw new Error("Email not verified");
+        const valid = await bcrypt.compare(credentials.password, user.password);
+        if (!valid) throw new Error("Invalid credentials");
+        return user;
+      },
+    }),
   ],
   session: {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 days
-    updateAge: 24 * 60 * 60,   // refresh session once/day
+    updateAge: 24 * 60 * 60, // 24 hours
   },
 
   cookies: {
@@ -27,8 +43,6 @@ export const authOptions = {
         httpOnly: true,
         path: "/",
         secure: isSecure,
-        // Lax is ok for most OAuth flows, but payment providers sometimes POST back.
-        // If your Paymob return uses POST, use "none". (Secure MUST be true.)
         sameSite: isSecure ? "none" : "lax",
       },
     },
@@ -38,7 +52,7 @@ export const authOptions = {
     async signIn({ user }) {
       await mongooseConnect();
 
-      const existing = await User.findOne({ email: user.email });
+      let existing = await User.findOne({ email: user.email });
       if (!existing) {
         existing = await User.create({
           name: user.name,
@@ -46,6 +60,7 @@ export const authOptions = {
           image: user.image,
         });
       }
+
 
       return true;
     },

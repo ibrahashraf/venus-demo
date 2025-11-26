@@ -5,6 +5,10 @@ const UserSchema = new Schema(
     name: String,
     email: { type: String, required: true, unique: true },
     image: String,
+    password: String,
+    verified: { type: Boolean, default: false },
+    otp: String,
+    otpExpires: Date,
     shippingInfo: {
       name: { type: String, required: false },
       phone: { type: String, required: false },

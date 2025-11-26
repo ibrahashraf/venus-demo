@@ -138,7 +138,7 @@ export default function Header() {
               </div>
             ) : (
               <button
-                onClick={() => setShowSignIn(true)}
+                onClick={() => router.push('/signin')}
                 className='relative group'
               >
                 <PersonOutline
@@ -287,7 +287,7 @@ export default function Header() {
             ) : (
               <button
                 onClick={() => {
-                  setShowSignIn(true);
+                  router.push('/signin');
                   setMobileMenuOpen(false);
                 }}
                 className="pl-8"

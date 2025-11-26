@@ -34,7 +34,9 @@ const [isScrolled, setIsScrolled] = useState(false);
               تسوق الان
             </Link>
           </div>
-          <p className="animate-slideRight text-sm leading-relaxed max-sm:px-4 font-semibold  sm:text-md md:text-lg lg:text-2xl w-screen  bg-primary text-secondary   py-3">ملابس حريمي، أطفال، ورجالي بتصاميم عصرية، جودة عالية، وأسعار تنافسية — لأن الأناقة تبدأ من الاختيار الذكي.</p>
+          <p className="animate-slideRight text-sm leading-relaxed max-sm:px-4 font-semibold  sm:text-md md:text-lg lg:text-2xl w-screen  bg-primary text-secondary   py-3">
+            ملابس حريمي، أطفال، ورجالي بتصاميم عصرية، جودة عالية، وأسعار تنافسية — لأن الأناقة تبدأ من الاختيار الذكي.
+          </p>
         </div>
 
       </section>

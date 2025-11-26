@@ -362,7 +362,7 @@ export default function ProductPage({ product, relatedProducts, error, statusCod
                           onClick={() => isAvailable && setSelectedSize(size)}
                           disabled={!isAvailable}
                           className={` px-5 py-1 relative transition-colors duration-300 ease-in-out border-l-2 border-black last:border-0 ${
-                            selectedSize === size ? ' shadow-md ' : ''
+                            selectedSize === size ? ' shadow-lg bg-neutral-500 text-white  ' : ''
                           } ${!isAvailable && 'opacity-50 '}`}
                         >
                           {!isAvailable && <div className="w-3/4 h-[1px] left-[11%] bottom-[14px] absolute  -rotate-[15deg] bg-black z-50 "></div>}
@@ -384,7 +384,7 @@ export default function ProductPage({ product, relatedProducts, error, statusCod
                           onClick={() => isAvailable && setSelectedColor(color)}
                           disabled={!isAvailable}
                           className={`px-5 py-1 relative transition-colors duration-300 ease-in-out border-l-2 border-black last:border-0 ${
-                            selectedColor === color ? 'shadow-md' : ''
+                            selectedColor === color ? 'shadow-lg bg-neutral-500 text-white' : ''
                           } ${!isAvailable && 'opacity-50 '}`}
                         >
                           {!isAvailable && <div className="w-3/4 h-[1px] left-[11%] bottom-[14px] absolute  -rotate-[15deg] bg-black z-50 "></div>}

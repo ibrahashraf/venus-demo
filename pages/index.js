@@ -42,12 +42,12 @@ export default function Home({ latestProducts, categoriesWithProducts, error, st
         <meta property="og:type" content="website" />
       </Head>
       <Header />
-      {/* <Featured /> */}
-      <ErrorBoundary>
-        <PromotionBanner  />
-      </ErrorBoundary>
+      <Featured />
       <ErrorBoundary>
         <CategoriesSection />
+      </ErrorBoundary>
+      <ErrorBoundary>
+        <PromotionBanner  />
       </ErrorBoundary>
       <ErrorBoundary>
         <LatestProducts latestProducts={latestProducts} />
