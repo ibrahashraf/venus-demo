@@ -10,7 +10,7 @@ const isSecure =
 
 export const authOptions = {
   providers: [
-    GoogleProvider({
+    GoogleProvider({ 
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
@@ -23,9 +23,10 @@ export const authOptions = {
       async authorize(credentials) {
         await mongooseConnect();
         const user = await User.findOne({ email: credentials.email });
-        if (!user || !user.verified) throw new Error("Email not verified");
+        if (!user) throw new Error(" المستخدم غير موجود");
+        if ( !user.verified ) throw new Error("notverified");
         const valid = await bcrypt.compare(credentials.password, user.password);
-        if (!valid) throw new Error("Invalid credentials");
+        if (!valid) throw new Error(" كلمه المرور غير صحيحه");
         return user;
       },
     }),

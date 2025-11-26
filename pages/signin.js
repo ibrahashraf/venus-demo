@@ -18,6 +18,11 @@ export default function SignInPage() {
     setError("");
     const res = await signIn("credentials", { redirect: false, email, password });
     setLoading(false);
+    if (res?.error && res.error === "notverified") {
+      await fetch("/api/auth/resend-otp",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({ email })});
+      Router.push(`/verify?email=${encodeURIComponent(email)}`);
+      return;
+    }
     if (res?.error) return setError(res.error);
     Router.push("/");
   }
