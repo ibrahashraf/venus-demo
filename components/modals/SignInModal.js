@@ -4,6 +4,7 @@ import { createPortal } from "react-dom";
 import { BarLoader } from "react-spinners";
 import Image from "next/image";
 import GoogleLogo from "@/public/assets/google.png";
+import Link from "next/link";
 
 export default function SignInModal({ onClose }) {
   const [providers, setProviders] = useState(null);
@@ -149,8 +150,8 @@ export default function SignInModal({ onClose }) {
               </button>
             </form>
             <div className=" flex justify-between">
-              <a href="/reset-password" className="text-sm text-primary">نسيت كلمه المرور ؟</a>
-              <a href="/signup" className="text-sm text-accent">انشاء حساب جديد</a>
+              <Link href="/reset-password" className="text-sm text-primary">نسيت كلمه المرور ؟</Link>
+              <Link href="/signup" className="text-sm text-accent">انشاء حساب جديد</Link>
             </div>
 
           </div>

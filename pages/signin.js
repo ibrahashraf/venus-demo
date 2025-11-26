@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Image from "next/image";
 import GoogleLogo from "@/public/assets/google.png";
+import Link from "next/link";
 export default function SignInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -59,8 +60,8 @@ export default function SignInPage() {
           </button>
         </form>
         <div className="mt-3 flex justify-between">
-          <a href="/reset-password" className="text-sm text-primary">نسيت كلمه المرور ؟</a>
-          <a href="/signup" className="text-sm text-accent">انشاء حساب جديد</a>
+          <Link href="/reset-password" className="text-sm text-primary">نسيت كلمه المرور ؟</Link>
+          <Link href="/signup" className="text-sm text-accent">انشاء حساب جديد</Link>
         </div>
 
 

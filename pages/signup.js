@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import GoogleLogo from "@/public/assets/google.png";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function SignUpPage() {
   const [form, setForm] = useState({ name: "", email: "", password: "", confirmPassword: "" });
@@ -40,7 +41,7 @@ export default function SignUpPage() {
           {error && <div className="text-red-600">{error}</div>}
           <button disabled={loading} className="py-2 bg-primary text-white rounded">{loading ? "جاري التسجيل..." : "التسجيل"}</button>
         </form>
-                <p className="mt-4 text-sm">هل تملك حساب بالفعل ؟ <a href="/signin" className="text-accent">تسجيل الدخول</a></p>
+                <p className="mt-4 text-sm">هل تملك حساب بالفعل ؟ <Link href="/signin" className="text-accent">تسجيل الدخول</Link></p>
         <div className="relative my-6">
                   <div className="absolute inset-0 flex items-center">
                     <div className="w-full border-t border-gray-500"></div>
