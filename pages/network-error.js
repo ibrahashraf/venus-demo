@@ -1,5 +1,3 @@
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 import Link from "next/link";
 import RefreshIcon from '@mui/icons-material/Refresh';
 import WifiOffIcon from '@mui/icons-material/WifiOff';
@@ -16,7 +14,6 @@ export default function NetworkError() {
         content="تعذر الاتصال بالخادم. تحقق من اتصال الإنترنت لديك."
       />
     </Head>
-      <Header />
       <div className="flex flex-col items-center justify-center min-h-[calc(100vh-73px)] md:min-h-[calc(100vh-80px)] p-8 text-center">
         
         <WifiOffIcon className="text-accent mb-4" style={{ fontSize: 60 }} />
@@ -44,7 +41,6 @@ export default function NetworkError() {
           </Button>
         </Link>
       </div>
-      <Footer />
     </>
   );
 }

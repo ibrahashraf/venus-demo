@@ -1,10 +1,8 @@
-import Header from "@/components/Header";
 import ProductBox from "@/components/ProductBox";
 import { ArrowForward, ArrowBack, Close, FilterList, Sort } from "@mui/icons-material";
 import {  useEffect, useRef, useState } from "react";
 import ReactSlider from 'react-slider';
 import { useRouter } from "next/router";
-import Footer from "@/components/Footer";
 import ProductSkeleton from "@/components/ProductSkeleton";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import axiosClient from "@/lib/axiosClient";
@@ -214,7 +212,6 @@ export default function Products({  }) {
           content="استكشف أحدث تشكيلات الملابس النسائية وملابس الأطفال من Venus Outlet فينوس اوتليت، تسوق أونلاين واستفد من العروض المميزة في مصر."
         />
       </Head>
-      <Header />
       <ErrorBoundary>
         <div className=" min-h-screen bg-neutral-50">
           {/* Overlay when filters are open */}
@@ -476,7 +473,6 @@ export default function Products({  }) {
           </main>
         </div>
       </ErrorBoundary>
-      <Footer />
     </>
   );
   

@@ -2,8 +2,6 @@ import BranchesSection from "@/components/sections/BranchesSection";
 import CategoriesSection from "@/components/sections/CategoriesSection";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import Featured from "@/components/sections/Featured";
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 import LatestProducts from "@/components/LatestProducts";
 import PromotionBanner from "@/components/sections/PromotionBanner";
 import TestiSection from "@/components/sections/TestiSection";
@@ -41,7 +39,6 @@ export default function Home({ latestProducts, categoriesWithProducts, error, st
         <meta property="og:url" content="https://venusoutlet.net/" />
         <meta property="og:type" content="website" />
       </Head>
-      <Header />
       <Featured />
       <ErrorBoundary>
         <CategoriesSection />
@@ -66,7 +63,6 @@ export default function Home({ latestProducts, categoriesWithProducts, error, st
       <ErrorBoundary>
         <TestiSection />
       </ErrorBoundary>
-      <Footer />
     </>
   );
 }

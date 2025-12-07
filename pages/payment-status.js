@@ -1,11 +1,9 @@
-import Header from "@/components/Header";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
-import Footer from "@/components/Footer";
 import Head from "next/head";
 import Link from "next/link";
 import TestimonialModal from "@/components/modals/TestimonialModal";
@@ -57,7 +55,6 @@ export default function PaymentStatus() {
         content="حالة الدفع في Venus Outlet فينوس اوتليت"
       />
     </Head>
-      <Header />
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 px-4 text-center">
         <div className="flex flex-col items-center space-y-8 bg-white p-10 rounded-2xl shadow-xl">
           {statusDetails[status].icon}
@@ -91,7 +88,6 @@ export default function PaymentStatus() {
           )}
         </div>
       </div>
-      <Footer />
     </>
   );
 }

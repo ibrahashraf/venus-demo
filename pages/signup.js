@@ -1,8 +1,6 @@
 import { useState } from "react";
 import Router from "next/router";
 import { signIn } from "next-auth/react";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import GoogleLogo from "@/public/assets/google.png";
 import Image from "next/image";
 import Link from "next/link";
@@ -30,7 +28,6 @@ export default function SignUpPage() {
 
   return (
     <>
-    <Header />
       <div className="max-w-md mx-auto p-6 min-h-[700px] flex flex-col justify-center">
         <h1 className="text-2xl font-bold mb-4 text-center">انشاء حساب</h1>
         <form onSubmit={submit} className="flex flex-col gap-3">
@@ -66,7 +63,6 @@ export default function SignUpPage() {
                   <span className="font-bold text-xl mr-2">Google</span>
                 </button>
       </div>
-      <Footer />
     </>
   );
 }

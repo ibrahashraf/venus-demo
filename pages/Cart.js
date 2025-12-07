@@ -1,11 +1,9 @@
 import { useContext, useEffect, useReducer, useState } from "react";
 import { CartContext } from "@/contexts/CartContext";
 import { PromotionContext } from "@/contexts/PromotionContext";
-import Header from "@/components/Header";
 import { useSession } from "next-auth/react";
 import CartFirstStep from "@/components/cart/CartFirstStep";
 import CartSecondStep from "@/components/cart/CartSecondStep";
-import Footer from "@/components/Footer";
 import { ArrowForward, RemoveShoppingCart } from "@mui/icons-material";
 import Link from "next/link";
 import ErrorBoundary from "@/components/ErrorBoundary";
@@ -190,7 +188,6 @@ export default function Cart() {
         content="عرض وتعديل منتجاتك المختارة من Venus Outlet فينوس اوتليت قبل إتمام عملية الشراء."
       />
     </Head>
-      <Header />
       {cartStep === 'second' && 
       <button onClick={() => setCartStep('first')} className=" text-2xl pt-6 pr-6">
         <ArrowForward /> العودة
@@ -205,7 +202,6 @@ export default function Cart() {
       ) : (
         <CartDisplay />
       )}
-      <Footer />
     </>
   );
 }

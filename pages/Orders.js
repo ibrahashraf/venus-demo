@@ -1,8 +1,6 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import Header from "@/components/Header";
 import Link from "next/link";
-import Footer from "@/components/Footer";
 import { useRouter } from "next/router";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import InvoicePDF from "@/components/InvoicePDF";
@@ -27,13 +25,11 @@ export default function OrdersPage() {
 
   if (status === "loading") return (
     <>
-      <Header />
       <p className="text-center py-10">Loading...</p>
     </>
   );
   if (status === "unauthenticated") return (
     <>
-      <Header />
       <p className="text-center py-10">يرجى تسجيل الدخول لعرض الطلبات</p>
     </>
   );
@@ -47,7 +43,6 @@ export default function OrdersPage() {
         content="قائمة الطلبات السابقة للمستخدم"
       />
     </Head>
-      <Header />
       <ErrorBoundary>
         <div className="max-w-3xl mx-auto py-10 min-h-[60vh]">
           <h1 className="text-3xl font-bold mb-6 text-center">الطلبات السابقة</h1>
@@ -126,7 +121,6 @@ export default function OrdersPage() {
           }
         </div>
       </ErrorBoundary>
-      <Footer />
     </>
   );
 }

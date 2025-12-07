@@ -1,6 +1,4 @@
 import CarouselModal from '@/components/modals/CarouselModal';
-import Footer from '@/components/Footer';
-import Header from '@/components/Header';
 import Image from 'next/image';
 import { useState } from 'react'
 import Error from '../_error';
@@ -32,7 +30,6 @@ export default function BranchPage({ branch, error, statusCode }) {
             <meta property="og:locale" content="ar_AR" />
             <link rel="icon" href="/favicon.ico" />
         </Head>
-            <Header />
             <div className='flex flex-col items-center justify-center text-center gap-2 py-20 px-5'>
                 <h2 className='text-3xl font-bold mb-4 leading-relaxed'>متوفر الآن في فرع <span className='text-accent'>{branch.name}</span></h2>
                 <p>{branch.address}</p>
@@ -49,7 +46,6 @@ export default function BranchPage({ branch, error, statusCode }) {
                     ))}
                 </div>
             </div>
-            <Footer />
             { isModalOpen && (
                 <CarouselModal images={branch.images} alt={''} initialIndex={selectedIndex} onClose={() => setIsModalOpen(false)} />
             )}

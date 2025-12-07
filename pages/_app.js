@@ -7,6 +7,8 @@ import "@/styles/globals.css";
 import { Toaster } from "sonner";
 import WhatsAppButton from "@/components/WhatsIcon";
 import { Cairo } from 'next/font/google';
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const cairo = Cairo({ subsets: ['arabic'], variable: '--font-cairo' });
 export default function App({ Component, pageProps: { session, ...pageProps } }) {
@@ -40,8 +42,9 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
                       info: null,
                     }}
                   />
-
-                  <Component {...pageProps} />
+                  <Header />
+                    <Component {...pageProps} />
+                  <Footer />
                   <WhatsAppButton />
                 </WishListContextProvider>
               </PromotionContextProvider>

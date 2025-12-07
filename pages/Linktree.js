@@ -16,8 +16,6 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import Head from 'next/head';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
 import { PuffLoader } from 'react-spinners';
 import { toast } from 'sonner';
 import axiosClient from '@/lib/axiosClient';

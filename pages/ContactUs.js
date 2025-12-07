@@ -16,8 +16,6 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import Head from 'next/head';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
 import { PuffLoader } from 'react-spinners';
 import { toast } from 'sonner';
 import axiosClient from '@/lib/axiosClient';
@@ -68,7 +66,6 @@ export default function ContactPage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Header />
       <main className="bg-gray-50 min-h-screen py-10 px-4">
         <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-2xl p-6 md:p-10">
           <h1 className="text-4xl font-extrabold text-center mb-10 text-gray-900">
@@ -160,7 +157,6 @@ export default function ContactPage() {
           </div>
         </div>
       </main>
-      <Footer />
       {showWhyUs && (
         <div className="fixed inset-0 z-[1001] flex items-center justify-center bg-black bg-opacity-50 px-4">
           <div className="bg-white rounded-2xl shadow-xl max-w-2xl w-full p-6 relative text-right">

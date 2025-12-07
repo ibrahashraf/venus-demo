@@ -1,5 +1,3 @@
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 import Head from "next/head";
 
 export default function TermsOfService() {
@@ -12,7 +10,6 @@ export default function TermsOfService() {
           content=" تواصل مع Venus Outlet فينوس اوتليت للاستفسارات أو الشكاوى أو التعاون. زوروا فروعنا في المنصورة والإسكندرية."
         />
       </Head>
-        <Header />
         <div className="max-w-3xl mx-auto p-6">
           <h1 className="text-3xl font-bold mb-4">Terms of Service</h1>
           <p className="mb-4">
@@ -54,7 +51,6 @@ export default function TermsOfService() {
             For any questions, please email us at: <strong>support@venusoutlet.com</strong>
           </p>
         </div>
-        <Footer />
       </>
     );
   }

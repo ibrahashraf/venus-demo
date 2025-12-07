@@ -1,5 +1,3 @@
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 import Head from "next/head";
 
 export default function PrivacyPolicy() {
@@ -12,7 +10,6 @@ export default function PrivacyPolicy() {
             content="اطلع على سياسة الخصوصية الخاصة بـ Venus Outlet فينوس اوتليت لمعرفة كيفية حماية بياناتك واستخدامها."
           />
         </Head>
-        <Header />
         <div className="max-w-3xl mx-auto p-6">
           <h1 className="text-3xl font-bold mb-4">Privacy Policy</h1>
           <p className="mb-4">
@@ -53,7 +50,6 @@ export default function PrivacyPolicy() {
             If you have any questions, please email us at: <strong>support@venusoutlet.com</strong>
           </p>
         </div>
-        <Footer />
       </>
     );
   }

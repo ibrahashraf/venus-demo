@@ -1,11 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { WishListContext } from "@/contexts/WishListContext";
-import Header from "@/components/Header";
 import { useSession } from "next-auth/react";
 import { HeartOff } from "lucide-react";
 import { PuffLoader } from "react-spinners";
 import ProductBox from "@/components/ProductBox";
-import Footer from "@/components/Footer";
 import Link from "next/link";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import Head from "next/head";
@@ -30,7 +28,6 @@ export default function WishListPage() {
                 content="قائمة المفضلة في فينوس اوتليت"
             />
         </Head>
-            <Header />
             <ErrorBoundary>
                 {!isAuthenticated ? (
                     <>
@@ -67,7 +64,6 @@ export default function WishListPage() {
                 </main>
                 )}
             </ErrorBoundary>
-            <Footer />
         </>
     );
 }

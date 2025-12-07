@@ -1,8 +1,6 @@
 import { useState } from "react";
 import Link from "next/link";
-import Header from "@/components/Header";
 import TestimonialModal from "@/components/modals/TestimonialModal";
-import Footer from "@/components/Footer";
 import Head from "next/head";
 
 export default function ThankYouPage() {
@@ -16,7 +14,6 @@ export default function ThankYouPage() {
         content="شكراً لطلبك! تم استلام طلبك بنجاح وسنتواصل معك قريباً."
       />
     </Head>
-      <Header />
       <div>
         <div className="flex flex-col items-center justify-center text-center py-20 px-5">
           <h1 className="text-4xl font-bold mb-4 text-green-600">شكراً لطلبك!</h1>
@@ -37,7 +34,6 @@ export default function ThankYouPage() {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 }

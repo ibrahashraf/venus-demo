@@ -1,5 +1,3 @@
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 import { useState, useRef } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/router";
@@ -53,7 +51,6 @@ export default function ResetPassword() {
 
   return (
     <>
-    <Header />
       <div className="max-w-md mx-auto p-6 min-h-[700px] flex flex-col justify-center">
         <h1 className="text-xl text-center font-bold mb-4">اعادة تعيين كلمه المرور</h1>
 
@@ -117,7 +114,6 @@ export default function ResetPassword() {
 
         {msg && step !== 4 && <div className="mt-3 text-sm text-red-600">{msg}</div>}
       </div>
-      <Footer />
     </>
   );
 }

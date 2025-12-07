@@ -105,22 +105,25 @@ export default function Header() {
   const handleSignOut = () => {
     localStorage.removeItem('cartMigrated');
     localStorage.removeItem('cart');
-    signOut();
+    signOut(); 
   };
 
   return (
-    <header className={`transition duration-500 ease-in-out py-4 px-6  z-50 w-full  top-0 ${isScrolled ? 'bg-primary sticky' : isHome ? 'bg-transparent fixed ' : 'bg-neutral-200 sticky'}`} dir='rtl'>
+    <header className={`transition duration-500 ease-in-out py-4 px-6  z-50 w-full sticky top-0 ${isScrolled || mobileMenuOpen ? 'bg-primary ' : 'bg-neutral-200 '}`} dir='rtl'>
+      {isHome && (
+        <div className={`  ${isScrolled || mobileMenuOpen ? 'bg-primary' : 'bg-accent'}  w-24 sm:w-32 md:w-40 h-full absolute top-0 transition right-[7%] sm:right-[20%]`} />
+      )}
       <div className="container mx-auto flex justify-between items-center">
         {/* User Section */}
         <div className="flex items-center gap-5">
 
           {/* Mobile menu toggle */}
           <button
-            onClick={() => setMobileMenuOpen(true)}
-            className={"md:hidden  "}
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className={"md:hidden z-50 "}
             aria-label={"Open menu"}
           >
-            <Menu fontSize="medium"  className={isScrolled ? 'text-neutral-200' : 'text-primary'} />
+            {mobileMenuOpen ? <Close fontSize="medium"  className={isScrolled || mobileMenuOpen ? 'text-neutral-200' : 'text-primary'} /> : <Menu fontSize="medium"  className={isScrolled || mobileMenuOpen ? 'text-neutral-200' : 'text-primary'} /> }
           </button>
           {/* Desktop User Menu */}
           <div className=" items-center gap-4 relative" ref={dropdownRef}>
@@ -132,7 +135,7 @@ export default function Header() {
                 >
                   <PersonOutline
                   fontSize='medium'
-                  className={` group-hover:text-red-400 transition ${isScrolled ? 'text-neutral-200' : 'text-primary'}`}
+                  className={` group-hover:text-red-400 transition ${isScrolled || mobileMenuOpen ? 'text-neutral-200' : 'text-primary'}`}
                 />
                 </button>
               </div>
@@ -143,7 +146,7 @@ export default function Header() {
               >
                 <PersonOutline
                   fontSize='medium'
-                  className={` group-hover:text-red-400 transition ${isScrolled ? 'text-neutral-200' : 'text-primary'}`}
+                  className={` group-hover:text-red-400 transition ${isScrolled || mobileMenuOpen ? 'text-neutral-200' : 'text-primary'}`}
                 />
               </button>
             )}
@@ -151,7 +154,7 @@ export default function Header() {
           
           {/* Cart */}
           <Link href="/Cart" className="relative group">
-            <ShoppingCart fontSize="medium" className={` group-hover:text-red-400 transition ${isScrolled ? 'text-neutral-200' : 'text-primary'}`} />
+            <ShoppingCart fontSize="medium" className={` group-hover:text-red-400 transition ${isScrolled || mobileMenuOpen ? 'text-neutral-200' : 'text-primary'}`} />
             {cart.length > 0 && (
               <span
                 className={`absolute -top-2 -right-2 bg-accent text-white rounded-full w-5 h-5 flex items-center justify-center text-xs ${
@@ -164,7 +167,7 @@ export default function Header() {
           </Link>
           {/* Wishlist */}
           <Link href="/WishList" className="relative group">
-            <FavoriteBorder fontSize="medium" className={` group-hover:text-red-400 transition ${isScrolled ? 'text-neutral-200' : 'text-primary'}`} />
+            <FavoriteBorder fontSize="medium" className={` group-hover:text-red-400 transition ${isScrolled || mobileMenuOpen ? 'text-neutral-200' : 'text-primary'}`} />
             {wishlist.length > 0 && (
               <span
                 className={"absolute -top-2 -right-2 bg-accent text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"}
@@ -180,7 +183,7 @@ export default function Header() {
           >
             <Search
               fontSize='medium'
-              className={` group-hover:text-red-400 transition ${isScrolled ? 'text-neutral-200' : 'text-primary'}`}
+              className={` group-hover:text-red-400 transition ${isScrolled || mobileMenuOpen ? 'text-neutral-200' : 'text-primary'}`}
             />
 
           </button>
@@ -193,7 +196,7 @@ export default function Header() {
         
 
         {/* Center Navigation (Desktop only) */}
-        <nav className={`hidden md:flex gap-8 text-xl ${isScrolled ? 'text-neutral-200' : 'text-primary'}`}>
+        <nav className={`hidden md:flex gap-8 text-xl ${isScrolled || mobileMenuOpen ? 'text-neutral-200' : 'text-primary'}`}>
           <Link href="/" className="hover:text-red-400 transition">الرئيسية</Link>
           <Link href="/Products" className="hover:text-red-400 transition">المنتجات</Link>
           {categories.length > 0 && categories.map((category) => (
@@ -216,17 +219,17 @@ export default function Header() {
               >
                 <g>
                   <path
-                    className={`transition ${isScrolled ? 'fill-neutral-200' : 'fill-accent'}`}
+                    className={`transition ${isScrolled || mobileMenuOpen ? 'fill-neutral-200' : 'fill-accent'}`}
                     d="m 697.61101,27.11885 -22.59794,0.0864 c 4.59031,31.913398 -1.7116,31.256239 -1.7116,31.256239 -55.43673,14.472302 -66.38303,28.2024 -66.38303,27.83134 0,-0.371109 -0.353,0.370924 -0.353,0.370924 L 498.50923,185.27529 388.10076,87.217641 c 0,0 -0.35317,-0.74264 -0.35312,-0.37158 2e-4,0.371099 -10.94781,-13.356784 -66.38704,-27.819579 0,0 -6.46482,0.08786 -1.87953,-31.826308 l -22.43531,0.03177 c 0,0 -6.75576,46.271945 -10.6287,119.747256 0,0 3.54158,68.65009 22.96975,118.00099 l 33.90872,70.12959 c 0,0 24.01767,45.26814 26.84976,91.65311 0,0 15.54462,50.46578 -23.9889,139.53273 l -33.5428,12.9932 185.73587,388.75236 0.51588,1.07966 v 0 0 l 0.52256,-1.11363 182.74135,-389.2846 -33.5451,-12.98751 c -39.54704,-89.06047 -24.01037,-139.52836 -24.01037,-139.52836 2.82495,-46.38572 26.83541,-91.65825 26.83541,-91.65825 l 33.89779,-70.13552 c 19.42049,-49.35406 22.9516,-118.00405 22.9516,-118.00405 C 704.37475,72.933771 697.61101,27.118849 697.61101,27.11885 Z" 
                   />
                   <path
-                    className={`transition ${isScrolled ? 'stroke-neutral-200' : 'stroke-accent'}`}
+                    className={`transition ${isScrolled || mobileMenuOpen ? 'stroke-neutral-200' : 'stroke-accent'}`}
                     strokeWidth="40"
                     d="M 21.322189,13.147509 978.60091,13.101063 498.86534,970.63708 Z"
                   />
                   <text
                     className={`fill-accent translate-y-[919px] transition duration-500 ease-in-out
-                      ${ isScrolled ? '-translate-x-[4000px] opacity-0': 'translate-x-[2100px] opacity-100'}
+                      ${ isScrolled || mobileMenuOpen ? '-translate-x-[4000px] opacity-0': 'translate-x-[2100px] opacity-100'}
                     `}
                     fontSize="625.618"
                     fontFamily="'Microsoft Sans Serif', sans-serif"
@@ -247,17 +250,11 @@ export default function Header() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="bg-neutral-200  fixed  pt-20 h-screen overflow-y-auto w-screen top-0 left-0 z-50 animate-slideFromLeft ">
-          <div className="flex items-center justify-betwee absolute top-0 w-full p-5">
-            <button
-              onClick={() => setMobileMenuOpen(false)} 
-            >
-              <Close className=" text-primary text-4xl " />
-            </button>
+        <div className="bg-neutral-200  fixed  pt-20 h-[calc(100vh-73px)] overflow-y-auto w-screen top-[72px] left-0 z-50 animate-slideFromLeft ">
+          <div className="flex items-center justify-between absolute top-0 w-full p-5">
             {session && (
               <div className="text-2xl font-bold bg-neutral-200 absolute top-6 left-1/2 transform -translate-x-1/2 text-accent">{session.user.name}</div>
             )}
-            <div />
           </div>
           <div className="flex p-1 pb-4 flex-col gap-4 text-2xl  [&>*]:w-full [&>*]:pt-6  [&>*]:pr-8  w-full items-center justify-start ">
 

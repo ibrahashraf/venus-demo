@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import Router from "next/router";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import Image from "next/image";
 import GoogleLogo from "@/public/assets/google.png";
 import Link from "next/link";
@@ -29,7 +27,6 @@ export default function SignInPage() {
 
   return (
     <>
-      <Header />
       <div className="max-w-md mx-auto p-6 min-h-[700px] flex flex-col justify-center">
         <h1 className="text-2xl font-bold mb-10 text-center">تسجيل الدخول</h1>
         <button
@@ -71,7 +68,6 @@ export default function SignInPage() {
 
 
       </div>
-      <Footer />
     </>
   );
 }

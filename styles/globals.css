@@ -34,13 +34,15 @@ body {
   }
   .animate-slideDown {
     @apply transition-all duration-300 ease-out;
-    transform: translateY(-1000px);
-    animation: slideDown 1s forwards 0.5s;
+    transform: translateY(-100px);
+    opacity: 0;
+    animation: slideDown 1s forwards 0.3s;
   }
   .animate-slideRight {
     @apply transition-all duration-300 ease-out;
-    transform: translateX(-10000px);
-    animation: slideRight 2s forwards 0.5s;
+    transform: translateX(-100px);
+    opacity: 0;
+    animation: slideRight 1s forwards 0.3s;
   }
   .animate-slideFromLeft {
     @apply transition-all duration-300 ease-out;
@@ -83,12 +85,14 @@ body {
   @keyframes slideDown {
     to {
       transform: translateY(0);
+      opacity: 1;
     }
   }
-
+ 
   @keyframes slideRight {
     to {
       transform: translateX(0);
+      opacity: 1;
     }
   }
   @keyframes slideFromLeft {

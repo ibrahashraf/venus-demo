@@ -19,7 +19,7 @@ export const authOptions = {
       credentials: {
         email: {},
         password: {},
-      },
+      }, 
       async authorize(credentials) {
         await mongooseConnect();
         const user = await User.findOne({ email: credentials.email });

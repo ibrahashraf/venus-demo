@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import Router, { useRouter } from "next/router";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 
 export default function VerifyPage() {
   const router = useRouter();
@@ -35,7 +33,6 @@ export default function VerifyPage() {
 
   return ( 
     <>
-      <Header />
       <div className="max-w-md mx-auto p-6 min-h-[700px] flex flex-col justify-center">
         <h1 className="text-xl font-bold mb-3 text-center">تأكيد الحساب</h1>
         <p className="mb-3">الرجاء ادخال رمز التحقق الذي تم ارساله ل <strong>{email}</strong></p>
@@ -48,7 +45,6 @@ export default function VerifyPage() {
         </div>
         {message && <div className="mt-3 text-sm text-gray-600">{message}</div>}
       </div>
-      <Footer />
     </>
   );
 }

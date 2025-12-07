@@ -1,8 +1,6 @@
 import { useState } from "react";
-import Header from "@/components/Header";
 import { PuffLoader } from "react-spinners";
 import { toast } from "sonner";
-import Footer from "@/components/Footer";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import Error from "../_error";
 import axiosClient from "@/lib/axiosClient";
@@ -40,7 +38,6 @@ export default function OrderCancelPage({ order, error, statusCode }) {
                 content="فينوس اوتليت تقدم تشكيلات من ملابس النساء والأطفال بعروض رائعة في فروع المنصورة والإسكندرية."
             />
         </Head>
-            <Header />
             <ErrorBoundary>
                 <div>
                     <h1 className="text-3xl font-bold my-6 text-center">طلب إلغاء الطلب</h1>
@@ -73,7 +70,6 @@ export default function OrderCancelPage({ order, error, statusCode }) {
                     </div>
                 </div>
             </ErrorBoundary>
-            <Footer />
         </>
     );
 }

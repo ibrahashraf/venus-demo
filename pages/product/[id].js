@@ -1,4 +1,3 @@
-import Header from "@/components/Header";
 import { useContext, useState, useEffect } from "react";
 import { CartContext } from "@/contexts/CartContext";
 import { WishListContext } from "@/contexts/WishListContext";
@@ -9,7 +8,6 @@ import { event } from "@/lib/gtag";
 import SignInModal from "@/components/modals/SignInModal";
 import ImageCarousel from "@/components/ImageCarousel";
 import ProductsSlider from "@/components/ProductsSlider";
-import Footer from "@/components/Footer";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import Error from "../_error";
 import { PuffLoader } from "react-spinners";
@@ -273,7 +271,6 @@ export default function ProductPage({ product, relatedProducts, error, statusCod
         }} />
       </Head>
 
-      <Header />
       <ErrorBoundary>
         <div className="bg-neutral-100 py-12 min-h-screen">
           <div className="container mx-auto px-4">
@@ -492,7 +489,6 @@ export default function ProductPage({ product, relatedProducts, error, statusCod
           </div>
         </div>
       </ErrorBoundary>
-      <Footer />
     </>
   );
 }

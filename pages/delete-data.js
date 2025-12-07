@@ -1,5 +1,3 @@
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 import Head from "next/head";
 
 export default function DeleteData() {
@@ -12,7 +10,6 @@ export default function DeleteData() {
           content="تواصل مع Venus Outlet فينوس اوتليت للاستفسارات أو الشكاوى أو التعاون. زوروا فروعنا في المنصورة والإسكندرية."
         />
       </Head>
-        <Header />
         <div className="max-w-3xl mx-auto p-6">
           <h1 className="text-2xl font-bold mb-4">بيان حذف البيانات</h1>
           <p className="mb-4">
@@ -51,7 +48,6 @@ export default function DeleteData() {
             بعد حذف الحساب، لا يمكن استعادة البيانات مرة أخرى.
           </p>
         </div>
-        <Footer />
       </>
     );
   }
