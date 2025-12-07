@@ -123,7 +123,7 @@ export default function Header() {
             className={"md:hidden z-50 "}
             aria-label={"Open menu"}
           >
-            {mobileMenuOpen ? <Close fontSize="medium"  className={isScrolled || mobileMenuOpen ? 'text-neutral-200' : 'text-primary'} /> : <Menu fontSize="medium"  className={isScrolled || mobileMenuOpen ? 'text-neutral-200' : 'text-primary'} /> }
+            {mobileMenuOpen ? <Close fontSize="medium"  className={'text-neutral-200 animate-rotateIn'} /> : <Menu fontSize="medium"  className={isScrolled || mobileMenuOpen ? 'text-neutral-200' : 'text-primary'} /> }
           </button>
           {/* Desktop User Menu */}
           <div className=" items-center gap-4 relative" ref={dropdownRef}>
