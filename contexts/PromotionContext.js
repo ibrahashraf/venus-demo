@@ -84,7 +84,7 @@ export function PromotionContextProvider({ children }) {
                 setCouponDiscount(0);
 
                 if (code) {
-                    const serverMsg = err?.response?.data?.error || err?.message || "تعذر تطبيق الكوبون";
+                    const serverMsg = err?.response?.data?.error || err?.message || "Failed to apply coupon";
                     setCouponError(serverMsg);
                 } else {
                     setError(err.response?.data?.error || err.message || "Failed to apply promotions");
@@ -99,7 +99,7 @@ export function PromotionContextProvider({ children }) {
 
     // Minimal helper functions to control coupon from UI (exposed below)
     async function applyCode(newCode) {
-        if (!newCode) return { success: false, error: "ادخل كود الكوبون" };
+        if (!newCode) return { success: false, error: "Please enter a coupon code" };
         const normalized = String(newCode).trim().toUpperCase();
         setCouponError(null);
         setCode(normalized);

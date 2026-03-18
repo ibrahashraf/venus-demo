@@ -73,10 +73,16 @@ export default function SearchModal({ onClose }) {
         className="bg-white z-[1000] overflow-y-auto animate-slideFromLeft  shadow-lg border-neutral-200 fixed  py-6 h-screen w-screen md:w-1/2   top-0 right-0   "
       >
         <div className="flex items-center gap-2 px-2 relative ">
+          <button
+            onClick={onClose}
+            
+          >
+            <Close className=" text-primary text-4xl " />
+          </button>
           <Search className="absolute top-4 right-4 text-neutral-500 text-2xl z-10"  />
           <input
             type="text"
-            placeholder="ابحث عن منتج..."
+            placeholder="Search..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="relative  rounded-sm shadow-md focus:shadow-xl transition-shadow w-full px-5 py-3 pr-10 border-b border-neutral-600  focus:outline-none  "
@@ -86,15 +92,9 @@ export default function SearchModal({ onClose }) {
               onClick={() => {setSearchTerm("");}}
               
             >
-              <Close className=" absolute top-4 left-16 text-neutral-700 text-2xl z-10 " />
+              <Close className=" absolute top-4 right-16 text-neutral-700 text-2xl z-10 " />
             </button>
           )}
-          <button
-            onClick={onClose}
-            
-          >
-            <Close className=" text-primary text-4xl " />
-          </button>
         </div>
         <div className="max-h-[85vh] overflow-y-auto mt-3">
 
@@ -104,10 +104,10 @@ export default function SearchModal({ onClose }) {
                 <div className="p-4 mt-8">
                   <h2 className="text-xl font-bold mb-4">
                     {filteredProducts.length > 0 ?
-                  ` نتائج البحث عن  
+                  ` Search Results for  
                     "${searchTerm}"`
                     :
-                    " لا توجد نتائج مطابقة"
+                    " No matching results found"
                     }
                   </h2>
                   <div
@@ -124,7 +124,7 @@ export default function SearchModal({ onClose }) {
             )
           }
           <div className="p-4 mt-8">
-            <h2 className="text-xl font-bold mb-4">احدث الاضافات</h2>
+            <h2 className="text-xl font-bold mb-4">Latest Products</h2>
             {loading 
               ? (
                 <div

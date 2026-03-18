@@ -28,7 +28,7 @@ export default function ContactPage() {
   const onSubmit = async (e) => {
       e.preventDefault();
       if (!e.target.phone.value) {
-          toast.error('يرجى ادخال رقم الهاتف');
+          toast.error('Please enter your phone number');
           return;
       }
       setLoading(true);
@@ -37,7 +37,7 @@ export default function ContactPage() {
               phone: e.target.phone.value,   
           },{ skipRedirect: true });
           if (response.status === 201) {
-              toast.success("تم الاشتراك بنجاح");
+              toast.success("Subscription successful");
               e.target.reset();
           }
       } catch (error) {
@@ -49,27 +49,27 @@ export default function ContactPage() {
   return (
     <>
       <Head>
-        <title>تواصل معنا | Venus Outlet فينوس اوتليت</title>
+        <title>Contact Us | Venus Outlet</title>
         <meta
           name="description"
-          content="تواصل مع Venus Outlet فينوس اوتليت للاستفسارات أو الشكاوى أو التعاون. زوروا فروعنا في المنصورة والإسكندرية."
+          content="Contact Venus Outlet for inquiries, complaints, or collaboration. Visit our branches in Mansoura and Alexandria."
         />
-        <meta property="og:title" content="تواصل معنا | Venus Outlet فينوس اوتليت" />
+        <meta property="og:title" content="Contact Us | Venus Outlet" />
         <meta
           property="og:description"
-          content="تواصل مع Venus Outlet فينوس اوتليت للاستفسارات أو الشكاوى أو التعاون. زوروا فروعنا في المنصورة والإسكندرية."
+          content="Contact Venus Outlet for inquiries, complaints, or collaboration. Visit our branches in Mansoura and Alexandria."
         />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://venusoutlet.net/ContactUs" />
         <meta property="og:image" content="https://venusoutlet.net/og-image.jpg" />
-        <meta property="og:locale" content="ar_AR" />
+        <meta property="og:locale" content="en_US" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className="bg-gray-50 min-h-screen py-10 px-4">
         <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-2xl p-6 md:p-10">
           <h1 className="text-4xl font-extrabold text-center mb-10 text-gray-900">
-            تواصل معنا
+            Contact Us
           </h1>
 
           <div className="flex flex-col gap-4">
@@ -77,12 +77,12 @@ export default function ContactPage() {
             <LinkPhoneWithCopy phone="+20 50 2385877" />
             <LinkButton
               icon={<WhatsAppIcon className="text-green-500" />}
-              label="راسلنا على واتساب"
+              label="Chat with us on WhatsApp"
               href="https://wa.me/201147111094"
             />
             <div dir="rtl" className="text-center rounded-xl border border-gray-200 shadow-md w-full px-6 py-4">
-              <h3 className="text-lg font-bold">اشترك معنا</h3>
-              <p className="text-sm text-neutral-500">استقبل أحدث العروض على واتساب</p>
+              <h3 className="text-lg font-bold">Subscribe to Our Updates</h3>
+              <p className="text-sm text-neutral-500">Get the latest offers and updates</p>
               <form
                 onSubmit={ (e) => {onSubmit(e)}}
                 className="flex mt-3"
@@ -90,11 +90,11 @@ export default function ContactPage() {
                 <input
                   type="tel"
                   name="phone"
-                  placeholder="رقم موبايلك"
-                  className="flex-[3] p-2 rounded-r-lg border border-neutral-300 focus:outline-none text-right"
+                  placeholder="Enter your phone number"
+                  className="flex-[3] p-2 rounded-r-lg border border-neutral-300 focus:outline-none text-left"
                 />
                 <button type="submit" className="bg-neutral-500 flex-[1] flex items-center justify-center hover:bg-neutral-600 transition text-secondary px-4 py-2 rounded-l-lg">
-                  {loading ? (<PuffLoader color="#fff" size={20} />) : 'اشترك'}
+                  {loading ? (<PuffLoader color="#fff" size={20} />) : 'Subscribe'}
                 </button>
               </form>
             </div>
@@ -137,19 +137,19 @@ export default function ContactPage() {
                 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-300 
                 cursor-pointer"
             >
-              <span className="text-xl text-indigo-700">لماذا نحن</span>
+              <span className="text-xl text-indigo-700">Why Us</span>
             </button>
 
             <ExpandableAddressButton
               icon={<LocationOnIcon className="text-purple-600" />}
-              label="فرع المنصورة"
+              label="Mansoura Branch"
               address="شارع السجن من شارع عبد السلام عارف من ناحيه مستشفى العرب"
               mapLink="https://maps.app.goo.gl/H3Nu1c9jMHroNZzq7"
               iframe={`<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3418.589655770775!2d31.38682958350123!3d31.03768040853047!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14f79dc597e897b7%3A0xad959dc5eb2c0ea9!2sVenus%20Outlet!5e0!3m2!1sen!2seg!4v1746143714721!5m2!1sen!2seg" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>`}
             />
             <ExpandableAddressButton
               icon={<LocationOnIcon className="text-purple-600" />}
-              label="فرع الاسكندرية"
+              label="Alexandria Branch"
               address="العجمي منتصف شارع البيطاش اول شارع السماليهي واحد"
               mapLink="https://maps.app.goo.gl/7oaHxwSdeapz3tBBA"
               iframe={`<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d213.47146898974728!2d29.7853313!3d31.1224175!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14f5952c5b1294eb%3A0x91a84efc9cc653ee!2s4QFP%2B354%2C%20Abnaa%20Al%20Samaleme%2C%20Al%20Beitash%20Gharb%2C%20Dekhela%2C%20Alexandria%20Governorate%205314540!5e0!3m2!1sen!2seg!4v1746143584589!5m2!1sen!2seg" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>`}
@@ -159,7 +159,7 @@ export default function ContactPage() {
       </main>
       {showWhyUs && (
         <div className="fixed inset-0 z-[1001] flex items-center justify-center bg-black bg-opacity-50 px-4">
-          <div className="bg-white rounded-2xl shadow-xl max-w-2xl w-full p-6 relative text-right">
+          <div className="bg-white rounded-2xl shadow-xl max-w-2xl w-full p-6 relative text-left">
             <button
               onClick={() => setShowWhyUs(false)}
               className="absolute top-4 left-4 text-gray-500 hover:text-red-500 text-xl"
@@ -168,13 +168,13 @@ export default function ContactPage() {
               ✕
             </button>
 
-            <h2 className="text-2xl font-bold text-indigo-700 mb-4">لماذا نحن؟</h2>
+            <h2 className="text-2xl font-bold text-indigo-700 mb-4">Why Us?</h2>
             <p className="text-gray-800 leading-loose whitespace-pre-line text-lg">
-              في ڤينوس أوتلت، نحن أكثر من مجرد متجر ملابس — نحن وجهتك المفضلة للأناقة والجودة والسعر المناسب.
-              {"\n\n"}نُقدّم تشكيلات مميزة من الملابس النسائية، الرجالية، وملابس الأطفال، تناسب كل الأذواق والمناسبات.
-              {"\n\n"}نؤمن أن كل شخص يستحق أن يبدو بأفضل إطلالة دون أن يدفع الكثير، ولهذا نحرص على الجمع بين الجودة العالية والأسعار المناسبة في كل قطعة نقدمها.
-              {"\n\n"}نخدم عملاءنا من خلال فروعنا المميزة، إلى جانب متجرنا الإلكتروني الذي يوفر تجربة تسوق سهلة وآمنة من أي مكان وفي أي وقت.
-              {"\n\n"}مرحباً بك في ڤينوس — حيث الأناقة تبدأ بسعر يناسبك.
+              In Venus Outlet, we are more than just a clothing store — we are your preferred destination for elegance, quality, and affordable pricing.
+              {"\n\n"}We offer distinctive collections of women's, men's, and children's apparel, designed to suit every taste and occasion.
+              {"\n\n"}We believe that everyone deserves to look their best without breaking the bank, which is why we strive to combine high quality with competitive prices in every item we offer.
+              {"\n\n"}We serve our customers through our distinguished branches, as well as our online store that provides a convenient and secure shopping experience from anywhere at any time.
+              {"\n\n"}Welcome to Venus — where elegance starts at a price that suits you.
             </p>
           </div>
         </div>
@@ -263,7 +263,7 @@ function ExpandableAddressButton({ icon, label, address, mapLink, iframe }) {
       </button>
 
       {expanded && (
-        <div className="bg-gray-50 rounded-xl mt-2 p-4 border text-right text-sm leading-relaxed">
+        <div className="bg-gray-50 rounded-xl mt-2 p-4 border text-left text-sm leading-relaxed">
           <p className="mb-2 text-xl text-gray-800">{address}</p>
           <a
             href={mapLink}

@@ -15,9 +15,9 @@ export default async function handler(req, res) {
   if (user.verified) return res.status(400).json({ message: "Already verified" });
 
   if (!user.otp || user.otp !== otp)
-    return res.status(400).json({ message: "الكود غير صحيح" });
+    return res.status(400).json({ message: "Invalid OTP" });
   if (Date.now() > user.otpExpires)
-    return res.status(400).json({ message: "الكود غير صالح" });
+    return res.status(400).json({ message: "OTP has expired" });
 
   user.verified = true;
   user.otp = null;

@@ -21,7 +21,7 @@ export default async function handler(req, res) {
   await mongooseConnect();
 
   const existing = await User.findOne({ email });
-  if (existing) return res.status(400).json({ message: "البريد الالكتروني مسجل بالفعل" });
+  if (existing) return res.status(400).json({ message: "Email already registered" });
 
   const hash = await bcrypt.hash(password, 10);
   const otp = Math.floor(100000 + Math.random() * 900000).toString();

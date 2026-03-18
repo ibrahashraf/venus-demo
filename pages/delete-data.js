@@ -4,48 +4,48 @@ export default function DeleteData() {
     return (
       <>
       <Head>
-         <title>سياسة حذف البيانات | Venus Outlet فينوس اوتليت</title>
+         <title>Delete Data Policy | Venus Outlet</title>
         <meta
           name="description"
-          content="تواصل مع Venus Outlet فينوس اوتليت للاستفسارات أو الشكاوى أو التعاون. زوروا فروعنا في المنصورة والإسكندرية."
+          content="Contact Venus Outlet for inquiries, complaints, or collaboration. Visit our branches in Mansoura and Alexandria."
         />
       </Head>
         <div className="max-w-3xl mx-auto p-6">
-          <h1 className="text-2xl font-bold mb-4">بيان حذف البيانات</h1>
+          <h1 className="text-2xl font-bold mb-4">Delete Data Policy</h1>
           <p className="mb-4">
-            نحن نحترم خصوصيتك ونوفر لك إمكانية حذف بياناتك في أي وقت.
+            We respect your privacy and provide you with the option to delete your data at any time.
           </p>
 
-          <h2 className="text-xl font-semibold mb-2">كيف يتم الحذف؟</h2>
+          <h2 className="text-xl font-semibold mb-2">How is the deletion performed?</h2>
           <p className="mb-4">
-            إذا كنت مسجلاً باستخدام حسابك على فيسبوك أو أي وسيلة أخرى:
+            If you are registered using your account on Facebook or any other means:
           </p>
           <ul className="list-disc list-inside mb-4 space-y-2">
             <li>
-              يمكنك حذف حسابك وبياناتك مباشرة من خلال الضغط على ايقونه المستخدم في اعلى اليمين ثم الضغط على حذف الحساب. ثم الضغط على تأكيد حذف الحساب.
+              You can delete your account and data directly by clicking the user icon in the top right corner and then clicking on delete account. Then click on confirm delete account.
             </li>
             <li>
-              أو يمكنك مراسلتنا عبر البريد الإلكتروني{" "}
+              Or you can contact us via email{" "}
               <a href="mailto:support@venusoutlet.net" className="text-blue-600">
                 support@venusoutlet.net
               </a>{" "}
-              لطلب حذف الحساب.
+              to request account deletion.
             </li>
           </ul>
 
-          <h2 className="text-xl font-semibold mb-2">ما الذي سيتم حذفه؟</h2>
+          <h2 className="text-xl font-semibold mb-2">What will be deleted?</h2>
           <p className="mb-4">
-            عند حذف الحساب، يتم إزالة جميع بياناتك بما في ذلك:
+            When deleting your account, all your data will be removed including:
           </p>
           <ul className="list-disc list-inside mb-4 space-y-2">
-            <li>معلومات الحساب (الاسم والبريد الإلكتروني)</li>
-            <li>عناوين الشحن</li>
-            <li>سجل الطلبات</li>
-            <li>قائمة المفضلة وسلة التسوق</li>
+            <li>Account information (name and email)</li>
+            <li>Shipping addresses</li>
+            <li>Order history</li>
+            <li>Wishlist and shopping cart</li>
           </ul>
 
           <p className="mt-6">
-            بعد حذف الحساب، لا يمكن استعادة البيانات مرة أخرى.
+            After deleting your account, your data cannot be recovered.
           </p>
         </div>
       </>

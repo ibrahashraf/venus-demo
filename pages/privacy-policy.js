@@ -4,10 +4,10 @@ export default function PrivacyPolicy() {
     return (
       <>
         <Head>
-          <title>سياسة الخصوصية | Venus Outlet فينوس اوتليت</title>
+          <title>Privacy Policy | Venus Outlet</title>
           <meta
             name="description"
-            content="اطلع على سياسة الخصوصية الخاصة بـ Venus Outlet فينوس اوتليت لمعرفة كيفية حماية بياناتك واستخدامها."
+            content="Learn about the privacy policy of Venus Outlet and how we protect your data."
           />
         </Head>
         <div className="max-w-3xl mx-auto p-6">

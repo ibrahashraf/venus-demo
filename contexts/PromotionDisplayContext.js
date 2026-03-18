@@ -78,7 +78,7 @@ export function PromotionDisplayContextProvider({ children }) {
         const promotion = getPromotionForProduct(product);
         if (!promotion) return null;
         if (promotion.promotionType === 'auto') {
-        return ` ${promotion.discountValue}  ${promotion.discountType === 'percentage' ? '%' : ' EGP'} off`;
+        return ` ${promotion.discountValue}  ${promotion.discountType === 'percentage' ? '%' : ' USD'} off`;
         }
         return null;
     };

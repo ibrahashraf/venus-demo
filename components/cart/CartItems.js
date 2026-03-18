@@ -66,29 +66,29 @@ export default function CartItems({ products }) {
                 (
                   <div className="flex items-center gap-2">
                     <p className="text-lg font-bold text-accent">
-                      {cartItem.price} L.E
+                      {cartItem.price} USD
                     </p>
                     <p className="text-lg line-through text-gray-700">
-                      {compareAtPrice} L.E
+                      {compareAtPrice} USD
                     </p>
                   </div>
                 )
                 :
                 (
                   <p className="text-lg font-bold text-gray-700">
-                    {cartItem.price} L.E
+                    {cartItem.price} USD
                   </p>
                 )
               }
 
               {cartItem.selectedColor && (
                 <p className="text-sm text-gray-600">
-                  اللون: {cartItem.selectedColor}
+                  Color: {cartItem.selectedColor}
                 </p>
               )}
               {cartItem.selectedSize && (
                 <p className="text-sm text-gray-600">
-                  المقاس: {cartItem.selectedSize}
+                  Size: {cartItem.selectedSize}
                 </p>
               )}
 
@@ -119,7 +119,7 @@ export default function CartItems({ products }) {
 
               <Link href={`/product/${productId}`} className="text-blue-500 hover:text-blue-700 mt-2 inline-flex items-center gap-1">
                 <OpenInNewIcon fontSize="small" />
-                عرض المنتج
+                View Product
               </Link>
             </div>
           </div>

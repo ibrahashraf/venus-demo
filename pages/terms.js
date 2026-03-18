@@ -4,10 +4,10 @@ export default function TermsOfService() {
     return (
       <>
       <Head>
-        <title>بنود الخدمة | Venus Outlet فينوس اوتليت</title>
+        <title>Terms of Service | Venus Outlet</title>
         <meta
           name="description"
-          content=" تواصل مع Venus Outlet فينوس اوتليت للاستفسارات أو الشكاوى أو التعاون. زوروا فروعنا في المنصورة والإسكندرية."
+          content="Contact Venus Outlet for inquiries, complaints, or collaboration. Visit our branches in Mansoura and Alexandria."
         />
       </Head>
         <div className="max-w-3xl mx-auto p-6">

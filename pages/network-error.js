@@ -8,10 +8,10 @@ export default function NetworkError() {
   return (
     <>
     <Head>
-      <title>مشكلة في الاتصال بالشبكة | Venus Outlet فينوس اوتليت</title>
+      <title>Network Error | Venus Outlet</title>
       <meta
         name="description"
-        content="تعذر الاتصال بالخادم. تحقق من اتصال الإنترنت لديك."
+        content="Unable to connect to the server. Please check your internet connection."
       />
     </Head>
       <div className="flex flex-col items-center justify-center min-h-[calc(100vh-73px)] md:min-h-[calc(100vh-80px)] p-8 text-center">
@@ -19,11 +19,11 @@ export default function NetworkError() {
         <WifiOffIcon className="text-accent mb-4" style={{ fontSize: 60 }} />
 
         <h1 className="text-4xl font-bold text-accent mb-4">
-          مشكلة في الاتصال بالشبكة
+          Network Error
         </h1>
 
         <p className="text-gray-600 mb-6 max-w-md">
-          تعذر الاتصال بالخادم. تحقق من اتصال الإنترنت لديك أو حاول مرة أخرى لاحقًا.
+          Unable to connect to the server. Please check your internet connection or try again later.
         </p>
 
         <Button
@@ -32,12 +32,12 @@ export default function NetworkError() {
           className="  flex items-center gap-2"
         >
           <RefreshIcon />
-          إعادة المحاولة
+          Retry
         </Button>
 
         <Link href="/" className="mt-4">
           <Button variant="primary" className="">
-            العودة إلى الصفحة الرئيسية
+            Return to Home Page
           </Button>
         </Link>
       </div>

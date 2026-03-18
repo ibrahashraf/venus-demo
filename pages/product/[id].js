@@ -1,4 +1,5 @@
 import { useContext, useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import { CartContext } from "@/contexts/CartContext";
 import { WishListContext } from "@/contexts/WishListContext";
 import { PromotionDisplayContext } from "@/contexts/PromotionDisplayContext";
@@ -15,10 +16,12 @@ import Head from "next/head";
 import Button from "@/components/ui/Button";
 import axiosClient from "@/lib/axiosClient";
 
-export default function ProductPage({ product, relatedProducts, error, statusCode }) {
+export default function ProductPage() {
+  const router = useRouter();
+  const { id } = router.query;
   const { addProduct, cart, removeProduct, decreaseQuantity, increaseQuantity } = useContext(CartContext);
   const { wishlist, addToWishlist, removeFromWishlist, isLoggedIn } = useContext(WishListContext);
-  const { getDiscountedPrice, getPromotionLabel, loading } = useContext(PromotionDisplayContext);
+  const { getDiscountedPrice, getPromotionLabel, loading: promotionLoading } = useContext(PromotionDisplayContext);
   const [showModal, setShowModal] = useState(false);
   const [selectedSize, setSelectedSize] = useState('');
   const [selectedColor, setSelectedColor] = useState('');
@@ -28,10 +31,32 @@ export default function ProductPage({ product, relatedProducts, error, statusCod
   const [isAdding, setIsAdding] = useState(false);
   const [wishlistLoading, setWishlistLoading] = useState(false);
   const [loadingKey, setLoadingKey] = useState(null);
+  const [product, setProduct] = useState(null);
+  const [relatedProducts, setRelatedProducts] = useState([]);
+  const [error, setError] = useState(null);
+  const [statusCode, setStatusCode] = useState(null);
+  const [pageLoading, setPageLoading] = useState(true);
   
 
   useEffect(() => {
-    if (loading) return;
+    if (!id) return;
+    const fetchData = async () => {
+      try {
+        const { data } = await axiosClient.get(`/api/products/${id}`);
+        setProduct(data.product);
+        setRelatedProducts(data.relatedProducts);
+        setPageLoading(false);
+      } catch (err) {
+        setError("An error occurred");
+        setStatusCode(500);
+        setPageLoading(false);
+      }
+    };
+    fetchData();
+  }, [id]);
+
+  useEffect(() => {
+    if (promotionLoading || !product) return;
     if (product.variants.length) {
       const firstAvailable = product.variants.find(v => v.stock > 0);
       if (firstAvailable) {
@@ -42,9 +67,10 @@ export default function ProductPage({ product, relatedProducts, error, statusCod
         setCompareAtPrice(firstAvailable.compareAtPrice || null);
       }
     }
-  }, [product.variants, loading]);
+  }, [product, promotionLoading]);
 
   useEffect(() => {
+    if (!product) return;
     const selectedVariant = product.variants.find(
       v => v.size === selectedSize && v.color === selectedColor
     );
@@ -53,14 +79,15 @@ export default function ProductPage({ product, relatedProducts, error, statusCod
       setDiscountedPrice(getDiscountedPrice(product, selectedVariant));
       setCompareAtPrice(selectedVariant.compareAtPrice || null);
     }
-  }, [selectedSize, selectedColor, product.variants]);
+  }, [selectedSize, selectedColor, product]);
   
   useEffect(() => {
+    if (!price) return;
     event({
       action: "view_item",
       params: {
         send_to: process.env.GANALYTICS_ID,
-        currency: "EGP",
+        currency: "USD",
         value: price,
         items: [
           {
@@ -73,6 +100,9 @@ export default function ProductPage({ product, relatedProducts, error, statusCod
       },
     });
   }, [price]);
+
+  if (pageLoading) return <div className="flex justify-center items-center min-h-screen"><PuffLoader color="#000" size={50} /></div>;
+  if (error) return <Error statusCode={statusCode} />;
 
   const variant = product.variants.find(
     v => v.size === selectedSize && v.color === selectedColor
@@ -97,7 +127,7 @@ export default function ProductPage({ product, relatedProducts, error, statusCod
       });
       setTimeout(() => setIsAdding(false), 500);
     } else {
-      alert('هذه المتغيرات غير متوفرة حالياً.');
+      alert('This variant is currently unavailable.');
     }
   };
 
@@ -132,10 +162,6 @@ export default function ProductPage({ product, relatedProducts, error, statusCod
     removeProduct(productId, productColor, productSize, productTitle, productCategory, productPrice);
   }
   const outOfStock = product.variants.length > 0 && product.variants.every(v => v.stock < 1);
-
-  if (error) {
-    return <Error statusCode={statusCode} />;
-  }
 
   const handleIncrease = async (productId, selectedColor, selectedSize, stock, quantity) => {
     setLoadingKey(`${productId}-${selectedColor}-${selectedSize}-inc`);
@@ -189,7 +215,7 @@ export default function ProductPage({ product, relatedProducts, error, statusCod
             "offers": {
               "@type": "Offer",
               "url": `https://venusoutlet.net/product/${product._id}`,
-              "priceCurrency": "EGP",
+              "priceCurrency": "USD",
               "price": variant?.price || "",
               "availability": outOfStock 
                 ? "https://schema.org/OutOfStock"
@@ -215,7 +241,7 @@ export default function ProductPage({ product, relatedProducts, error, statusCod
             "offers": {
               "@type": "Offer",
               "url": `https://youurdomain/product/${product._id}`,
-              "priceCurrency": "EGP",
+              "priceCurrency": "USD",
               "price": variant?.price || "",
               "availability": outOfStock 
                 ? "https://schema.org/OutOfStock"
@@ -295,10 +321,10 @@ export default function ProductPage({ product, relatedProducts, error, statusCod
                         ? (
                           <div className="flex items-center justify-start gap-2">
                             <p className="text-xl font-bold text-accent  mb-6" dir="ltr">
-                              {discountedPrice} EGP
+                              {discountedPrice} USD
                             </p>
                             <p className="text-xl line-through text-neutral-800  mb-6" dir="ltr">
-                              {variant?.price} EGP
+                              {variant?.price} USD
                             </p>
                           </div>
                         )
@@ -306,16 +332,16 @@ export default function ProductPage({ product, relatedProducts, error, statusCod
                         ? (
                           <div className="flex items-center justify-start gap-2">
                             <p className="text-xl font-bold text-accent  mb-6" dir="ltr">
-                              {variant?.price} EGP
+                              {variant?.price} USD
                             </p>
                             <p className="text-xl line-through text-neutral-800  mb-6" dir="ltr">
-                              {compareAtPrice} EGP
+                              {compareAtPrice} USD
                             </p>
                           </div>
                         ) 
                         : (
                           <p className="text-3xl font-semibold text-gray-900 mb-6">
-                            <span>{variant?.price} L.E</span>
+                            <span>{variant?.price} USD</span>
                           </p>
                         )
                     }
@@ -329,19 +355,19 @@ export default function ProductPage({ product, relatedProducts, error, statusCod
                       className={` transition flex items-center gap-2 ${
                         inWishlist ? "text-red-500" : "text-black hover:text-red-500"
                       } ${wishlistLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
-                      title={inWishlist ? "إزالة من المفضلة" : "إضافة إلى المفضلة"}
+                      title={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
                     >
                       { outOfStock 
                       ? (<></>)
                       : wishlistLoading ? (
-                        <span className="text-sm ">... جاري التحميل</span>
+                        <span className="text-sm ">... Loading</span>
                       ) : inWishlist ? (
                         <span className="text-md flex items-center gap-2">
-                          <FavoriteIcon fontSize="small" /> حذف من المفضلة
+                          <FavoriteIcon fontSize="small" /> Remove from wishlist
                         </span>
                       ) : (
                         <span className="text-md flex items-center gap-2">
-                          <FavoriteBorderIcon fontSize="small" /> إضافة إلى المفضلة
+                          <FavoriteBorderIcon fontSize="small" /> Add to wishlist
                         </span>
                       )}
                     </button>
@@ -349,7 +375,7 @@ export default function ProductPage({ product, relatedProducts, error, statusCod
                 </div>
 
                 <div className="mb-6">
-                  <label className=" text-gray-700 block mb-2"> المقاس:</label>
+                  <label className=" text-gray-700 block mb-2"> Size:</label>
                   <div className="flex flex-wrap">
                     {[...new Set(product.variants.map(v => v.size))].map(size => {
                       const isAvailable = product.variants.some(v => v.size === size && v.stock > 0);
@@ -371,7 +397,7 @@ export default function ProductPage({ product, relatedProducts, error, statusCod
                 </div>
 
                 <div className="mb-6">
-                  <label className=" text-gray-700 block mb-2"> اللون:</label>
+                  <label className=" text-gray-700 block mb-2"> Color:</label>
                   <div className="flex flex-wrap">
                     {[...new Set(product.variants.map(v => v.color))].map(color => {
                       const isAvailable = product.variants.some(v => v.color === color && v.stock > 0);
@@ -400,7 +426,7 @@ export default function ProductPage({ product, relatedProducts, error, statusCod
                 { outOfStock 
                     ? (
                       <div className="bg-red-600 w-fit text-white py-2 px-8 rounded-sm shadow-md  ">
-                        <span className="text-2xl">مَبِيع</span>
+                        <span className="text-2xl">Out of Stock</span>
                       </div>
                     )
                     : productInCart ? (
@@ -439,7 +465,7 @@ export default function ProductPage({ product, relatedProducts, error, statusCod
                           }
                           className=""
                         >
-                          حذف من السلة
+                          Remove from Cart
                         </Button>
                       </div>
                     ) : (
@@ -449,7 +475,7 @@ export default function ProductPage({ product, relatedProducts, error, statusCod
                         className={` w-full md:w-1/2  ${isAdding ? 'opacity-50 cursor-wait font-semibold' : ''} `}
                         disabled={isAdding || !selectedSize || !selectedColor}
                       >
-                        {isAdding ? 'جاري الإضافة...' : 'إضافة إلى السلة'}
+                        {isAdding ? 'Adding...' : 'Add to Cart'}
                       </Button>
                     )
                   }
@@ -457,13 +483,13 @@ export default function ProductPage({ product, relatedProducts, error, statusCod
                     ? (
                       <div>
                         <span className=" text-accent font-bold">
-                          { variant?.stock === 1 ? " قطعة واحدة فقط " : `   متوفر ${variant?.stock} قطع `  }
+                          { variant?.stock === 1 ? " Only one piece left " : `   ${variant?.stock} pieces available `  }
                         </span>
-                        من {variant?.size} - {variant?.color} 
+                        from {variant?.size} - {variant?.color} 
                       </div>
                     ) : (
                       <div>
-                        اللون والحجم المحددان غير متاحين حالياً
+                        The selected color and size are not available at the moment
                       </div>
                     )
                   }
@@ -477,7 +503,7 @@ export default function ProductPage({ product, relatedProducts, error, statusCod
               relatedProducts.length > 0
               ? (
                 <div className="mt-12 container">
-                  <h2 className="text-3xl text-center font-bold mb-4 ">منتجات ذات صلة</h2>
+                  <h2 className="text-3xl text-center font-bold mb-4 ">Related Products</h2>
                   <ErrorBoundary>
                     <ProductsSlider products={relatedProducts}/>
                   </ErrorBoundary>
@@ -491,32 +517,4 @@ export default function ProductPage({ product, relatedProducts, error, statusCod
       </ErrorBoundary>
     </>
   );
-}
-
-export async function getServerSideProps(context) {
-  try {
-    const { id } = context.query;
-  
-    const { data } = await axiosClient.get(`${process.env.WEBSITE_URL}/api/products/${id}`);
-  
-    return {
-      props: {
-        product: data.product || null,
-        relatedProducts: data.relatedProducts || [],
-        error: null,
-        statusCode: null,
-      },
-    };
-  } catch (error) {
-    console.error('Error in getServerSideProps:', error);
-  
-    return {
-      props: {
-        product: null,
-        relatedProducts: [],
-        error: "حدث خطأ ما",
-        statusCode: 500,
-      },
-    };
-  }
 }

@@ -11,6 +11,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'venusoutlet.s3.amazonaws.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'pub-0ec93d8f963a428d9a4f4be7e7f9494f.r2.dev',
+      },
     ],
   },
 };

@@ -26,17 +26,17 @@ export default function PaymentStatus() {
 
   const statusDetails = {
     loading: {
-      message: "جارٍ التحقق...",
+      message: "Verifying payment...",
       icon: <HourglassEmptyIcon className="text-gray-500" style={{ fontSize: 64 }} />,
       color: "text-gray-500",
     },
     success: {
-      message: "تم الدفع بنجاح, سيتم التواصل معك قريبا. شكراً لطلبك!",
+      message: "Payment successful, we will contact you soon. Thank you for your order!",
       icon: <CheckCircleOutlineIcon className="text-green-500" style={{ fontSize: 64 }} />,
       color: "text-green-600",
     },
     error: {
-      message: "فشل الدفع. حاول مرة أخرى.",
+      message: "Payment failed. Please try again.",
       icon: <HighlightOffIcon className="text-red-500" style={{ fontSize: 64 }} />,
       color: "text-red-600",
     },
@@ -49,10 +49,10 @@ export default function PaymentStatus() {
   return (
     <>
     <Head>
-      <title>حالة الدفع | Venus Outlet فينوس اوتليت</title>
+      <title>Payment Status | Venus Outlet</title>
       <meta
         name="description"
-        content="حالة الدفع في Venus Outlet فينوس اوتليت"
+        content="Payment status in Venus Outlet"
       />
     </Head>
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 px-4 text-center">
@@ -64,14 +64,14 @@ export default function PaymentStatus() {
           { status === "success" ? (
             <>
              <Link href="/Orders" className="text-white bg-black px-4 py-2 rounded-sm hover:bg-white hover:text-black border border-black transition">
-                عرض الطلبات
+                View My Orders
               </Link>
               <div className="mt-5">
                 <button
                   onClick={() => setShowModal(true)}
                   className="text-white bg-green-600 px-4 py-2 rounded-sm hover:bg-green-700 transition"
                 >
-                  اترك لنا تقييمك
+                  Leave Feedback
                 </button>
                 <TestimonialModal isOpen={showModal} onClose={() => setShowModal(false)} />
               </div>
@@ -83,7 +83,7 @@ export default function PaymentStatus() {
               variant="secondary"
               className="mt-6 px-6 py-3 "
             >
-              العودة إلى الرئيسية
+              Back to Home
             </Button>
           )}
         </div>

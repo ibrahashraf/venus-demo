@@ -34,14 +34,14 @@ export default function VerifyPage() {
   return ( 
     <>
       <div className="max-w-md mx-auto p-6 min-h-[700px] flex flex-col justify-center">
-        <h1 className="text-xl font-bold mb-3 text-center">تأكيد الحساب</h1>
-        <p className="mb-3">الرجاء ادخال رمز التحقق الذي تم ارساله ل <strong>{email}</strong></p>
+        <h1 className="text-xl font-bold mb-3 text-center">Verify Your Email</h1>
+        <p className="mb-3">Please enter the verification code sent to <strong>{email}</strong></p>
         <form onSubmit={submit} className="flex flex-col gap-3">
           <input required value={otp} onChange={e=>setOtp(e.target.value)} placeholder="123456" className="w-full rounded-sm p-3 mt-3 focus:outline-none border-b transition border-gray-400 focus:border-black" />
-          <button disabled={loading} className="py-2 bg-primary text-white rounded">{loading ? "جاري التحقق..." : "متابعة"}</button>
+          <button disabled={loading} className="py-2 bg-primary text-white rounded">{loading ? "Verifying..." : "Continue"}</button>
         </form>
         <div className="mt-3">
-          <button onClick={resend} className="text-sm text-primary">اعادة الارسال</button>
+          <button onClick={resend} className="text-sm text-primary">Resend Code</button>
         </div>
         {message && <div className="mt-3 text-sm text-gray-600">{message}</div>}
       </div>

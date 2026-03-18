@@ -91,7 +91,7 @@ export default function ContactPage() {
                   type="tel"
                   name="phone"
                   placeholder="رقم موبايلك"
-                  className="flex-[3] p-2 rounded-r-lg border border-neutral-300 focus:outline-none text-right"
+                  className="flex-[3] p-2 rounded-r-lg border border-neutral-300 focus:outline-none text-left"
                 />
                 <button type="submit" className="bg-neutral-500 flex-[1] flex items-center justify-center hover:bg-neutral-600 transition text-secondary px-4 py-2 rounded-l-lg">
                   {loading ? (<PuffLoader color="#fff" size={20} />) : 'اشترك'}
@@ -159,7 +159,7 @@ export default function ContactPage() {
       </main>
       {showWhyUs && (
         <div className="fixed inset-0 z-[1001] flex items-center justify-center bg-black bg-opacity-50 px-4">
-          <div className="bg-white rounded-2xl shadow-xl max-w-2xl w-full p-6 relative text-right">
+          <div className="bg-white rounded-2xl shadow-xl max-w-2xl w-full p-6 relative text-left">
             <button
               onClick={() => setShowWhyUs(false)}
               className="absolute top-4 left-4 text-gray-500 hover:text-red-500 text-xl"
@@ -263,7 +263,7 @@ function ExpandableAddressButton({ icon, label, address, mapLink, iframe }) {
       </button>
 
       {expanded && (
-        <div className="bg-gray-50 rounded-xl mt-2 p-4 border text-right text-sm leading-relaxed">
+        <div className="bg-gray-50 rounded-xl mt-2 p-4 border text-left text-sm leading-relaxed">
           <p className="mb-2 text-xl text-gray-800">{address}</p>
           <a
             href={mapLink}

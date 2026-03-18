@@ -39,38 +39,38 @@ export default function UserModal({ onClose }) {
                     >
                         <Close className=" text-primary text-4xl " />
                     </button>
-                    <div className="text-2xl font-bold bg-neutral-200 absolute top-6 left-1/2 transform -translate-x-1/2 text-accent">{session.user.name}</div>
+                    <div className="text-2xl font-bold bg-neutral-200 absolute top-4 left-1/2 transform -translate-x-1/2 text-accent">{session.user.name}</div>
                     <div />
                 </div>
-                <div className="flex p-1 pb-4 flex-col gap-4 text-2xl  [&>*]:w-full [&>*]:pt-6  [&>*]:pr-8  w-full items-center justify-start ">
+                <div className="flex p-1 pb-4 flex-col gap-4 text-xl  [&>*]:w-full [&>*]:pt-3  [&>*]:pl-8  w-full items-center justify-start ">
                     <Link href="/WishList" onClick={ () => onClose} >
-                        قائمة المفضلة
+                        WishList
                     </Link>
                     <Link href="/Cart" >
-                        المشتريات
+                        Cart
                     </Link>
                     <button
                         
                         onClick={() => {setOpenShipping(true)}}
-                        className="text-right"
+                        className="text-left"
                     >
-                        تعديل بيانات الشحن
+                        Edit Shipping Information
                     </button>
                     <Link href="/Orders" onClick={ () => onClose} >
-                        متابعة الطلبات
+                        Track Orders
                     </Link>
                     <button
                         onClick={() => {setOpenDelete(true)}}
-                        className="text-right"
+                        className="text-left"
                         
                     >
-                        حذف الحساب
+                        Delete Account
                     </button>
                     <button
                         onClick={() => handleSignOut()}
                         
                     >
-                        تسجيل الخروج <LogoutIcon />
+                        Sign Out <LogoutIcon />
                     </button>
                 </div>
             </div>

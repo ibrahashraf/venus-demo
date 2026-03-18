@@ -190,10 +190,10 @@ export default function Products({  }) {
   const FilterButton = ({ title, onClick }) => (
     <button 
       onClick={onClick}
-      className="flex justify-between items-center text-2xl  text-neutral-800 px-4 py-3 rounded-sm shadow-sm border-b hover:bg-neutral-100"
+      className="flex justify-between items-center text-xl  text-neutral-800 px-4 py-3 rounded-sm shadow-sm border-b hover:bg-neutral-100"
     >
       <span>{title}</span>
-      <ArrowBack className="text-xl" />
+      <ArrowForward className="text-xl" />
     </button>
   )
 
@@ -206,10 +206,10 @@ export default function Products({  }) {
   return (
     <>
       <Head>
-        <title>المتجر | Venus Outlet فينوس اوتليت</title>
+        <title>Products | Venus Outlet</title>
         <meta
           name="description"
-          content="استكشف أحدث تشكيلات الملابس النسائية وملابس الأطفال من Venus Outlet فينوس اوتليت، تسوق أونلاين واستفد من العروض المميزة في مصر."
+          content="Explore the latest women's fashion and children's clothing from Venus Outlet, shop online and take advantage of exclusive offers in Egypt."
         />
       </Head>
       <ErrorBoundary>
@@ -226,15 +226,15 @@ export default function Products({  }) {
               <div className="flex items-center justify-between p-4 ">
                 <button onClick={() => setActiveFilter(null)}>
                   {activeFilter !== null && (
-                    <ArrowForward className="text-3xl" />
+                    <ArrowBack className="text-3xl" />
                   )}
                 </button>
                 <h2 className="text-2xl font-bold">
-                  {activeFilter === null && "خيارات التصفية"}
-                  {activeFilter === "category" && "الفئات"}
-                  {activeFilter === "size" && "الحجم"}
-                  {activeFilter === "color" && "اللون"}
-                  {activeFilter === "price" && "السعر"}
+                  {activeFilter === null && "Filter Options"}
+                  {activeFilter === "category" && "Categories"}
+                  {activeFilter === "size" && "Size"}
+                  {activeFilter === "color" && "Color"}
+                  {activeFilter === "price" && "Price"}
                 </h2>
                 <button onClick={() => {setOpenFilters(false); setActiveFilter(null);}}>
                   <Close className="text-4xl" />
@@ -243,13 +243,13 @@ export default function Products({  }) {
               <div className="flex flex-col gap-6   p-6 w-full ">
                 {activeFilter === null && (
                   <div className="flex flex-col gap-4">
-                    <FilterButton title={`الفئات ${selectedCategory ? `(${selectedCategory.name})` : ""}`} onClick={() => setActiveFilter("category")} />
-                    <FilterButton title={`الحجم ${selectedSizes.length > 0 ? `(${selectedSizes.length})` : ""}`} onClick={() => setActiveFilter("size")} />
-                    <FilterButton title={`اللون ${selectedColors.length > 0 ? `(${selectedColors.length})` : ""}`} onClick={() => setActiveFilter("color")} />
+                    <FilterButton title={`Categories ${selectedCategory ? `(${selectedCategory.name})` : ""}`} onClick={() => setActiveFilter("category")} />
+                    <FilterButton title={`Size ${selectedSizes.length > 0 ? `(${selectedSizes.length})` : ""}`} onClick={() => setActiveFilter("size")} />
+                    <FilterButton title={`Color ${selectedColors.length > 0 ? `(${selectedColors.length})` : ""}`} onClick={() => setActiveFilter("color")} />
                   </div>
                 )} 
                 { activeFilter === "category" && (
-                    <FilterOverlay title={"الفئات"}>
+                    <FilterOverlay title={"Categories"}>
                       {categories.map((category) => (
                         <>
                           <label key={category._id} className="flex items-center gap-5 text-lg">
@@ -294,7 +294,7 @@ export default function Products({  }) {
                   )
                 }
                 { activeFilter === "size" && (
-                    <FilterOverlay title={"الحجم"}>
+                    <FilterOverlay title={"Size"}>
                       {sizes.map((size) => (
                         <label key={size} className="flex items-center gap-5 text-lg">
                           <input 
@@ -316,7 +316,7 @@ export default function Products({  }) {
                   )
                 }
                 { activeFilter === "color" && (
-                    <FilterOverlay title={"اللون"}>
+                    <FilterOverlay title={"Color"}>
                       {colors.map((color) => (
                         <label key={color} className="flex items-center gap-5 text-lg">
                           <input 
@@ -349,7 +349,7 @@ export default function Products({  }) {
                         className="w-full bg-accent hover:bg-red-700 text-white py-2 rounded-sm font-bold shadow-md transition-all"
                         disabled={!selectedSizes.length && !selectedColors.length && !selectedCategory}
                       >
-                        تصفية الكل
+                        Reset All Filters
                       </button>
                     </div>
                     <div>
@@ -360,7 +360,7 @@ export default function Products({  }) {
                         }}
                         className="w-full bg-primary hover:bg-neutral-800 text-white py-2 rounded-sm font-bold shadow-md transition-all"
                       >
-                        عرض النتائج
+                        Apply Filters
                       </button>
                     </div>
                   </div>
@@ -374,16 +374,6 @@ export default function Products({  }) {
             {/*  mobile Filter button */}
             <div className="sticky top-16 sm:top-20 w-full z-30 bg-neutral-50 py-2  ">
               <div className="  flex justify-between items-center">
-                <button
-                  className=" flex sm:gap-2 items-center font-semibold py-3 px-1 underline text-md md:text-xl"
-                  onClick={() => setOpenFilters(true)}
-                >
-                  خيارات التصفية
-                  {  selectedSizes.length + selectedColors.length + Boolean(selectedCategory) > 0 && (
-                    ` ( ${ selectedSizes.length + selectedColors.length + Boolean(selectedCategory)} )`
-                  )}
-                  <FilterList />
-                </button>
                 <div>
 
                   <button
@@ -391,36 +381,46 @@ export default function Products({  }) {
                     onClick={() => setOpenSort(!openSort)}
                     ref={sortButtonRef}
                   >
-                    ترتيب حسب
+                    Sort by
                     <Sort />
                   </button>
                   {openSort && (
                     <div ref={sortRef} className="absolute top-16 left-0 w-60 z-30  flex flex-col  bg-white text-black shadow-lg rounded-sm border ">
                       <button 
                         onClick={() => {setOpenSort(false); setSortOption("newest")}}
-                        className={`block w-full px-4 py-2 hover:bg-gray-100 hover:text-red-500 rounded-b-lg transition text-right ${sortOption === "newest" ? " bg-neutral-200" : ""}`}
+                        className={`block w-full px-4 py-2 hover:bg-gray-100 hover:text-red-500 rounded-b-lg transition text-left ${sortOption === "newest" ? " bg-neutral-200" : ""}`}
                       >
-                        الأحدث
+                        Newest
                       </button>
                       <button 
                         onClick={() => {setOpenSort(false); setSortOption("price-highest")}}
-                        className={`block w-full px-4 py-2 hover:bg-gray-100 hover:text-red-500 rounded-b-lg transition text-right ${sortOption === "price-highest" ? " bg-neutral-200" : ""}`}
+                        className={`block w-full px-4 py-2 hover:bg-gray-100 hover:text-red-500 rounded-b-lg transition text-left ${sortOption === "price-highest" ? " bg-neutral-200" : ""}`}
                       >
-                        السعر: الأقل أولاً
+                        Price: Low to High
                       </button>
                       <button 
                         onClick={() => {setOpenSort(false); setSortOption("price-lowest")}}
-                        className={`block w-full px-4 py-2 hover:bg-gray-100 hover:text-red-500 rounded-b-lg transition text-right ${sortOption === "price-lowest" ? " bg-neutral-200" : ""}`}
+                        className={`block w-full px-4 py-2 hover:bg-gray-100 hover:text-red-500 rounded-b-lg transition text-left ${sortOption === "price-lowest" ? " bg-neutral-200" : ""}`}
                       >
-                        السعر: الأعلى أولاً
+                        Price: High to Low
                       </button>
                     </div>
                   )}
                 </div>
+                <button
+                  className=" flex sm:gap-2 items-center font-semibold py-3 px-1 underline text-md md:text-xl"
+                  onClick={() => setOpenFilters(true)}
+                >
+                  Filter
+                  {  selectedSizes.length + selectedColors.length + Boolean(selectedCategory) > 0 && (
+                    ` ( ${ selectedSizes.length + selectedColors.length + Boolean(selectedCategory)} )`
+                  )}
+                  <FilterList />
+                </button>
               </div>
               {/* breadcrumbs */}
               { selectedCategory && (<div className="justify-self-start max-sm:text-md mt-2 pb-2">
-                 <button className="text-neutral-500 hover:text-primary" onClick={() => setSelectedCategory(null)}>الكل</button>
+                 <button className="text-neutral-500 hover:text-primary" onClick={() => setSelectedCategory(null)}>All Categories</button>
                 {
                   selectedCategory?.parentCategory ? (
                     <>
@@ -465,7 +465,7 @@ export default function Products({  }) {
                   disabled={loading}
                   className="px-6 py-2 bg-black text-white rounded-lg"
                 >
-                  {loading ? "جار التحميل..." : "تحميل المزيد"}
+                  {loading ? "loading..." : "Load More"}
                 </button>
               </div>
             )}

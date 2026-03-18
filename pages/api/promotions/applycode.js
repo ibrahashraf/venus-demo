@@ -34,7 +34,7 @@ export default async function handler(req, res) {
         }).lean();
 
         if (!matchingCodePromo) {
-        return res.status(404).json({ error: "الكود غير صحيح أو تم استهلاكه" });
+        return res.status(404).json({ error: "Invalid or expired coupon code" });
         }
 
         // Fetch all active promotions (auto + code ones). applyPromotions will prioritize matching code promos.
@@ -61,7 +61,7 @@ export default async function handler(req, res) {
         (p) => p.requiresCode && String(p.code).toUpperCase() === codeUpper
         );
         if (!appliedCodePromo) {
-        return res.status(404).json({ error: "هذا الكود لا ينطبق على هذا الطلب" });
+        return res.status(404).json({ error: "This coupon code is not applicable to your order" });
         }
 
         // compute coupon-specific summary if needed

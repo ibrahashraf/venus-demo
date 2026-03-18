@@ -11,7 +11,7 @@ export default function ProductBox(product) {
   return (
     <Link
       href={url}
-      className="block bg-neutral-50 rounded overflow-hidden shadow-sm hover:shadow-md transition"
+      className="block bg-neutral-50 rounded overflow-hidden aspect-[2/3] shadow-sm hover:shadow-md transition"
     >
       <div className="relative aspect-[3/4] bg-gray-100 overflow-hidden">
         <Image
@@ -24,18 +24,18 @@ export default function ProductBox(product) {
       </div>
 
       <div className="p-3 flex justify-between">
-        <h3 className="text-sm max-w-[55%] font-semibold truncate text-gray-800">
+        <h3 className="text-sm max-w-[45%] font-semibold truncate text-gray-800">
           {product.title}
         </h3>
 
         {compareAtPrice ? (
-          <div className="text-md flex gap-2" dir="ltr">
-            <p className="text-accent font-bold ml-1">{price} LE</p>
-            <span className="line-through text-gray-500">{compareAtPrice} LE</span>
+          <div className="text-sm flex gap-2" dir="ltr">
+            <p className="text-accent font-bold ml-1">{price} USD</p>
+            <span className="line-through text-gray-500">{compareAtPrice} USD</span>
           </div>
         ) : (
           <div dir="ltr" className="text-sm font-bold text-gray-700">
-            {price} LE
+            {price} USD
           </div>
         )}
       </div>

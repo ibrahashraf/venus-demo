@@ -5,7 +5,7 @@ export default function Document() {
   const isDevelopment = process.env.NODE_ENV === "development";
 
   return (
-    <Html lang="ar" dir="rtl">
+    <Html lang="en">
       <Head>
         {/* <!-- Google tag (gtag.js) --> */}
         <Script

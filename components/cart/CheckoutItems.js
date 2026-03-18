@@ -31,17 +31,17 @@ export default function CheckoutItems({ products }) {
                 <p className="font-light text-2xl">{cartItem.title}</p>
               </div>
               <p className="text-lg font-bold text-gray-700">
-                {cartItem.price} L.E
+                {cartItem.price} USD
               </p>
 
               {cartItem.selectedColor && (
                 <p className="text-sm text-gray-600">
-                  اللون: {cartItem.selectedColor}
+                  Color: {cartItem.selectedColor}
                 </p>
               )}
               {cartItem.selectedSize && (
                 <p className="text-sm text-gray-600">
-                  المقاس: {cartItem.selectedSize}
+                  Size: {cartItem.selectedSize}
                 </p>
               )}
             </div>

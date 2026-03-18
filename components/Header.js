@@ -111,7 +111,7 @@ export default function Header() {
   return (
     <header className={`transition duration-500 ease-in-out py-4 px-6  z-50 w-full sticky top-0 ${isScrolled || mobileMenuOpen ? 'bg-primary ' : 'bg-neutral-200 '}`} dir='rtl'>
       {isHome && (
-        <div className={`  ${isScrolled || mobileMenuOpen ? 'bg-primary' : 'bg-accent'}  w-24 sm:w-32 md:w-40 h-full absolute top-0 transition right-[7%] sm:right-[20%]`} />
+        <div className={`  ${isScrolled || mobileMenuOpen ? 'bg-primary' : 'bg-white'}  w-24 sm:w-32 md:w-40 h-full absolute top-0 transition left-[20%] `} />
       )}
       <div className="container mx-auto flex justify-between items-center">
         {/* User Section */}
@@ -197,15 +197,15 @@ export default function Header() {
 
         {/* Center Navigation (Desktop only) */}
         <nav className={`hidden md:flex gap-8 text-xl ${isScrolled || mobileMenuOpen ? 'text-neutral-200' : 'text-primary'}`}>
-          <Link href="/" className="hover:text-red-400 transition">الرئيسية</Link>
-          <Link href="/Products" className="hover:text-red-400 transition">المنتجات</Link>
           {categories.length > 0 && categories.map((category) => (
             <Link 
-              key={category._id} 
-              href={`/Products?category=${category._id}`} 
-              className="hover:text-red-400  transition"
+            key={category._id} 
+            href={`/Products?category=${category._id}`} 
+            className="hover:text-red-400  transition"
             >{category.name}</Link>
           ))}
+          <Link href="/Products" className="hover:text-red-400 transition">Products</Link>
+          <Link href="/" className="hover:text-red-400 transition">Home</Link>
         </nav>
 
         
@@ -259,10 +259,10 @@ export default function Header() {
           <div className="flex p-1 pb-4 flex-col gap-4 text-2xl  [&>*]:w-full [&>*]:pt-6  [&>*]:pr-8  w-full items-center justify-start ">
 
             <Link href="/" onClick={() => setMobileMenuOpen(false)}>
-              الرئيسية
+              Home
             </Link>
             <Link href="/Products"onClick={() => setMobileMenuOpen(false)}>
-              كل المنتجات
+             Products
             </Link>
             {categories.length > 0 && categories.map((category) => (
               <Link 
@@ -273,12 +273,12 @@ export default function Header() {
               >{category.name}</Link>
             ))}
             <Link href="/ContactUs" onClick={() => setMobileMenuOpen(false)}>
-              تواصل معنا 
+              Contact Us 
             </Link>
             {session ? (
               <>
                 <Link href="/Orders" onClick={() => setMobileMenuOpen(false)}>
-                  الطلبات السابقة
+                  Track Orders
                 </Link>
               </>
             ) : (
@@ -289,7 +289,7 @@ export default function Header() {
                 }}
                 className="pl-8"
               >
-                تسجيل الدخول
+                Sign In
                 <Login className="text-3xl mr-2" />
               </button>
             )}

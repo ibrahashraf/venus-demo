@@ -41,10 +41,10 @@ export default function ResetPassword() {
     const data = await res.json();
     setLoading(false);
 
-    if (!res.ok) return toast.error(data.message || "حدث خطأ ما");
+    if (!res.ok) return toast.error(data.message || "An error occurred");
 
     if (res.ok) {
-      toast.success("تم تغيير كلمة المرور بنجاح");
+      toast.success("Password changed successfully");
       router.push("/signin");
     }
   }
@@ -52,7 +52,7 @@ export default function ResetPassword() {
   return (
     <>
       <div className="max-w-md mx-auto p-6 min-h-[700px] flex flex-col justify-center">
-        <h1 className="text-xl text-center font-bold mb-4">اعادة تعيين كلمه المرور</h1>
+        <h1 className="text-xl text-center font-bold mb-4">Reset Password</h1>
 
         {step === 1 && (
           <form onSubmit={sendEmail} className="flex flex-col gap-3">
@@ -61,18 +61,18 @@ export default function ResetPassword() {
               type="email"
               value={email}
               onChange={e => setEmail(e.target.value)}
-              placeholder="البريد الالكتروني"
+              placeholder="Email"
               className="w-full rounded-sm p-3 mt-3 focus:outline-none border-b transition border-gray-400 focus:border-black"
             />
             <button disabled={loading} className="py-2 bg-primary text-white rounded">
-              {loading ? "جاري الارسال..." : "ارسال رمز التحقق"}
+              {loading ? "Sending..." : "Send Verification Code"}
             </button>
           </form>
         )}
 
         {step === 2 && (
           <form onSubmit={verifyOtp} className="flex flex-col gap-3">
-            <p className="text-sm">ادخل الرمز المرسل الى {email}</p>
+            <p className="text-sm">Enter the code sent to {email}</p>
             <input
               required
               value={otp}
@@ -80,7 +80,7 @@ export default function ResetPassword() {
               placeholder="123456"
               className="w-full rounded-sm p-3 mt-3 focus:outline-none border-b transition border-gray-400 focus:border-black"
             />
-            <button className="py-2 bg-primary text-white rounded">تأكيد</button>
+            <button className="py-2 bg-primary text-white rounded">Confirm</button>
           </form>
         )}
 
@@ -91,7 +91,7 @@ export default function ResetPassword() {
               type="password"
               value={newPassword}
               onChange={e => setNewPassword(e.target.value)}
-              placeholder="كلمة المرور الجديدة"
+              placeholder="New Password"
               className="w-full rounded-sm p-3 mt-3 focus:outline-none border-b transition border-gray-400 focus:border-black"
             />
             <input
@@ -99,11 +99,11 @@ export default function ResetPassword() {
               type="password"
               value={confirmPassword}
               onChange={e => setConfirmPassword(e.target.value)}
-              placeholder="تأكيد كلمة المرور الجديدة"
+              placeholder="Confirm New Password"
               className="w-full rounded-sm p-3 mt-3 focus:outline-none border-b transition border-gray-400 focus:border-black"
             />
             <button disabled={loading} className="py-2 bg-primary text-white rounded">
-              {loading ? "جاري الحفظ..." : "حفظ"}
+              {loading ? "Saving..." : "Save"}
             </button>
           </form>
         )}

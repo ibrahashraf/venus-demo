@@ -12,11 +12,11 @@ export default function ShippingForm({ state, shippingOptions, onSubmit }) {
 
   const validate = () => {
     const errors = {};
-    if (!localState.name?.trim()) errors.name = "يرجى كتابة الاسم";
-    if (!localState.phone?.trim()) errors.phone = "يرجى كتابة رقم الهاتف";
-    if (!localState.address?.trim()) errors.address = "يرجى كتابة العنوان";
-    if (!localState.city?.trim()) errors.city = "يرجى كتابة المدينة";
-    if (!localState.governorate?.trim()) errors.governorate = "يرجى اختيار المحافظة";
+    if (!localState.name?.trim()) errors.name = "Please enter your name";
+    if (!localState.phone?.trim()) errors.phone = "Please enter your phone number";
+    if (!localState.address?.trim()) errors.address = "Please enter your address";
+    if (!localState.city?.trim()) errors.city = "Please enter your city";
+    if (!localState.governorate?.trim()) errors.governorate = "Please select a governorate";
 
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
@@ -44,7 +44,7 @@ export default function ShippingForm({ state, shippingOptions, onSubmit }) {
       <input
         type="number"
         name="phone"
-        placeholder="ادخل رقم الهاتف"
+        placeholder="Enter Phone Number"
         className={`w-full rounded-sm p-3 focus:outline-none border-b ${
           formErrors.phone ? "border-red-500" : "border-gray-300 focus:border-black"
         }`}
@@ -58,7 +58,7 @@ export default function ShippingForm({ state, shippingOptions, onSubmit }) {
       <input
         type="text"
         name="name"
-        placeholder="الاسم"
+        placeholder="Enter Name"
         className={`w-full rounded-sm p-3 focus:outline-none border-b ${
           formErrors.name ? "border-red-500" : "border-gray-300 focus:border-black"
         }`}
@@ -88,7 +88,7 @@ export default function ShippingForm({ state, shippingOptions, onSubmit }) {
           }));
         }}
       >
-        <option value="">اختر المحافظة</option>
+        <option value="">Select Governorate</option>
         {shippingOptions.map((SO) => (
           <option key={SO._id} value={SO.governorate}>
             {SO.governorate}
@@ -102,7 +102,7 @@ export default function ShippingForm({ state, shippingOptions, onSubmit }) {
       <input
         type="text"
         name="city"
-        placeholder="المدينة"
+        placeholder="Enter City"
         className={`w-full rounded-sm p-3 focus:outline-none border-b ${
           formErrors.city ? "border-red-500" : "border-gray-300 focus:border-black"
         }`}
@@ -116,7 +116,7 @@ export default function ShippingForm({ state, shippingOptions, onSubmit }) {
       <input
         type="text"
         name="address"
-        placeholder="العنوان"
+        placeholder="Enter Address"
         className={`w-full rounded-sm p-3 focus:outline-none border-b ${
           formErrors.address ? "border-red-500" : "border-gray-300 focus:border-black"
         }`}
@@ -133,7 +133,7 @@ export default function ShippingForm({ state, shippingOptions, onSubmit }) {
           onClick={saveForm}
           className="mt-4 py-1 px-5 "
         >
-          حفظ
+          Save
         </Button>
       </div>
     </div>

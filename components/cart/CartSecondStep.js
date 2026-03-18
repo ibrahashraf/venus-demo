@@ -51,7 +51,7 @@ export default function CartSecondStep( {
       }, {skipRedirect: true});
     } catch (err) {
       console.error("Error saving address", err);
-      setFormError("حدث خطأ في حفظ البيانات");
+      setFormError("An error occurred while saving the shipping information");
       setTimeout(() => setFormError(null), 3000);
     }
     dispatch({ type: "SET_ALL_FIELDS", payload: localState });
@@ -60,7 +60,7 @@ export default function CartSecondStep( {
 
   const goToPayment = async () => {
     if (editMode) {
-      setFormError("يرجى حفظ بيانات الشحن");
+      setFormError("Please save the shipping information");
       setTimeout(() => setFormError(null), 3000);
       return;
     }
@@ -108,7 +108,7 @@ export default function CartSecondStep( {
         window.location.href = res.data.url;
       }
     } catch (error) {
-      setFormError("حدث خطأ في الدفع");
+      setFormError("An error occurred while processing the payment");
       console.error(error);
     } finally {
       setIsLoading(false);
@@ -119,27 +119,27 @@ export default function CartSecondStep( {
   return (
     <div className="grid grid-cols-1 lg:max-w-[85%] lg:mx-auto lg:grid-cols-[3fr_2fr] gap-8 p-6">
       {/* Cart Items */}
-      <div className="bg-secondary shadow rounded-sm p-6 text-right space-y-6">
+      <div className="bg-secondary shadow rounded-sm p-6 text-left space-y-6">
         <ErrorBoundary>
           <CheckoutItems products={products} />
         </ErrorBoundary>
       </div>
     
       {/* Checkout Form */}
-      <div className="bg-secondary shadow  rounded-sm p-6 space-y-5 text-right">
-        <h2 className="text-2xl font-bold mt-0">معلومات التوصيل</h2>
+      <div className="bg-secondary shadow  rounded-sm p-6 space-y-5 text-left">
+        <h2 className="text-2xl font-bold mt-0">Shipping Information</h2>
         {!editMode ? (
           <div className="space-y-2 border relative rounded-sm p-4">
-            <p><strong>الاسم:</strong> {state.name}</p>
-            <p><strong>رقم الهاتف:</strong> {state.phone}</p>
-            <p><strong>العنوان:</strong> {state.address}</p>
-            <p><strong>المدينة:</strong> {state.city}</p>
-            <p><strong>المحافظة:</strong> {state.governorate}</p>
+            <p><strong>Name:</strong> {state.name}</p>
+            <p><strong>Phone Number:</strong> {state.phone}</p>
+            <p><strong>Address:</strong> {state.address}</p>
+            <p><strong>City:</strong> {state.city}</p>
+            <p><strong>Governorate:</strong> {state.governorate}</p>
             <button
               className=" text-blue-600 absolute top-4 left-4"
               onClick={() => setEditMode(true)}
             >
-              تعديل <Edit fontSize="small" />
+              Edit <Edit fontSize="small" />
             </button>
           </div>
         ) : (
@@ -173,36 +173,36 @@ export default function CartSecondStep( {
               checked={paymentMethod === "Pay on Delivery"}
               onChange={() => setPaymentMethod("Pay on Delivery")}
             />
-            <span>الدفع عند الاستلام</span>
+            <span>Pay on Delivery</span>
           </label>
         </div>
         <div className="space-y-3">
           <div className="flex justify-between text-lg">
-            <span>مجموع ({cart.length}) منتجات</span>
-            <span>{subtotal} L.E</span>
+            <span>Total ({cart.length}) Products</span>
+            <span>{subtotal} USD</span>
           </div>
           {shippingCost > 0 && (
             <div className="flex justify-between text-lg">
-              <span>تكلفة الشحن</span>
-              <span>{shippingCost} L.E</span>
+              <span>Shipping Cost</span>
+              <span>{shippingCost} USD</span>
             </div>
           )}
           {estimatedDelivery && (
             <div className="flex justify-between text-lg">
-              <span>موعد التسليم المتوقع</span>
+              <span>Estimated Delivery Date</span>
               <span>{estimatedDelivery}</span>
             </div>
           )}
 
           {discountAmount > 0 && (
             <div className="flex justify-between text-lg text-green-600">
-              <span>خصم</span>
-              <span>{couponDiscount || discountAmount} L.E -</span>
+              <span>Discount</span>
+              <span>{couponDiscount || discountAmount} USD -</span>
             </div>
           )}
           <div className="flex justify-between text-xl font-bold border-t pt-3">
-            <span>الإجمالي</span>
-            <span>{total} L.E</span>
+            <span>Total</span>
+            <span>{total} USD</span>
           </div>
         </div>
         {formError && (
@@ -217,10 +217,10 @@ export default function CartSecondStep( {
           disabled={isLoading}
         >
           {isLoading ? (
-            'جاري التحميل'
+            'Loading...'
             ) : paymentMethod === 'Pay on Delivery' 
-            ? 'اتمام الطلب' 
-            : (<> الذهاب للدفع <Lock fontSize="small" /></>)
+            ? 'Complete Order' 
+            : (<> Proceed to Payment <Lock fontSize="small" /></>)
           }
         </Button>
       </div>

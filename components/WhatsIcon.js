@@ -25,17 +25,7 @@ export default function WhatsAppButton() {
   
 
   return (
-    <div className='fixed bottom-4 right-4 flex justify-center z-[50] items-center gap-3' ref={ref} dir="rtl">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        
-        className={
-          `${ isOpen ? "bg-primary" : "bg-[#25D366]"} text-secondary rounded-full p-2 shadow-lg  block transition duration-200 ease-in-out hover:scale-110`
-        }
-        aria-label="Chat on WhatsApp"
-      >
-        { isOpen ? (<Close fontSize='large' className='text-[35px] sm:text-[60px]' />) : (<WhatsAppIcon fontSize='large' className='text-[35px] sm:text-[60px]' />)}
-      </button>
+    <div className='fixed bottom-4 right-4 flex justify-center z-[50] items-center gap-3' ref={ref} >
       { isOpen && (
         <div className='bg-[#25D366] animate-slideFromLeft hover:bg-[#10602e] transition duration-200 ease-in-out text-secondary font-bold py-1 rounded-md px-4 flex justify-center items-center'>
           <a
@@ -47,11 +37,21 @@ export default function WhatsAppButton() {
               fontSize: "16px",
             }}
           >
-            راسلنا على واتساب
-            <WhatsAppIcon sx={{ fontSize: 36  }} className=' rounded-full p-0.5 mr-2' />
+            <WhatsAppIcon sx={{ fontSize: 36  }} className=' rounded-full p-0.5 mr-1' />
+              Chat with us on WhatsApp
           </a>
         </div>
       )}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              
+              className={
+                `${ isOpen ? "bg-primary" : "bg-[#25D366]"} text-secondary rounded-full p-2 shadow-lg  block transition duration-200 ease-in-out hover:scale-110`
+              }
+              aria-label="Chat on WhatsApp"
+            >
+              { isOpen ? (<Close fontSize='large' className='text-[35px] sm:text-[60px]' />) : (<WhatsAppIcon fontSize='large' className='text-[35px] sm:text-[60px]' />)}
+            </button>
     </div>
   );
 }

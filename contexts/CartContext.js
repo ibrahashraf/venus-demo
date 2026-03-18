@@ -47,7 +47,7 @@ export function CartContextProvider({ children }) {
               }
               ls.removeItem("cart");
               ls.setItem("cartMigrated", "true");
-              toast.success("تم حفظ المشتريات في حساب المستخدم")
+              toast.success("Cart migrated to your account");
             } catch (error) {
               console.error("failed to migrate local cart", error);
             }
@@ -112,7 +112,7 @@ export function CartContextProvider({ children }) {
     const { _id, images, title, selectedColor, selectedSize ,stock , price, category, promotionId} = product;
     if (isLoggedIn) {
       if (stock < 1) {
-          toast.warning(`غير متوفر حاليا بالمخزن ${title}`);
+          toast.warning(`Product not available in stock ${title}`);
           return;
         }
       try {
@@ -129,8 +129,8 @@ export function CartContextProvider({ children }) {
         }, { skipRedirect: true });
         toast.success(
           <div className="flex flex-col gap-4 justify-center items-center w-full">
-            <div>تمت اضافه {title} للمشتريات</div>
-            <Link href="/Cart" className=" w-full border border-accent text-accent hover:bg-accent hover:text-white transition  text-center py-2">عرض المشتريات  <ShoppingCart sx={{ fontSize: "16px" }} /></Link>
+            <div>Product added to cart</div>
+            <Link href="/Cart" className=" w-full border border-accent text-accent hover:bg-accent hover:text-white transition  text-center py-2">View Cart  <ShoppingCart sx={{ fontSize: "16px" }} /></Link>
           </div>
         );
         fetchServerCart();
@@ -148,7 +148,7 @@ export function CartContextProvider({ children }) {
       if (existingIndex !== -1) {
         const updated = [...cart];
         if (updated[existingIndex].quantity >= stock) {
-          toast.warning(` نفذت الكميه المتاحه من ${title}`);
+          toast.warning(`Product not available in stock ${title}`);
           return;
         }
         updated[existingIndex].quantity += 1;
@@ -172,8 +172,8 @@ export function CartContextProvider({ children }) {
       }
       toast.success(
         <div className="flex flex-col gap-4 justify-center items-center w-full">
-          <div>تمت اضافه {title} للمشتريات</div>
-          <Link href="/Cart" className=" w-full border border-accent text-accent hover:bg-accent hover:text-white transition text-center py-2">عرض المشتريات  <ShoppingCart sx={{ fontSize: "16px" }} /></Link>
+          <div>Product added to cart</div>
+          <Link href="/Cart" className=" w-full border border-accent text-accent hover:bg-accent hover:text-white transition text-center py-2">View Cart  <ShoppingCart sx={{ fontSize: "16px" }} /></Link>
         </div>
       , {
         pauseOnHover: false
@@ -206,10 +206,10 @@ export function CartContextProvider({ children }) {
           data: {productId, selectedColor, selectedSize },
         }, { skipRedirect: true });
         await fetchServerCart();
-        toast.error("تم حذف المنتج من المشتريات");
+        toast.error("Product removed from cart");
       } catch (error) {
-        console.error("falied to remove product", error);
-        toast.error("حدث خطأ أثناء حذف المنتج");
+        console.error("Failed to remove product", error);
+        toast.error("An error occurred while removing the product");
       }
     } else {
       setCart(prev => 
@@ -222,7 +222,7 @@ export function CartContextProvider({ children }) {
             )
         )
       );
-      toast.error("تم حذف المنتج من المشتريات");
+      toast.error("Product removed from cart");
     }
   };
 
@@ -245,7 +245,7 @@ export function CartContextProvider({ children }) {
   const increaseQuantity = async (productId, selectedColor, selectedSize, stock, quantity) => {
     if (isLoggedIn) {
       if (quantity >= stock) {
-        toast.warning("الكميه المطلوبه غير متوفره في المخزن");
+        toast.warning("Product not available in stock");
         return;
       }
       try {
@@ -271,7 +271,7 @@ export function CartContextProvider({ children }) {
             if ((item.quantity || 1) < (stock || Infinity)) {
               return { ...item, quantity: (item.quantity || 1) + 1};
             } else {
-              toast.warning("الكميه المطلوبه غير متوفره في المخزن");
+              toast.warning("Product not available in stock");
             }
           }
           return item;

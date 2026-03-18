@@ -79,8 +79,8 @@ export default function CartFirstStep(
     return (
             <div className="grid grid-cols-1 lg:max-w-[85%] lg:mx-auto lg:grid-cols-[3fr_2fr] gap-8 p-6">
                 {/* Cart Items */}
-                <div className="bg-white shadow rounded-lg p-6 text-right space-y-6">
-                    <h1 className="text-3xl font-bold mb-4">المشتريات</h1>
+                <div className="bg-white shadow rounded-lg p-6 text-left space-y-6">
+                    <h1 className="text-3xl font-bold mb-4">Cart</h1>
                     { productsLoading 
                         ? (
                             <>
@@ -121,7 +121,7 @@ export default function CartFirstStep(
                 </div>
 
                 {/* Summary */}
-                <div className="bg-white shadow rounded-lg p-6 space-y-5 text-right">
+                <div className="bg-white shadow rounded-lg p-6 space-y-5 text-left">
                     {!ctxAppliedCoupon ? (
                     <div>
                         {!showForm ? (
@@ -129,15 +129,15 @@ export default function CartFirstStep(
                             onClick={() => setShowForm(true)}
                             className="w-full bg-gray-100 border border-gray-300 text-gray-800 py-3 rounded hover:bg-gray-200 transition"
                             >
-                            هل تملك كود خصم؟
+                            Do you have a coupon? Click here to enter it.
                             </button>
                         ) : (
                             <div>
-                            <label className="font-medium block mb-1">أدخل كود الخصم</label>
+                            <label className="font-medium block mb-1">Enter Coupon Code</label>
                             <div className="space-y-2">
                                 <input
                                 type="text"
-                                placeholder="أدخل كود الخصم"
+                                placeholder="Enter coupon code"
                                 value={couponCode}
                                 onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
                                 className="w-full rounded-sm p-3 border-b-2 border-gray-300 focus:outline-none focus:border-black"
@@ -147,14 +147,14 @@ export default function CartFirstStep(
                                 className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition disabled:opacity-50"
                                 disabled={couponLoading || !couponCode.trim()}
                                 >
-                                {couponLoading ? "جاري التحقق..." : "تفعيل الكوبون"}
+                                {couponLoading ? "Checking..." : "Apply Coupon"}
                                 </button>
                                 {couponError && <p className="text-red-500">{couponError}</p>}
                                 <button
                                 onClick={() => setShowForm(false)}
                                 className="text-sm text-gray-500 underline"
                                 >
-                                إخفاء
+                                Hide
                                 </button>
                             </div>
                             </div>
@@ -162,9 +162,9 @@ export default function CartFirstStep(
                         </div>
                     ) : (
                     <div className="flex items-center justify-between bg-green-100 text-green-800 px-4 py-2 rounded">
-                        <span>تم تطبيق الكوبون: {ctxAppliedCoupon.code}</span>
+                        <span>Coupon Applied: {ctxAppliedCoupon.code}</span>
                         <button onClick={removeCoupon} className="text-red-500 hover:underline">
-                            إزالة   
+                            Remove
                         </button>
                     </div>
                     )}
@@ -173,13 +173,13 @@ export default function CartFirstStep(
                     <div className="space-y-3 border-t pt-4">
                         { appliedPromotions.length > 0 && (
                             <div className="bg-green-50 border border-green-300 p-4 rounded mt-4">
-                                <h2 className="font-bold text-green-800 mb-2">خصومات مفعلة</h2>
+                                <h2 className="font-bold text-green-800 mb-2">Applied Discounts</h2>
                                 <ul className=" ml-6 text-green-700">
                                     {appliedPromotions.map((promo) => (
                                     <li className="mb-2 text-sm " key={promo._id}>
                                         {promo.title} —{" "}
                                         { `${promo.discountValue}${
-                                            promo.discountType === "percentage" ? "%" : " جنيه " } خصم`}
+                                            promo.discountType === "percentage" ? "%" : " USD " } off`}
                                     </li>
                                     ))}
                                 </ul>
@@ -191,9 +191,9 @@ export default function CartFirstStep(
 
                                 <div className="mb-4 text-md text-blue-700">
                                 {prog.promotionType === "minSubtotal" ? (
-                                    <>أضف <span className="font-bold text-blue-800">{prog.remainingSubtotal} جنيه</span> للوصول إلى عرض <span className="font-semibold">{prog.title}</span></>
+                                    <>Add <span className="font-bold text-blue-800">{prog.remainingSubtotal} USD</span> to reach offer <span className="font-semibold">{prog.title}</span></>
                                 ) : (
-                                    <>أضف <span className="font-bold text-blue-800">{prog.remainingQuantity}</span> منتجات للوصول إلى عرض <span className="font-semibold">{prog.title}</span></>
+                                    <>Add <span className="font-bold text-blue-800">{prog.remainingQuantity}</span> items to reach offer <span className="font-semibold">{prog.title}</span></>
                                 )}
                                 </div>
 
@@ -215,21 +215,21 @@ export default function CartFirstStep(
 
                         <div className="flex justify-between text-lg">
                             <span>{subtotal} L.E</span>
-                            <span>مجموع ({cart.length}) منتجات</span>
+                            <span>Total ({cart.length}) Items</span>
                         </div>
 
                         {(discountAmount + couponDiscount) > 0 && (
                             <div className="flex justify-between text-lg text-green-600">
-                                <span>{ discountAmount} - L.E </span> 
-                                <span>خصم</span>
+                                <span>{ discountAmount} - USD </span> 
+                                <span>Discount</span>
                             </div>
                         )}
 
                         <div className="flex justify-between text-xl font-bold border-t pt-3">
-                            <span>{totalBeforeShipping} L.E</span>
-                            <span>الإجمالي</span>
+                            <span>{totalBeforeShipping} USD</span>
+                            <span>Total</span>
                         </div>
-                        <div>باستثناء الشحن</div>
+                        <div>Excluding Shipping</div>
                     </div>
 
                     <Button
@@ -237,7 +237,7 @@ export default function CartFirstStep(
                         className="w-full  font-semibold py-3 rounded-md"
                         onClick={() => (user ? proceedToSecondStep() : setShowModal(true))}
                     >
-                        الذهاب للدفع
+                        Proceed to Checkout
                     </Button>
                 </div>
                 {showModal && <SignInModal onClose={() => setShowModal(false)} />}

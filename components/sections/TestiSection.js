@@ -23,9 +23,9 @@ export default function TestiSection() {
         <div className="bg-neutral-200 h-[calc(100vh-73px)] md:h-[calc(100vh-80px)] py-12 relative">
             <div className="container mx-auto text-center z-[10] relative h-full flex justify-center flex-col items-center max-w-screen gap-8">
                 <h1 className="text-4xl text-center font-bold text-primary">
-                    آراء العملاء
+                    Testimonials
                 </h1>
-                <div className="w-full">
+                <div className="w-[90%]">
                     {loading 
                         ? (
                             <div className="w-full h-[50%] sm:h-[70%]  flex justify-center items-center py-16 px-6">
@@ -40,13 +40,13 @@ export default function TestiSection() {
                     }
                 </div>
                 <div>
-                    <Button variant="secondary" onClick={() => setShowModal(true)} className="py-2 bg-transparent text-xl px-4 ">
-                        اترك تقييمك
+                    {/* <Button variant="secondary" onClick={() => setShowModal(true)} className="py-2 bg-transparent text-xl px-4 ">
+                        Leave Your Review
                     </Button>
-                    <TestimonialModal isOpen={showModal} onClose={() => setShowModal(false)} />
+                    <TestimonialModal isOpen={showModal} onClose={() => setShowModal(false)} /> */}
                 </div>
             </div>
-            <div className="bg-accent w-24 sm:w-32 md:w-40 absolute top-0 right-[7%] sm:right-[20%] h-full " />
+            <div className="bg-white w-24 sm:w-32 md:w-40 absolute top-0 left-[20%] h-full " />
         </div>
     );
 }

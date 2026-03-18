@@ -92,7 +92,7 @@ export default function SignInModal({ onClose }) {
           </div>
         ) : (
           <div className="flex flex-col gap-4">
-            <h1 className="text-2xl font-bold mb-10 text-center">تسجيل الدخول</h1>
+            <h1 className="text-2xl font-bold mb-10 text-center">Sign In</h1>
             {providers &&
               Object.values(providers)
                 .filter((p) => p.id !== "credentials")
@@ -101,17 +101,17 @@ export default function SignInModal({ onClose }) {
                     key={provider.name}
                     onClick={() => handleSignIn(provider.id)}
                     disabled={signingIn}
-                    className="w-full py-3 border border-primary rounded font-semibold"
+                    className="w-full py-3 border border-primary rounded font-semibold text-lg"
                   >
                    <Image
                                src={GoogleLogo}
                                alt="Google Logo"
                                width={30}
                                height={30}
-                               className="inline-block ml-2 mb-1"
+                               className="inline-block mr-2 mb-1"
                              />
-                             المتابعه باستخدام
-                             <span className="font-bold text-xl mr-2">Google</span>
+                             Continue with Google
+                             
                   </button>
                 ))}
 
@@ -120,7 +120,7 @@ export default function SignInModal({ onClose }) {
                 <div className="w-full border-t border-gray-500"></div>
               </div>
               <div className="relative flex justify-center">
-                <span className="bg-white px-3 text-gray-600">أو</span>
+                <span className="bg-white px-3 text-gray-600">Or</span>
               </div>
             </div>
             <form onSubmit={handleCredentialsSignIn} className="flex flex-col gap-3">
@@ -128,7 +128,7 @@ export default function SignInModal({ onClose }) {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="البريد الإلكتروني"
+                placeholder="Email"
                 required
                 className="w-full rounded-sm p-3 mt-3 focus:outline-none border-b transition border-gray-400 focus:border-black"
               />
@@ -136,7 +136,7 @@ export default function SignInModal({ onClose }) {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="كلمة المرور"
+                placeholder="Password"
                 required
                 className="w-full rounded-sm p-3 mt-3 focus:outline-none border-b transition border-gray-400 focus:border-black"
               />
@@ -146,12 +146,12 @@ export default function SignInModal({ onClose }) {
                 disabled={signingIn}
                 className="py-2 bg-primary text-white font-bold rounded hover:bg-primary/70 transition"
               >
-                {signingIn ? "جاري التسجيل..." : "تسجيل الدخول"}
+                {signingIn ? "Signing in..." : "Sign In"}
               </button>
             </form>
             <div className=" flex justify-between">
-              <Link href="/reset-password" className="text-sm text-primary">نسيت كلمه المرور ؟</Link>
-              <Link href="/signup" className="text-sm text-accent">انشاء حساب جديد</Link>
+              <Link href="/reset-password" className="text-sm text-primary">Forgot Password?</Link>
+              <Link href="/signup" className="text-sm text-accent">Create New Account</Link>
             </div>
 
           </div>
