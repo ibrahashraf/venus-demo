@@ -171,7 +171,7 @@ export default function ContactPage() {
             <h2 className="text-2xl font-bold text-indigo-700 mb-4">Why Us?</h2>
             <p className="text-gray-800 leading-loose whitespace-pre-line text-lg">
               In Venus Outlet, we are more than just a clothing store — we are your preferred destination for elegance, quality, and affordable pricing.
-              {"\n\n"}We offer distinctive collections of women's, men's, and children's apparel, designed to suit every taste and occasion.
+              {"\n\n"}We offer distinctive collections of women&#39;s, men&#39;s, and children&#39;s apparel, designed to suit every taste and occasion.
               {"\n\n"}We believe that everyone deserves to look their best without breaking the bank, which is why we strive to combine high quality with competitive prices in every item we offer.
               {"\n\n"}We serve our customers through our distinguished branches, as well as our online store that provides a convenient and secure shopping experience from anywhere at any time.
               {"\n\n"}Welcome to Venus — where elegance starts at a price that suits you.

@@ -50,7 +50,7 @@ export default function CategoryShowSection() {
   return (
     <>
       {categoriesWithProducts.map(({ category, products }) => (
-        <div id="latest-products" className="relative h-[calc(100vh-73px)] md:h-[calc(100vh-80px)] bg-neutral-200 flex flex-col items-center justify-center"> 
+        <div key={category._id} id="latest-products" className="relative h-[calc(100vh-73px)] md:h-[calc(100vh-80px)] bg-neutral-200 flex flex-col items-center justify-center"> 
           <div className="container mx-auto text-center z-10  relative h-full flex justify-center flex-col items-center max-w-screen ">
             <h1 className="text-4xl font-bold text-primary">
               {category.name}

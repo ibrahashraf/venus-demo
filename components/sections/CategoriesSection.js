@@ -37,7 +37,7 @@ export default function CategoriesSection() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-[90%] mx-auto">
-            {categories.map((category) => (
+            {categories.length > 0 && categories.map((category) => (
               <div
                 key={category._id}
                 onClick={() => router.push(`/Products?category=${category._id}`)}
