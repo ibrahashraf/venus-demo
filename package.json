@@ -17,7 +17,6 @@
     "@react-pdf/renderer": "^4.3.0",
     "axios": "^1.8.1",
     "bcryptjs": "^3.0.3",
-    "crypto": "^1.0.1",
     "keen-slider": "^6.8.6",
     "lucide-react": "^0.487.0",
     "mongodb": "^6.19.0",
