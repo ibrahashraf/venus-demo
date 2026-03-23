@@ -1,88 +1,75 @@
 # VenusOutlet - Full-Stack E-Commerce Platform
 
-A modern, production-ready e-commerce platform built with **Next.js 15**, **React 18**, and **MongoDB**. VenusOutlet is a feature-rich online retail solution showcasing advanced full-stack development practices including real payment processing, inventory management, and responsive design.
+VenusOutlet is a complete, production-grade e-commerce application built with Next.js 15, React 18, and MongoDB. It demonstrates an enterprise-level implementation of front-end, back-end, and operational features suitable for client-facing portfolio presentation.
 
-**Live Demo:** [Venus Outlet](https://venusoutlet.net)
-
----
-
-## 🎯 Project Overview
-
-VenusOutlet is a sophisticated e-commerce platform serving as both a complete business solution and a portfolio demonstration of enterprise-level web development. The platform handles the complete customer journey from product discovery through order fulfillment, with robust backend systems for inventory, payments, and user management.
+Live demo: https://venus-demo-hkvl.vercel.app/
 
 ---
 
-## ✨ Key Features
+## Project Overview
 
-### 🛍️ **E-Commerce Core**
-- **Product Catalog** - Dynamic product browsing with advanced filtering and search
-- **Inventory Management** - Real-time stock tracking with variant support (size, color)
-- **Shopping Cart** - Persistent cart with dual-mode storage (local & server-based)
-- **Wishlist** - User wishlists with secure account persistence
-- **Product Details** - Rich product pages with image galleries and specifications
-
-### 💳 **Payment & Orders**
-- **Multiple Payment Methods** - Paymob payment gateway integration + Cash on Delivery
-- **Order Management** - Complete lifecycle tracking (Pending → Confirmed → Shipped → Delivered)
-- **Cancellation Requests** - Built-in order cancellation workflow
-- **Payment Webhooks** - Secure HMAC-verified payment status updates
-- **Invoice Generation** - Automatic PDF invoicing with RTL support (Arabic/English)
-
-### 🎁 **Promotions & Marketing**
-- **Dynamic Promotions** - Flexible discount system with multiple types:
-  - Automatic promotions (cart-based)
-  - Minimum subtotal promotions
-  - Minimum quantity promotions
-- **Coupon Codes** - Limited-use promotional codes with usage tracking
-- **Category & Product-Specific Offers** - Targeted discounts
-- **Promotion Banner** - Dynamic promotion display on homepage
-
-### 👤 **Authentication & User Management**
-- **NextAuth.js Integration** - Secure authentication with:
-  - Google OAuth sign-in
-  - Email/Password credentials
-  - JWT-based sessions (30-day default)
-- **Email Verification** - OTP verification for new accounts
-- **User Profiles** - Account management and order history
-- **Password Recovery** - Secure password reset flow
-
-### 🌐 **Internationalization & UX**
-- **RTL Support** - Full right-to-left language support (Arabic)
-- **Responsive Design** - Mobile-first approach with Tailwind CSS
-- **Error Boundaries** - Graceful error handling with fallback UI
-- **Loading States** - Skeleton screens and spinners for smooth UX
-- **Toast Notifications** - Real-time user feedback (Sonner)
-
-### 📊 **Admin & Analytics**
-- **Order Tracking** - Dashboard for order management and status updates
-- **Google Analytics** - Integrated analytics with gtag
-- **Product Management** - Complete CRUD operations for products
-- **Category Management** - Hierarchical category system
-- **User Management** - Admin user controls
-
-### 🔒 **Security & Performance**
-- **Rate Limiting** - Protection against brute force attacks
-- **HMAC Verification** - Secure payment webhook validation
-- **Email Notifications** - Transactional emails (Nodemailer)
-- **Image Optimization** - Multi-CDN support (MinIO, AWS S3, Cloudflare R2)
-- **SEO Optimization** - Meta tags, Open Graph, XML sitemaps
-- **CORS & Security Headers** - Production-ready security
-
-### 📱 **UI Components**
-- **Carousel/Slider** - Image galleries and product sliders (Keen Slider)
-- **Modal System** - Reusable modal components for:
-  - Auth (Sign In)
-  - Search
-  - User Profile
-  - Testimonials
-  - Shipping Forms
-  - Product Carousel
-- **Material-UI Integration** - Professional UI components
-- **Custom Buttons & Forms** - Tailored component library
+This platform provides a full customer lifecycle experience, including product browsing, cart management, checkout, payment processing, and order management. It also includes an administrative and operational backend for product, category, order, promotion, and user management.
 
 ---
 
-## 🏗️ Architecture
+## Key Features
+
+### E-Commerce
+- Product catalog with filters and category navigation
+- Inventory management with variant control (size, color, stock)
+- Cart system with local storage and server-side persistence
+- Wishlist system with user account sync
+- Product detail pages with image carousel and variant selection
+
+### Payment and Orders
+- Paymob payment gateway integration and Pay on Delivery option
+- Order lifecycle management (Pending, Confirmed, Shipped, Delivered)
+- Order cancellation request workflow
+- Payment webhook handling with HMAC validation
+- Invoice PDF generation using React PDF renderer
+
+### Promotions
+- Rule-based promotions (auto, min subtotal, min quantity)
+- Coupon code functionality with usage limits
+- Product and category-specific promotion assignment
+- Homepage promotion banners and active offers display
+
+### Authentication and Users
+- NextAuth.js with Google OAuth and credentials (email/password)
+- JWT session strategy with long-lived session support
+- Email verification with OTP for new users
+- User profile, address, and order history management
+- Password recovery flow and strength validation
+
+### UX and Locale Support
+- Responsive UI built with Tailwind CSS
+- RTL support for Arabic content and layout
+- Error boundary handling for stable UI behavior
+- Loading states and skeleton loaders
+- Toast-based user notifications
+
+### Admin and Analytics
+- Order management interface for admin workflows
+- Google Analytics event logging
+- Product and category CRUD operations
+- User management functions
+
+### Security and Performance
+- API rate limiting for key endpoints
+- Webhook HMAC verification for Paymob
+- Transactional emails via Nodemailer
+- Image optimization with multi-host remote patterns
+- SEO features: meta tags, Open Graph, canonical, sitemap routes
+
+### UI Components
+- Sliders and carousels using Keen Slider
+- Reusable modal components for dialogs and forms
+- Material-UI component usage for inputs and icons
+- Consistent design system with custom components and buttons
+
+---
+
+## Architecture
 
 ### **Tech Stack**
 
@@ -129,7 +116,7 @@ VenusOutlet is a sophisticated e-commerce platform serving as both a complete bu
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Node.js 18+
@@ -178,7 +165,7 @@ npm run lint
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 VenusOutlet/
@@ -202,7 +189,7 @@ VenusOutlet/
 
 ---
 
-## 🔑 Key Technologies Demonstrated
+## Key Technologies Demonstrated
 
 | Feature | Technology | Purpose |
 |---------|-----------|---------|
@@ -218,7 +205,7 @@ VenusOutlet/
 
 ---
 
-## 📊 API Routes
+## API Routes
 
 ### **Authentication**
 - `POST /api/auth/signup` - User registration
@@ -253,19 +240,19 @@ VenusOutlet/
 
 ---
 
-## 🎓 Development Highlights
+## Development Highlights
 
-### **Best Practices Implemented:**
-- ✅ Error boundary components for fault tolerance
-- ✅ Server-side session management with JWT
-- ✅ Input validation and sanitization
-- ✅ Rate limiting for API security
-- ✅ HMAC signature verification for webhooks
-- ✅ Responsive and accessible UI components
-- ✅ SEO optimization (meta tags, sitemaps)
-- ✅ Environment-based configuration
-- ✅ Async/await patterns for data fetching
-- ✅ Context API for state management
+### Best Practices Implemented:
+- Error boundary components for fault tolerance
+- Server-side session management with JWT
+- Input validation and sanitization
+- Rate limiting for API security
+- HMAC signature verification for webhooks
+- Responsive and accessible UI components
+- SEO optimization (meta tags, sitemaps)
+- Environment-based configuration
+- Async/await patterns for data fetching
+- Context API for state management
 
 ### **Performance Optimizations:**
 - Next.js Image optimization with multiple CDN providers
@@ -284,7 +271,7 @@ VenusOutlet/
 
 ---
 
-## 🔐 Security Features
+## Security Features
 
 - **NextAuth.js** - Industry-standard authentication
 - **HTTPS-only Cookies** - Secure session tokens
@@ -297,7 +284,7 @@ VenusOutlet/
 
 ---
 
-## 📈 Future Enhancements
+## Future Enhancements
 
 - [ ] Admin dashboard with analytics
 - [ ] Advanced search with Elasticsearch
@@ -312,19 +299,19 @@ VenusOutlet/
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 This is a portfolio project. For improvements or feedback, please open an issue or submit a pull request.
 
 ---
 
-## 📝 License
+## License
 
 Private portfolio project.
 
 ---
 
-## 📧 Contact
+## Contact
 
 For inquiries or to discuss this project:
 - **Website:** [venusoutlet.net](https://venusoutlet.net)
@@ -332,7 +319,7 @@ For inquiries or to discuss this project:
 
 ---
 
-## 🎯 Project Statistics
+## Project Statistics
 
 - **Frontend Pages:** 15+
 - **API Endpoints:** 40+
@@ -343,4 +330,4 @@ For inquiries or to discuss this project:
 
 ---
 
-**Built with ❤️ as a full-stack e-commerce solution demonstrating modern web development practices.**
+Built as a full-stack e-commerce solution demonstrating modern web development practices.

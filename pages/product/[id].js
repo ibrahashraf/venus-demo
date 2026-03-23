@@ -479,15 +479,7 @@ export default function ProductPage() {
                       </Button>
                     )
                   }
-                  { !outOfStock && variant?.stock > 0 
-                    ? (
-                      <div>
-                        <span className=" text-accent font-bold">
-                          { variant?.stock === 1 ? " Only one piece left " : `   ${variant?.stock} pieces available `  }
-                        </span>
-                        from {variant?.size} - {variant?.color} 
-                      </div>
-                    ) : (
+                  { outOfStock &&  (
                       <div>
                         The selected color and size are not available at the moment
                       </div>
