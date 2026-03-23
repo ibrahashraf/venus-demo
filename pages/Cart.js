@@ -60,7 +60,7 @@ export default function Cart() {
   const subtotal = cart.reduce(
     (acc, item) => acc + item.price * (item.quantity || 1),
     0
-  );
+  ).toFixed(2);
   
   const discountAmount = discounts.reduce(
     (acc, discount) => acc + discount.discountAmount,
@@ -70,7 +70,7 @@ export default function Cart() {
   
   const totalBeforeShipping = Math.max(0, subtotal - (couponDiscount || discountAmount));
   const totalBeforeDiscount = subtotal + shippingCost;
-  const total = totalBeforeShipping + shippingCost;
+  const total = (totalBeforeShipping + shippingCost);
 
   const proceedToSecondStep = () => {
     setCartStep("second");
@@ -189,9 +189,11 @@ export default function Cart() {
       />
     </Head>
       {cartStep === 'second' && 
-      <button onClick={() => setCartStep('first')} className=" text-2xl pt-6 pr-6">
-        <ArrowForward /> Back
-      </button>
+      <div className="w-full flex  items-center justify-end lg:max-w-[85%] lg:mx-auto px-6">
+        <button onClick={() => setCartStep('first')} className=" text-2xl pt-6  flex items-center gap-1 text-gray-600 hover:text-gray-800 transition ">
+        back <ArrowForward /> 
+        </button>
+      </div>
       }
       {cart.length === 0 ? (
         <div className="flex flex-col items-center justify-center text-gray-500 my-40">

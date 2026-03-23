@@ -77,9 +77,9 @@ export default function CartFirstStep(
       const prog = promotionProgress[0];
     
     return (
-            <div className="grid grid-cols-1 lg:max-w-[85%] lg:mx-auto lg:grid-cols-[3fr_2fr] gap-8 p-6">
+            <div className="grid grid-cols-1 min-h-[calc(100vh-100px)] lg:max-w-[85%] lg:mx-auto p-6 lg:grid-cols-[3fr_2fr] gap-8">
                 {/* Cart Items */}
-                <div className="bg-white shadow rounded-lg p-6 text-left space-y-6">
+                <div className="bg-white shadow rounded-lg p-6 text-left space-y-6 ">
                     <h1 className="text-3xl font-bold mb-4">Cart</h1>
                     { productsLoading 
                         ? (
@@ -121,7 +121,7 @@ export default function CartFirstStep(
                 </div>
 
                 {/* Summary */}
-                <div className="bg-white shadow rounded-lg p-6 space-y-5 text-left">
+                <div className="bg-white shadow rounded-lg p-6 space-y-5 text-left h-fit">
                     {!ctxAppliedCoupon ? (
                     <div>
                         {!showForm ? (

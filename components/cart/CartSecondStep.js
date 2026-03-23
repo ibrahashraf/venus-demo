@@ -136,10 +136,10 @@ export default function CartSecondStep( {
             <p><strong>City:</strong> {state.city}</p>
             <p><strong>Governorate:</strong> {state.governorate}</p>
             <button
-              className=" text-blue-600 absolute top-4 left-4"
+              className=" text-blue-600 absolute top-4 right-4"
               onClick={() => setEditMode(true)}
             >
-              Edit <Edit fontSize="small" />
+             <Edit fontSize="small" /> Edit 
             </button>
           </div>
         ) : (
@@ -155,7 +155,7 @@ export default function CartSecondStep( {
               
         {/* Totals */}
         <div className="border-y">
-          {/* <label className={`flex items-center gap-2 py-4 px-4 border-b rounded-sm ${paymentMethod === "Paymob" ? "bg-neutral-100" : ""}`}>
+          <label className={`flex items-center gap-2 py-4 px-4 border-b rounded-sm ${paymentMethod === "Paymob" ? "bg-neutral-100" : ""}`}>
             <input
               type="radio"
               name="paymentMethod"
@@ -163,8 +163,8 @@ export default function CartSecondStep( {
               checked={paymentMethod === "Paymob"}
               onChange={() => setPaymentMethod("Paymob")}
             />
-            <span>الدفع ببطاقة ائتمان</span>
-          </label> */}
+            <span>Pay with Credit Card</span>
+          </label>
           <label className={`flex items-center gap-2 py-4 px-4  rounded-sm ${paymentMethod === "Pay on Delivery" ? "bg-neutral-100"  : ""}`}>
             <input
               type="radio"

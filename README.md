@@ -319,6 +319,20 @@ For inquiries or to discuss this project:
 
 ---
 
+## Screenshots
+
+![Hero section screenshot](https://venus-demo-hkvl.vercel.app/hero.png)
+
+![Categories screenshot](https://venus-demo-hkvl.vercel.app/categories.png)
+
+![Product details screenshot](https://venus-demo-hkvl.vercel.app/product.png)
+
+![Product slider screenshot](https://venus-demo-hkvl.vercel.app/productsslider.png)
+
+![Cart screenshot](https://venus-demo-hkvl.vercel.app/cart.png)
+
+---
+
 ## Project Statistics
 
 - **Frontend Pages:** 15+

@@ -16,9 +16,9 @@ export default function CheckoutItems({ products }) {
         return (
           <div
             key={productId + cartItem.selectedColor + cartItem.selectedSize}
-            className="flex gap-5 items-center"
+            className="flex flex-col md:flex-row gap-4 md:gap-5 items-start md:items-center w-full bg-white p-3 rounded-lg shadow-sm"
           >
-            <div className='relative h-48 aspect-[3/4]'>
+            <div className='relative w-full md:w-[25%] h-40 md:h-48 aspect-[3/4] rounded-sm overflow-hidden'>
               <Image
                 alt={description}
                 src={images?.[0]}
@@ -28,7 +28,7 @@ export default function CheckoutItems({ products }) {
             </div>
             <div className="flex flex-col flex-1 gap-1">
               <div className="flex items-center gap-2">
-                <p className="font-light text-2xl">{cartItem.title}</p>
+                <p className="font-light text-2xl sm:text-xl max-sm:text-lg">{cartItem.title}</p>
               </div>
               <p className="text-lg font-bold text-gray-700">
                 {cartItem.price} USD
