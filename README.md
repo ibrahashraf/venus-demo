@@ -314,8 +314,8 @@ Private portfolio project.
 ## Contact
 
 For inquiries or to discuss this project:
-- **Website:** [venusoutlet.net](https://venusoutlet.net)
-- **Email:** [contact information]
+- **WhatsApp:** [+20 10 1209 7264](https://wa.me/+201012097264)
+- **Email:** [ibrahim10ashraf@outlook.com]
 
 ---
 

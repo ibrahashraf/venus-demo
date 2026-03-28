@@ -28,14 +28,14 @@ export default function SubscriptionSection() {
         }
     }
     return (
-        <div  className=" bg-neutral-200 h-[calc(100vh-73px)] md:h-[calc(100vh-80px)] py-12 relative flex flex-col items-center justify-center">
-            <div className=" z-[10] w-full bg-primary">
-                <div className="container text-center flex flex-col items-center justify-center mx-auto relative p-10  max-w-screen gap-8">
+        <div  className=" bg-neutral-200 min-h-[calc(100vh-73px)] md:min-h-[calc(100vh-80px)] py-12 relative flex flex-col items-center justify-center">
+            <div className=" z-[10] w-full bg-primary ">
+                <div className="container text-center flex flex-col items-center justify-center mx-auto relative p-10  max-w-screen gap-8 ">
 
                     <h3 className="text-3xl sm:text-4xl text-secondary font-semibold">Subscribe to Our Newsletter</h3>
                     <form
                         onSubmit={ (e) => {onSubmit(e)}}
-                        className="flex mt-3 w-[100%] sm:w-[70%]"
+                        className="flex mt-3 w-[100%] sm:w-[70%] "
                         >
                         <input
                             type="tel"
