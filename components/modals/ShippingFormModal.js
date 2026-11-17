@@ -25,11 +25,11 @@ export default function ShippingFormModal({ onClose }) {
 
     const validate = () => {
         const errors = {};
-        if (!shippingInfo.name?.trim()) errors.name = "Please enter your name";
-        if (!shippingInfo.phone?.trim()) errors.phone = "Please enter your phone number";
-        if (!shippingInfo.address?.trim()) errors.address = "Please enter your address";
-        if (!shippingInfo.city?.trim()) errors.city = "Please enter your city";
-        if (!shippingInfo.governorate?.trim()) errors.governorate = "Please select your governorate";
+        if (!shippingInfo.name?.trim()) errors.name = "يرجى إدخال الاسم";
+        if (!shippingInfo.phone?.trim()) errors.phone = "يرجى إدخال رقم الهاتف";
+        if (!shippingInfo.address?.trim()) errors.address = "يرجى إدخال العنوان";
+        if (!shippingInfo.city?.trim()) errors.city = "يرجى إدخال المدينة";
+        if (!shippingInfo.governorate?.trim()) errors.governorate = "يرجى اختيار المحافظة";
 
         setFormErrors(errors);
         return Object.keys(errors).length === 0;
@@ -47,7 +47,7 @@ export default function ShippingFormModal({ onClose }) {
             }, {skipRedirect: true});
         } catch (err) {
             console.error("Error saving address", err);
-            setFormError("An error occurred while saving the data");
+            setFormError("حدث خطأ أثناء حفظ البيانات");
             setTimeout(() => setFormError(null), 3000);
         } finally {
             onClose();
@@ -85,12 +85,12 @@ export default function ShippingFormModal({ onClose }) {
                     <Close />
                 </button>
 
-                <h2 className="text-xl font-semibold mb-4">Shipping Information</h2>
+                <h2 className="text-xl font-semibold mb-4">بيانات الشحن</h2>
 
                 {/* phone */}
                 <input
                     type="number"
-                    placeholder="Enter Phone Number"
+                    placeholder="أدخل رقم الهاتف"
                     className={`w-full rounded-sm p-3 focus:outline-none border-b ${
                         formErrors.phone ? "border-red-500" : "border-gray-300 focus:border-black"
                     }`}
@@ -104,7 +104,7 @@ export default function ShippingFormModal({ onClose }) {
                 {/* name */}
                 <input
                     type="text"
-                    placeholder="Enter Name"
+                    placeholder="أدخل الاسم"
                     className={`w-full rounded-sm p-3 mt-3 focus:outline-none border-b ${
                         formErrors.name ? "border-red-500" : "border-gray-300 focus:border-black"
                     }`}
@@ -125,7 +125,7 @@ export default function ShippingFormModal({ onClose }) {
                     value={shippingInfo.governorate || ""}
                     onChange={(e) => handleChange("governorate", e.target.value)}
                 >
-                    <option value="">Select Governorate</option>
+                    <option value="">اختر المحافظة</option>
                     {shippingOptions.map((SO) => (
                         <option key={SO._id} value={SO.governorate}>
                             {SO.governorate}
@@ -139,7 +139,7 @@ export default function ShippingFormModal({ onClose }) {
                 {/* city */}
                 <input
                     type="text"
-                    placeholder="Enter City"
+                    placeholder="أدخل المدينة"
                     className={`w-full rounded-sm p-3 mt-3 focus:outline-none border-b ${
                         formErrors.city ? "border-red-500" : "border-gray-300 focus:border-black"
                     }`}
@@ -153,7 +153,7 @@ export default function ShippingFormModal({ onClose }) {
                 {/* address */}
                 <input
                     type="text"
-                    placeholder="Enter Address"
+                    placeholder="أدخل العنوان"
                     className={`w-full rounded-sm p-3 mt-3 focus:outline-none border-b ${
                         formErrors.address
                         ? "border-red-500"
@@ -174,14 +174,14 @@ export default function ShippingFormModal({ onClose }) {
                         onClick={onClose}
                         className=" py-2 px-6 "
                     >
-                        Cancel
+                        إلغاء
                     </Button>
                     <Button
                         variant="primary"
                         onClick={saveForm}
                         className="  py-2 px-6"
                     >
-                        Save
+                        حفظ
                     </Button>
                 </div>
             </div>

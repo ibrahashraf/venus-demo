@@ -27,8 +27,8 @@ export default function CategoryShowSection() {
 
     if (loading) {
       return (
-        <div id="latest-products" className="relative h-[calc(100vh-73px)] md:h-[calc(100vh-80px)] bg-neutral-200 flex flex-col items-center justify-center"> 
-          <div className="relative bg-neutral-200 h-[calc(100vh-73px)] md:h-[calc(100vh-80px)] flex flex-col items-center justify-center">
+        <div id="latest-products" className="relative h-[calc(100vh-73px)] md:h-[calc(100vh-80px)] bg-neutral-50 flex flex-col items-center justify-center"> 
+          <div className="relative bg-neutral-50 h-[calc(100vh-73px)] md:h-[calc(100vh-80px)] flex flex-col items-center justify-center">
                 <div className="container mx-auto text-center z-10 relative h-full flex justify-center flex-col items-center max-w-screen">
                     <div className="skeleton h-10 w-1/3 mb-8 rounded"></div>
                     <div className="w-full sm:w-[90%] mb-8">
@@ -41,7 +41,7 @@ export default function CategoryShowSection() {
                     <div className="skeleton h-12 w-32 rounded-full"></div>
                 </div>
             </div>
-          <div className="bg-white z-[9] w-24 sm:w-32 md:w-40 absolute top-0 left-[20%] sm:right-[20%] h-full " />
+           
         </div>
       );
     }
@@ -50,7 +50,7 @@ export default function CategoryShowSection() {
   return (
     <>
       {categoriesWithProducts.map(({ category, products }) => (
-        <div key={category._id} id="latest-products" className="relative h-[calc(100vh-73px)] md:h-[calc(100vh-80px)] bg-neutral-200 flex flex-col items-center justify-center"> 
+        <div key={category._id} id="latest-products" className="relative h-[calc(100vh-73px)] md:h-[calc(100vh-80px)] bg-neutral-50 flex flex-col items-center justify-center"> 
           <div className="container mx-auto text-center z-10  relative h-full flex justify-center flex-col items-center max-w-screen ">
             <h1 className="text-4xl font-bold text-primary">
               {category.name}
@@ -63,12 +63,12 @@ export default function CategoryShowSection() {
             <div>
               <Link href={`/Products?category=${category._id}`}>
                 <Button variant="secondary" className=" text-xl py-2 px-6 bg-transparent">
-                  Shop now
+                  تسوق الآن
                 </Button>
               </Link>
             </div>
           </div>
-          <div className="bg-white z-[9] w-24 sm:w-32 md:w-40 absolute top-0 left-[20%] sm:right-[20%] h-full " />
+           
         </div>
         ))}
       </>

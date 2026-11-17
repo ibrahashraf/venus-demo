@@ -82,7 +82,7 @@ export default function SearchModal({ onClose }) {
           <Search className="absolute top-4 right-4 text-neutral-500 text-2xl z-10"  />
           <input
             type="text"
-            placeholder="Search..."
+            placeholder="بحث..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="relative  rounded-sm shadow-md focus:shadow-xl transition-shadow w-full px-5 py-3 pr-10 border-b border-neutral-600  focus:outline-none  "
@@ -104,10 +104,9 @@ export default function SearchModal({ onClose }) {
                 <div className="p-4 mt-8">
                   <h2 className="text-xl font-bold mb-4">
                     {filteredProducts.length > 0 ?
-                  ` Search Results for  
-                    "${searchTerm}"`
+                  `نتائج البحث عن "${searchTerm}"`
                     :
-                    " No matching results found"
+                    "لا توجد نتائج مطابقة"
                     }
                   </h2>
                   <div
@@ -124,7 +123,7 @@ export default function SearchModal({ onClose }) {
             )
           }
           <div className="p-4 mt-8">
-            <h2 className="text-xl font-bold mb-4">Latest Products</h2>
+            <h2 className="text-xl font-bold mb-4">أحدث المنتجات</h2>
             {loading 
               ? (
                 <div

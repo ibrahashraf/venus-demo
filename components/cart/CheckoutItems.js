@@ -36,12 +36,12 @@ export default function CheckoutItems({ products }) {
 
               {cartItem.selectedColor && (
                 <p className="text-sm text-gray-600">
-                  Color: {cartItem.selectedColor}
+                  اللون: {cartItem.selectedColor}
                 </p>
               )}
               {cartItem.selectedSize && (
                 <p className="text-sm text-gray-600">
-                  Size: {cartItem.selectedSize}
+                  المقاس: {cartItem.selectedSize}
                 </p>
               )}
             </div>

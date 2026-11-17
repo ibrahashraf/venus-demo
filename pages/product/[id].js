@@ -47,7 +47,7 @@ export default function ProductPage() {
         setRelatedProducts(data.relatedProducts);
         setPageLoading(false);
       } catch (err) {
-        setError("An error occurred");
+        setError("حدث خطأ");
         setStatusCode(500);
         setPageLoading(false);
       }
@@ -127,7 +127,7 @@ export default function ProductPage() {
       });
       setTimeout(() => setIsAdding(false), 500);
     } else {
-      alert('This variant is currently unavailable.');
+      alert('هذا الاختيار غير متوفر حالياً.');
     }
   };
 
@@ -196,7 +196,7 @@ export default function ProductPage() {
           name="description"
           content={
             product.metaDescription 
-            || `${product.name} available in ${product.category?.metaDescription || product.category?.name} at Our Store`
+            || `${product.name} متوفر في ${product.category?.metaDescription || product.category?.name} في متجرنا`
           }
         />
         {/* Product Structured Data */}
@@ -277,13 +277,13 @@ export default function ProductPage() {
               {
                 "@type": "ListItem",
                 "position": 1,
-                "name": "Home",
+                "name": "الرئيسية",
                 "item": "https://youurdomain"
               },
               {
                 "@type": "ListItem",
                 "position": 2,
-                "name": product.category?.name || "Category",
+                "name": product.category?.name || "القسم",
                 "item": `https://youurdomain/products?category=${product.category?._id}`
               },
               {
@@ -355,19 +355,19 @@ export default function ProductPage() {
                       className={` transition flex items-center gap-2 ${
                         inWishlist ? "text-red-500" : "text-black hover:text-red-500"
                       } ${wishlistLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
-                      title={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
+                      title={inWishlist ? "إزالة من المفضلة" : "إضافة إلى المفضلة"}
                     >
                       { outOfStock 
                       ? (<></>)
                       : wishlistLoading ? (
-                        <span className="text-sm ">... Loading</span>
+                        <span className="text-sm ">... جاري التحميل</span>
                       ) : inWishlist ? (
                         <span className="text-md flex items-center gap-2">
-                          <FavoriteIcon fontSize="small" /> Remove from wishlist
+                          <FavoriteIcon fontSize="small" /> إزالة من المفضلة
                         </span>
                       ) : (
                         <span className="text-md flex items-center gap-2">
-                          <FavoriteBorderIcon fontSize="small" /> Add to wishlist
+                          <FavoriteBorderIcon fontSize="small" /> إضافة إلى المفضلة
                         </span>
                       )}
                     </button>
@@ -375,7 +375,7 @@ export default function ProductPage() {
                 </div>
 
                 <div className="mb-6">
-                  <label className=" text-gray-700 block mb-2"> Size:</label>
+                  <label className=" text-gray-700 block mb-2"> المقاس:</label>
                   <div className="flex flex-wrap">
                     {[...new Set(product.variants.map(v => v.size))].map(size => {
                       const isAvailable = product.variants.some(v => v.size === size && v.stock > 0);
@@ -397,7 +397,7 @@ export default function ProductPage() {
                 </div>
 
                 <div className="mb-6">
-                  <label className=" text-gray-700 block mb-2"> Color:</label>
+                  <label className=" text-gray-700 block mb-2"> اللون:</label>
                   <div className="flex flex-wrap">
                     {[...new Set(product.variants.map(v => v.color))].map(color => {
                       const isAvailable = product.variants.some(v => v.color === color && v.stock > 0);
@@ -426,12 +426,12 @@ export default function ProductPage() {
                 { outOfStock 
                     ? (
                       <div className="bg-red-600 w-fit text-white py-2 px-8 rounded-sm shadow-md  ">
-                        <span className="text-2xl">Out of Stock</span>
+                        <span className="text-2xl">غير متوفر</span>
                       </div>
                     )
                     : productInCart ? (
                       <div className="w-full md:w-1/2 flex flex-col gap-2">
-                        <div className="w-full flex items-center justify-between text-xl bg-neutral-200 h-10 relative">
+                        <div className="w-full flex items-center justify-between text-xl bg-neutral-50 h-10 relative">
                           <button
                             className="w-14 flex items-center justify-center bg-neutral-400 hover:bg-neutral-500 text-primary h-full"
                             onClick={() => handleDecrease(product._id, productInCart.selectedColor, productInCart.selectedSize, productInCart.quantity)}
@@ -465,7 +465,7 @@ export default function ProductPage() {
                           }
                           className=""
                         >
-                          Remove from Cart
+                          إزالة من السلة
                         </Button>
                       </div>
                     ) : (
@@ -475,13 +475,13 @@ export default function ProductPage() {
                         className={` w-full md:w-1/2  ${isAdding ? 'opacity-50 cursor-wait font-semibold' : ''} `}
                         disabled={isAdding || !selectedSize || !selectedColor}
                       >
-                        {isAdding ? 'Adding...' : 'Add to Cart'}
+                        {isAdding ? 'جاري الإضافة...' : 'أضف إلى السلة'}
                       </Button>
                     )
                   }
                   { outOfStock &&  (
                       <div>
-                        The selected color and size are not available at the moment
+                        اللون والمقاس المحددان غير متوفرين حالياً
                       </div>
                     )
                   }
@@ -495,7 +495,7 @@ export default function ProductPage() {
               relatedProducts.length > 0
               ? (
                 <div className="mt-12 container">
-                  <h2 className="text-3xl text-center font-bold mb-4 ">Related Products</h2>
+                  <h2 className="text-3xl text-center font-bold mb-4 ">منتجات ذات صلة</h2>
                   <ErrorBoundary>
                     <ProductsSlider products={relatedProducts}/>
                   </ErrorBoundary>

@@ -182,24 +182,24 @@ export default function Cart() {
   return (
     <>
     <Head>
-      <title>Cart | Venus Outlet</title>
+      <title>سلة التسوق | Venus Outlet</title>
       <meta
         name="description"
-        content="View and edit your selected products from Venus Outlet before completing the purchase."
+        content="عرض وتعديل منتجاتك المختارة من فينوس أوتلت قبل إتمام الشراء."
       />
     </Head>
       {cartStep === 'second' && 
       <div className="w-full flex  items-center justify-end lg:max-w-[85%] lg:mx-auto px-6">
         <button onClick={() => setCartStep('first')} className=" text-2xl pt-6  flex items-center gap-1 text-gray-600 hover:text-gray-800 transition ">
-        back <ArrowForward /> 
+        رجوع <ArrowForward /> 
         </button>
       </div>
       }
       {cart.length === 0 ? (
         <div className="flex flex-col items-center justify-center text-gray-500 my-40">
           <RemoveShoppingCart className="w-16 h-16 mb-4" />
-          <p className="text-lg">There are no products in the cart</p>
-          <Link href="/Products" className="text-primary bg-neutral-50 rounded-sm px-5 py-2 mt-4 border border-primary hover:bg-primary hover:text-neutral-50 transition">Browse Store</Link>
+          <p className="text-lg">لا توجد منتجات في السلة</p>
+          <Link href="/Products" className="text-primary bg-neutral-50 rounded-sm px-5 py-2 mt-4 border border-primary hover:bg-primary hover:text-neutral-50 transition">تصفح المتجر</Link>
         </div>
       ) : (
         <CartDisplay />

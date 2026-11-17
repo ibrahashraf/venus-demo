@@ -27,7 +27,12 @@ export const authOptions = {
         if ( !user.verified ) throw new Error("notverified");
         const valid = await bcrypt.compare(credentials.password, user.password);
         if (!valid) throw new Error(" كلمه المرور غير صحيحه");
-        return user;
+        return {
+          id: user._id.toString(),
+          name: user.name,
+          email: user.email,
+          image: user.image,
+        };
       },
     }),
   ],

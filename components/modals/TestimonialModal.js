@@ -33,7 +33,7 @@ export default function TestimonialModal( { isOpen, onClose }) {
         e.preventDefault();
         
         if (!name || !rating || !comment) {
-            toast.error('Please fill in all fields');
+            toast.error('يرجى ملء جميع الحقول');
             return;
         }
         try {
@@ -45,14 +45,14 @@ export default function TestimonialModal( { isOpen, onClose }) {
             }, {skipRedirect: true});
             if (response.status === 201) {
                 router.push('/');
-                toast.success('Thank you for your feedback!');
+                toast.success('شكرًا لملاحظاتك!');
                 onClose();
                 setName('');
                 setRating(0);
                 setComment('');
             }
         } catch (error) {
-            setError("An error occurred. Please try again.");
+            setError("حدث خطأ. يرجى المحاولة مرة أخرى.");
             setTimeout(() => setError(null), 3000);
         } finally {
             setLoading(false);
@@ -69,7 +69,7 @@ export default function TestimonialModal( { isOpen, onClose }) {
             <button onClick={onClose} className="absolute top-3 right-3 text-gray-500 hover:text-black">
                 <Close />
             </button>
-            <h2 className="text-xl text-center font-bold">What is your experience with us?</h2>
+            <h2 className="text-xl text-center font-bold">ما رأيك في تجربتك معنا؟</h2>
             <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-4 bg-white rounded shadow-md">
                 <div className="flex flex-col mb-4 items-center">
                     <div className="flex gap-1">
@@ -88,21 +88,21 @@ export default function TestimonialModal( { isOpen, onClose }) {
                 </div>
                 <input
                     type="text"
-                    placeholder="Your Name"
+                    placeholder="اسمك"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className="w-full  rounded-sm p-3 focus:outline-none border-b border-gray-300 focus:border-black"
                 />
 
                 <textarea
-                    placeholder="Your Comment"
+                    placeholder="تعليقك"
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                     className="w-full  rounded-sm p-3 focus:outline-none border-b border-gray-300 focus:border-black"
                 ></textarea>
                 { error && <p className="text-red-500">{error}</p>}
                 <Button type="submit" variant="primary" className={`p-2  font-bold }`} disabled={loading}>
-                    {loading ? 'Submitting...' : 'Submit'}
+                    {loading ? 'جاري الإرسال...' : 'إرسال'}
                 </Button>
             </form>
         </div>

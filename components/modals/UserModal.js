@@ -31,7 +31,7 @@ export default function UserModal({ onClose }) {
         >
             <div
                 ref={userModalRef}
-                className=" z-[1000] overflow-y-auto animate-slideFromLeft pt-20 shadow-lg bg-neutral-200 fixed  h-screen w-screen md:w-1/3 xl:w-1/4  top-0 right-0   "
+                className=" z-[1000] overflow-y-auto animate-slideFromLeft pt-20 shadow-lg bg-neutral-50 fixed  h-screen w-screen md:w-1/3 xl:w-1/4  top-0 right-0   "
             >
                 <div className="flex items-center justify-betwee absolute top-0 w-full p-5">
                     <button
@@ -39,38 +39,38 @@ export default function UserModal({ onClose }) {
                     >
                         <Close className=" text-primary text-4xl " />
                     </button>
-                    <div className="text-2xl font-bold bg-neutral-200 absolute top-4 left-1/2 transform -translate-x-1/2 text-accent">{session.user.name}</div>
+                    <div className="text-2xl font-bold bg-neutral-50 absolute top-4 left-1/2 transform -translate-x-1/2 text-accent">{session.user.name}</div>
                     <div />
                 </div>
                 <div className="flex p-1 pb-4 flex-col gap-4 text-xl  [&>*]:w-full [&>*]:pt-3  [&>*]:pl-8  w-full items-center justify-start ">
                     <Link href="/WishList" onClick={ () => onClose} >
-                        WishList
+                        المفضلة
                     </Link>
                     <Link href="/Cart" >
-                        Cart
+                        سلة التسوق
                     </Link>
                     <button
                         
                         onClick={() => {setOpenShipping(true)}}
-                        className="text-left"
+                        className="text-right"
                     >
-                        Edit Shipping Information
+                        تعديل بيانات الشحن
                     </button>
                     <Link href="/Orders" onClick={ () => onClose} >
-                        Track Orders
+                        تتبع الطلبات
                     </Link>
                     <button
                         onClick={() => {setOpenDelete(true)}}
-                        className="text-left"
+                        className="text-right"
                         
                     >
-                        Delete Account
+                        حذف الحساب
                     </button>
                     <button
                         onClick={() => handleSignOut()}
                         
                     >
-                        Sign Out <LogoutIcon />
+                        تسجيل الخروج <LogoutIcon />
                     </button>
                 </div>
             </div>

@@ -41,7 +41,7 @@ export default function ContactPage() {
               e.target.reset();
           }
       } catch (error) {
-          toast.error(error.response.data.message);
+          toast.error("حدث خطأ أثناء الإشتراك، يرجى المحاولة مرة أخرى");
       } finally {
           setLoading(false);
       }

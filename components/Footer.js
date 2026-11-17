@@ -10,7 +10,7 @@ export default function Footer() {
     const onSubmit = async (e) => {
         e.preventDefault();
         if (!e.target.phone.value) {
-            toast.error('Please enter your phone number');
+            toast.error('يرجى إدخال رقم الهاتف');
             return;
         }
         setLoading(true);
@@ -19,7 +19,7 @@ export default function Footer() {
                 phone: e.target.phone.value,   
             },{ skipRedirect: true });
             if (response.status === 201) {
-                toast.success("Subscription successful");
+                toast.success("تم الاشتراك بنجاح");
                 e.target.reset();
             }
         } catch (error) {
@@ -66,51 +66,51 @@ export default function Footer() {
                     </div>
                 </div>
                 <div  className=" lg:pr-40 text-center lg:col-span-2 ">
-                    <h3 className="text-md font-semibold">Subscribe to Our Newsletter</h3>
-                    <p className="text-md text-neutral-500">Get the latest offers on WhatsApp</p>
+                    <h3 className="text-md font-semibold">اشترك لتصلك احدث العروض</h3>
+                    <p className="text-md text-neutral-500">احصل على أحدث العروض عبر واتساب</p>
                     <form
                         onSubmit={ (e) => {onSubmit(e)}}
                         className="flex mt-3"
                     >
+                        <button type="submit" className="bg-neutral-500 flex-[1] flex items-center justify-center hover:bg-neutral-600 transition text-secondary px-4 py-2 rounded-l-lg">
+                           {loading ? (<PuffLoader color="#fff" size={20} />) : 'اشترك'}
+                        </button>
                         <input
                             type="tel"
                             name="phone"
-                            placeholder="Your phone number"
-                            className="flex-[3] p-2 rounded-l-lg border border-neutral-300 focus:outline-none text-left"
+                            placeholder="رقم هاتفك"
+                            className="flex-[3] p-2 rounded-r-lg border border-neutral-300 focus:outline-none text-right"
                         />
-                        <button type="submit" className="bg-neutral-500 flex-[1] flex items-center justify-center hover:bg-neutral-600 transition text-secondary px-4 py-2 rounded-r-lg">
-                           {loading ? (<PuffLoader color="#fff" size={20} />) : 'Subscribe'}
-                        </button>
                     </form>
                 </div>
-                <div className="grid grid-cols-2 text-left lg:-ml-28 max-lg:pr-12  ">
+                <div className="flex justify-evenly text-right lg:-ml-28 max-lg:pr-12  ">
                     <ul className="space-y-4 text-md text-neutral-500">
-                        <li className="hover:text-primary"><Link href="/">Home</Link></li>
-                        <li className="hover:text-primary"><Link href="/Products">Store</Link></li>
-                        <li className="hover:text-primary"><Link href="/ContactUs">Contact Us</Link></li>
+                        <li className="hover:text-primary"><Link href="/">الرئيسية</Link></li>
+                        <li className="hover:text-primary"><Link href="/Products">المتجر</Link></li>
+                        <li className="hover:text-primary"><Link href="/ContactUs">تواصل معنا</Link></li>
                     </ul>
                     <ul className="space-y-4 text-md text-neutral-500">
-                        <li className="hover:text-primary"><Link href="/delete-data">Delete Data</Link></li>
-                        <li className="hover:text-primary"><Link href="/privacy-policy">Privacy Policy</Link></li>
-                        <li className="hover:text-primary"><Link href="/terms">Terms and Conditions</Link></li>
+                        <li className="hover:text-primary"><Link href="/delete-data">حذف البيانات</Link></li>
+                        <li className="hover:text-primary"><Link href="/privacy-policy">سياسة الخصوصية</Link></li>
+                        <li className="hover:text-primary"><Link href="/terms">الشروط والأحكام</Link></li>
                     </ul>
                 </div>
                 <div>
-                    <ul className="space-y-4 text-md text-left text-neutral-500">
-                        <li className=" flex gap-1"><LocationOn sx={{color: "#9ca3af"}} /> town, city, state.</li>
-                        <li className=" flex gap-1"><LocationOn sx={{color: "#9ca3af"}} />town, city, state.</li>
-                        <li className=" flex gap-1 " ><LocalPhone sx={{color: "#9ca3af"}} /> +1 (111) 111-1111 </li>
+                    <ul className="space-y-4 text-md text-right max-sm:text-center text-neutral-500 ">
+                        <li className=" flex gap-1 max-sm:justify-center"> .المنصورة, اخر شارع السجن من شارع عبد السلام عارف<LocationOn sx={{color: "#9ca3af"}} /></li>
+                        <li className=" flex gap-1 max-sm:justify-center">الاسكندرية, العجمي, منتصف شارع البيطاش, اول شارع السماليهي واحد<LocationOn sx={{color: "#9ca3af"}} /></li>
+                        <li className=" flex gap-1 max-sm:justify-center justify-end max-sm:text-[20px]" > 011 47 111 094 <LocalPhone sx={{color: "#9ca3af"}} /></li>
                     </ul>
                 </div>
                 <div className="lg:mt-10 border-t lg:col-span-5 border-gray-600 p-6 flex flex-col lg:flex-row justify-between items-center text-md text-gray-400">
                     <div>
-                        <p dir="ltr">© {new Date().getFullYear()} Venus Outlet. All rights reserved.</p>
+                        <p>© {new Date().getFullYear()} Venus Outlet. جميع الحقوق محفوظة.</p>
                     </div>
                     <div className="flex gap-2 mt-4 lg:mt-0">
-                        <a target="_blank" href="#" className="hover:text-[#1877F2]" aria-label="Facebook"><Facebook fontSize="medium"  /></a>
-                        <a target="_blank" href="#" className="hover:text-[#E1306C]"  aria-label="Instagram"><Instagram fontSize="medium" /></a>
-                        <a target="_blank" href="#" className="hover:text-[#0088CC]" aria-label="Telegram"><Telegram fontSize="medium"  /></a>
-                        <a target="_blank" href="#" className="hover:text-black" aria-label="TikTok"><MusicNote fontSize="medium"  /></a>
+                        <a target="_blank" href="https://www.facebook.com/venusegypt2017" className="hover:text-[#1877F2]" aria-label="Facebook"><Facebook fontSize="medium"  /></a>
+                        <a target="_blank" href="https://www.instagram.com/venus.outlet.egypt/" className="hover:text-[#E1306C]"  aria-label="Instagram"><Instagram fontSize="medium" /></a>
+                        <a target="_blank" href="https://t.me/venus_mansoura" className="hover:text-[#0088CC]" aria-label="Telegram"><Telegram fontSize="medium"  /></a>
+                        <a target="_blank" href="https://www.tiktok.com/@venus.outlet" className="hover:text-black" aria-label="TikTok"><MusicNote fontSize="medium"  /></a>
                     </div>
                 </div>
             </div>

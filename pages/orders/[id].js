@@ -14,7 +14,7 @@ export default function OrderCancelPage({ order, error, statusCode }) {
 
 
     if (error) return <Error statusCode={statusCode || 500} />;
-    if (!order) return <p className="text-center py-10">Order not found</p>;
+    if (!order) return <p className="text-center py-10">الطلب غير موجود</p>;
     const sendRequest = async () => {
         setLoading(true);
         try {
@@ -23,7 +23,7 @@ export default function OrderCancelPage({ order, error, statusCode }) {
             alert(error.response.data.message);
         } finally {
             setLoading(false);
-            toast.success("Cancellation request sent successfully");
+            toast.success("تم إرسال طلب الإلغاء بنجاح");
             setTimeout(() => {
                 window.location.href = "/Orders";
             }, 1000);
@@ -32,21 +32,21 @@ export default function OrderCancelPage({ order, error, statusCode }) {
     return (
         <>
         <Head>
-            <title>Request Cancellation | Venus Outlet</title>
+            <title>طلب إلغاء | Venus Outlet</title>
             <meta
                 name="description"
-                content="Request cancellation for your order at Venus Outlet."
+                content="اطلب إلغاء طلبك من فينوس أوتلت."
             />
         </Head>
             <ErrorBoundary>
                 <div>
-                    <h1 className="text-3xl font-bold my-6 text-center">Request Cancellation</h1>
+                    <h1 className="text-3xl font-bold my-6 text-center">طلب إلغاء</h1>
                     <div className="max-w-3xl mx-auto py-10">
                     <div className="border rounded-lg p-5 mb-4 shadow-md bg-white">
-                        <h2 className="text-xl font-semibold mb-2">Order Number #{order._id}</h2>
+                        <h2 className="text-xl font-semibold mb-2">رقم الطلب #{order._id}</h2>
                         <textarea
                             className="w-full h-32 p-2 border rounded-lg mb-4 outline-none"
-                            placeholder="Please write the reason for cancellation here..."
+                            placeholder="يرجى كتابة سبب الإلغاء هنا..."
                             onChange={(e) => setReason(e.target.value)}
                             value={reason}
                         />
@@ -62,7 +62,7 @@ export default function OrderCancelPage({ order, error, statusCode }) {
                                 className="bg-red-500 text-white py-2 px-4 rounded"
                                 onClick={sendRequest}
                             >
-                                Send Request
+                                إرسال الطلب
                             </button>
                         )}
                         
@@ -90,7 +90,7 @@ export async function getServerSideProps(context) {
         return {
             props: {
                 order: null,
-                error: "An error occurred",
+                error: "حدث خطأ",
                 statusCode: 500,
             },
         };

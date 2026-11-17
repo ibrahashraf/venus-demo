@@ -20,10 +20,10 @@ export default function TestiSection() {
     if (!loading && !testimonials.length) return null;
 
     return (
-        <div className="bg-neutral-200 h-[calc(100vh-73px)] md:h-[calc(100vh-80px)] py-12 relative">
+        <div className="bg-neutral-50 h-[calc(100vh-73px)] md:h-[calc(100vh-80px)] py-12 relative">
             <div className="container mx-auto text-center z-[10] relative h-full flex justify-center flex-col items-center max-w-screen gap-8">
                 <h1 className="text-4xl text-center font-bold text-primary">
-                    Testimonials
+                    آراء العملاء
                 </h1>
                 <div className="w-[90%]">
                     {loading 

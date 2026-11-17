@@ -15,7 +15,7 @@ export default {
         foreground: "var(--foreground)",
         primary: '#111111',    
         secondary: '#ffffff',  
-        accent: '#dc133f',      
+        accent: '#bb0613',      
         neutral: {
           100: '#f5f5f5',
           200: '#e5e5e5',

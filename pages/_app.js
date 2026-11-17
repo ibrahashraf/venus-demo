@@ -8,6 +8,7 @@ import { Toaster } from "sonner";
 import WhatsAppButton from "@/components/WhatsIcon";
 import { Cairo } from 'next/font/google';
 import Header from "@/components/Header";
+import AnnouncementStrip from "@/components/AnnouncementStrip";
 import Footer from "@/components/Footer";
 
 const cairo = Cairo({ subsets: ['arabic'], variable: '--font-cairo' });
@@ -20,7 +21,8 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
               <PromotionContextProvider>
                 <WishListContextProvider>
                   <Toaster
-                    position="top-right"
+                    position="top-left"
+                    dir="rtl"
                     richColors
                     duration={3000}
                     pauseWhenPageIsHidden={false}
@@ -42,6 +44,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
                       info: null,
                     }}
                   />
+                  <AnnouncementStrip />
                   <Header />
                     <Component {...pageProps} />
                   <Footer />

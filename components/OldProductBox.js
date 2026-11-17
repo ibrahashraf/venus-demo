@@ -270,7 +270,7 @@ export default function OldProductBox( product ) {
                <button
                 onClick={handleWishlistClick}
                 disabled={wishlistLoading}
-                className={`flex items-center justify-center w-1/5 bg-neutral-100 hover:bg-neutral-200 transition ${
+                className={`flex items-center justify-center w-1/5 bg-neutral-100 hover:bg-neutral-50 transition ${
                   inWishlist ? "text-red-500" : "text-gray-400 hover:text-red-500"
                 }
                 ${wishlistLoading ? "text-red-500" : ""}`}

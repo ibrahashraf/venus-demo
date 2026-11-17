@@ -83,12 +83,12 @@ export default function CartItems({ products }) {
 
               {cartItem.selectedColor && (
                 <p className="text-sm text-gray-600">
-                  Color: {cartItem.selectedColor}
+                  اللون: {cartItem.selectedColor}
                 </p>
               )}
               {cartItem.selectedSize && (
                 <p className="text-sm text-gray-600">
-                  Size: {cartItem.selectedSize}
+                  المقاس: {cartItem.selectedSize}
                 </p>
               )}
 
@@ -119,7 +119,7 @@ export default function CartItems({ products }) {
 
               <Link href={`/product/${productId}`} className="text-blue-500 hover:text-blue-700 mt-2 inline-flex items-center gap-1">
                 <OpenInNewIcon fontSize="small" />
-                View Product
+                عرض المنتج
               </Link>
             </div>
           </div>

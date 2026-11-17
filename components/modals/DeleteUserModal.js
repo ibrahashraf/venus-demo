@@ -16,7 +16,7 @@ export default function DeleteUserModal({ onClose }) {
     try {
       await axiosClient.delete('/api/user/delete');
     } catch (error) {
-      setTimeout(() => setError("An error occurred, please try again"), 3000);
+      setTimeout(() => setError("حدث خطأ، يرجى المحاولة مرة أخرى"), 3000);
     } finally {
       setLoading(false);
       signOut({ callbackUrl: "/" });
@@ -36,17 +36,17 @@ export default function DeleteUserModal({ onClose }) {
         <button onClick={onClose} className="absolute top-3 left-3 text-gray-500 hover:text-black">
           <Close />
         </button>
-        <h2 className="text-2xl text-center font-bold">Confirm User Deletion</h2>
+        <h2 className="text-2xl text-center font-bold">تأكيد حذف الحساب</h2>
         <p className="text-center text-gray-600">
-          Deleting your account will remove all your data. This action cannot be undone.
+          سيؤدي حذف حسابك إلى إزالة جميع بياناتك. لا يمكن التراجع عن هذا الإجراء.
         </p>
         {error && <p className="text-red-500">{error}</p>}
         <div className="flex justify-between items-center mt-10">
           <button onClick={onClose} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-sm ">
-            Cancel
+            إلغاء
           </button>
           <button onClick={handleDelete} className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-sm">
-            {loading ? (<PuffLoader color="#fff" size={20} />) : 'Delete Account'}
+            {loading ? (<PuffLoader color="#fff" size={20} />) : 'حذف الحساب'}
           </button>
         </div>
       </div>

@@ -28,7 +28,7 @@ export default function SignInPage() {
   return (
     <>
       <div className="max-w-md mx-auto p-6 min-h-[700px] flex flex-col justify-center">
-        <h1 className="text-2xl font-bold mb-10 text-center">Sign In</h1>
+        <h1 className="text-2xl font-bold mb-10 text-center">تسجيل الدخول</h1>
         <button
           onClick={() => signIn("google", { callbackUrl: "/" })}
           className="w-full py-3 border border-primary rounded font-semibold text-lg"
@@ -40,7 +40,7 @@ export default function SignInPage() {
             height={30}
             className="inline-block mr-2 mb-1"
           />
-          Continue with Google
+          المتابعة باستخدام جوجل
         </button>
 
         <div className="relative my-6">
@@ -48,21 +48,21 @@ export default function SignInPage() {
             <div className="w-full border-t border-gray-500"></div>
           </div>
           <div className="relative flex justify-center">
-            <span className="bg-white px-3 text-gray-600">or</span>
+            <span className="bg-white px-3 text-gray-600">أو</span>
           </div>
         </div>
 
         <form onSubmit={submit} className="flex flex-col gap-3">
-          <input required type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="Email" className="w-full rounded-sm p-3 mt-3 focus:outline-none border-b transition border-gray-400 focus:border-black" />
-          <input required type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="Password" className="w-full rounded-sm p-3 mt-3 focus:outline-none border-b transition border-gray-400 focus:border-black" />
+          <input required type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="البريد الإلكتروني" className="w-full rounded-sm p-3 mt-3 focus:outline-none border-b transition border-gray-400 focus:border-black" />
+          <input required type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="كلمة المرور" className="w-full rounded-sm p-3 mt-3 focus:outline-none border-b transition border-gray-400 focus:border-black" />
           {error && <div className="text-red-600">{error}</div>}
           <button disabled={loading} className="py-2 bg-primary text-white rounded">
-            {loading ? "Logging in..." : "Sign In"}
+            {loading ? "جاري تسجيل الدخول..." : "تسجيل الدخول"}
           </button>
         </form>
         <div className="mt-3 flex justify-between">
-          <Link href="/reset-password" className="text-sm text-primary">Forgot Password?</Link>
-          <Link href="/signup" className="text-sm text-accent">Create New Account</Link>
+          <Link href="/reset-password" className="text-sm text-primary">نسيت كلمة المرور؟</Link>
+          <Link href="/signup" className="text-sm text-accent">إنشاء حساب جديد</Link>
         </div>
 
 

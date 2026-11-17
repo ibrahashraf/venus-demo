@@ -29,14 +29,14 @@ export default class ErrorBoundary extends React.Component {
         return (
             <div className="flex flex-col items-center justify-center min-h-[200px] p-6 border border-red-200 rounded-md text-center">
             <h2 className="text-xl font-bold text-accent mb-3">
-                An error occurred while loading this section. 
+                حدث خطأ أثناء تحميل هذا القسم. 
             </h2>
             <Button
                 variant="secondary"
                 onClick={this.handleRetry}
                 className=" px-4 py-2   transition flex items-center justify-center"
             >
-                Retry
+                إعادة المحاولة
                 <RefreshIcon className="ml-2" />
             </Button>
             </div>

@@ -21,7 +21,7 @@ export default function SignUpPage() {
     });
     const data = await res.json();
     setLoading(false);
-    if (!res.ok) return setError(data.message || "Error");
+    if (!res.ok) return setError(data.message || "حدث خطأ");
     // redirect to verify page with email in query
     Router.push(`/verify?email=${encodeURIComponent(form.email)}`);
   }
@@ -29,22 +29,22 @@ export default function SignUpPage() {
   return (
     <>
       <div className="max-w-md mx-auto p-6 min-h-[700px] flex flex-col justify-center">
-        <h1 className="text-2xl font-bold mb-4 text-center">Create Account</h1>
+        <h1 className="text-2xl font-bold mb-4 text-center">إنشاء حساب</h1>
         <form onSubmit={submit} className="flex flex-col gap-3">
-          <input required value={form.name} onChange={e=>setForm({...form,name:e.target.value})} placeholder="Name" className="w-full rounded-sm p-3 mt-3 focus:outline-none border-b transition border-gray-400 focus:border-black" />
-          <input required type="email" value={form.email} onChange={e=>setForm({...form,email:e.target.value})} placeholder="Email" className="w-full rounded-sm p-3 mt-3 focus:outline-none border-b transition border-gray-400 focus:border-black" />
-          <input required type="password" value={form.password} onChange={e=>setForm({...form,password:e.target.value})} placeholder="Password" className="w-full rounded-sm p-3 mt-3 focus:outline-none border-b transition border-gray-400 focus:border-black" />
-          <input required type="password" value={form.confirmPassword} onChange={e=>setForm({...form,confirmPassword:e.target.value})} placeholder="Confirm Password" className="w-full rounded-sm p-3 mt-3 focus:outline-none border-b transition border-gray-400 focus:border-black" />
+          <input required value={form.name} onChange={e=>setForm({...form,name:e.target.value})} placeholder="الاسم" className="w-full rounded-sm p-3 mt-3 focus:outline-none border-b transition border-gray-400 focus:border-black" />
+          <input required type="email" value={form.email} onChange={e=>setForm({...form,email:e.target.value})} placeholder="البريد الإلكتروني" className="w-full rounded-sm p-3 mt-3 focus:outline-none border-b transition border-gray-400 focus:border-black" />
+          <input required type="password" value={form.password} onChange={e=>setForm({...form,password:e.target.value})} placeholder="كلمة المرور" className="w-full rounded-sm p-3 mt-3 focus:outline-none border-b transition border-gray-400 focus:border-black" />
+          <input required type="password" value={form.confirmPassword} onChange={e=>setForm({...form,confirmPassword:e.target.value})} placeholder="تأكيد كلمة المرور" className="w-full rounded-sm p-3 mt-3 focus:outline-none border-b transition border-gray-400 focus:border-black" />
           {error && <div className="text-red-600">{error}</div>}
-          <button disabled={loading} className="py-2 bg-primary text-white rounded">{loading ? "Creating account..." : "Create Account"}</button>
+          <button disabled={loading} className="py-2 bg-primary text-white rounded">{loading ? "جاري إنشاء الحساب..." : "إنشاء حساب"}</button>
         </form>
-                <p className="mt-4 text-sm">Already have an account? <Link href="/signin" className="text-accent">Sign In</Link></p>
+                <p className="mt-4 text-sm">لديك حساب بالفعل؟ <Link href="/signin" className="text-accent">تسجيل الدخول</Link></p>
         <div className="relative my-6">
                   <div className="absolute inset-0 flex items-center">
                     <div className="w-full border-t border-gray-500"></div>
                   </div>
                   <div className="relative flex justify-center">
-                    <span className="bg-white px-3 text-gray-600">or</span>
+                    <span className="bg-white px-3 text-gray-600">أو</span>
                   </div>
                 </div>
         
@@ -59,7 +59,7 @@ export default function SignUpPage() {
                     height={30}
                     className="inline-block mr-2 mb-1"
                   />
-                  Continue with Google
+                  المتابعة باستخدام جوجل
                 </button>
       </div>
     </>

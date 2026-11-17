@@ -38,7 +38,7 @@ export default function WhatsAppButton() {
             }}
           >
             <WhatsAppIcon sx={{ fontSize: 36  }} className=' rounded-full p-0.5 mr-1' />
-              Chat with us on WhatsApp
+              راسلنا على واتساب
           </a>
         </div>
       )}
@@ -48,7 +48,7 @@ export default function WhatsAppButton() {
               className={
                 `${ isOpen ? "bg-primary" : "bg-[#25D366]"} text-secondary rounded-full p-2 shadow-lg  block transition duration-200 ease-in-out hover:scale-110`
               }
-              aria-label="Chat on WhatsApp"
+              aria-label="الدردشة على واتساب"
             >
               { isOpen ? (<Close fontSize='large' className='text-[35px] sm:text-[60px]' />) : (<WhatsAppIcon fontSize='large' className='text-[35px] sm:text-[60px]' />)}
             </button>

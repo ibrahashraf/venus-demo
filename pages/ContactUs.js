@@ -28,7 +28,7 @@ export default function ContactPage() {
   const onSubmit = async (e) => {
       e.preventDefault();
       if (!e.target.phone.value) {
-          toast.error('Please enter your phone number');
+          toast.error('برجاء إدخال رقم الهاتف');
           return;
       }
       setLoading(true);
@@ -37,11 +37,11 @@ export default function ContactPage() {
               phone: e.target.phone.value,   
           },{ skipRedirect: true });
           if (response.status === 201) {
-              toast.success("Subscription successful");
+              toast.success("تم الإشتراك بنجاح");
               e.target.reset();
           }
       } catch (error) {
-          toast.error(error.response.data.message);
+          toast.error("حدث خطأ أثناء الإشتراك، يرجى المحاولة مرة أخرى");
       } finally {
           setLoading(false);
       }

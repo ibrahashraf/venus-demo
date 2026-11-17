@@ -19,7 +19,7 @@ export default function PromotionBanner() {
       const diff = endDate - now;
       
       if (diff <= 0) {
-        setTimeLeft("Promo expired"); // Arabic: Offer expired
+        setTimeLeft("انتهى العرض");
         return;
       }
       
@@ -67,34 +67,34 @@ export default function PromotionBanner() {
         </h2>
         {promo?.showTime && promo?.endsAt && timeLeft && typeof timeLeft === "object" && (
           <div className=" mt-6">
-            <p className="text-xl font-bold text-primary  mb-2">Promo ends in</p>
+            <p className="text-xl font-bold text-primary  mb-2">ينتهي العرض خلال</p>
             <div className=" text-4xl sm:text-6xl sm:font-light text-accent md:text-secondary flex gap-1 sm:gap-2 justify-center items-center">
               <div className="flex flex-col items-center justify-center gap-2">
                 <div className="py-6 max-md:border max-md:border-primary px-3 sm:py-9 sm:px-4 bg-secondary md:bg-accent  rounded-md">
                   {timeLeft.seconds}
                 </div>
-                <span className="text-primary text-lg font-bold">sec</span>
+                <span className="text-primary text-lg font-bold">ثانية</span>
               </div>
               <span className="text-5xl font-bold text-primary pb-10">:</span>
               <div className="flex flex-col items-center justify-center gap-2">
                 <div className="py-6 max-md:border max-md:border-primary px-3 sm:py-9 sm:px-4 bg-secondary md:bg-accent  rounded-md">
                   {timeLeft.minutes}
                 </div>
-                <span className="text-primary text-lg font-bold">min</span>
+                <span className="text-primary text-lg font-bold">دقيقة</span>
               </div>
               <span className="text-5xl font-bold text-primary pb-10">:</span>
               <div className="flex flex-col items-center justify-center gap-2">
                 <div className="py-6 max-md:border max-md:border-primary px-3 sm:py-9 sm:px-4 bg-secondary md:bg-accent  rounded-md">
                   {timeLeft.hours}
                 </div>
-                <span className="text-primary text-lg font-bold">hr</span>
+                <span className="text-primary text-lg font-bold">ساعة</span>
               </div>
               <span className="text-5xl font-bold text-primary pb-10">:</span>
               <div className="flex flex-col items-center justify-center gap-2">
                 <div className="py-6 max-md:border max-md:border-primary px-3 sm:py-9 sm:px-4 bg-secondary md:bg-accent  rounded-md">
                   {timeLeft.days}
                 </div>
-                <span className="text-primary text-lg font-bold">days</span>
+                <span className="text-primary text-lg font-bold">يوم</span>
               </div>
             </div>
           </div>
@@ -106,9 +106,9 @@ export default function PromotionBanner() {
         )}
          <Link
               href={'/Products'}
-              className=" bg-neutral-200 text-2xl md:text-3xl rounded-es-md rounded-se-md inline-block  px-8 py-5 text-accent rounded-sm  transition border-2 border-accent  hover:bg-accent hover:text-neutral-50  "
+              className=" bg-neutral-50 text-2xl md:text-3xl rounded-es-md rounded-se-md inline-block  px-8 py-5 text-accent rounded-sm  transition border-2 border-accent  hover:bg-accent hover:text-neutral-50  "
             >
-              Shop now
+              تسوق الآن
             </Link>
         
       </div>

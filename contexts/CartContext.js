@@ -47,9 +47,9 @@ export function CartContextProvider({ children }) {
               }
               ls.removeItem("cart");
               ls.setItem("cartMigrated", "true");
-              toast.success("Cart migrated to your account");
+              toast.success("تمت اضافة المنتجات الى سلة التسوق الخاصة بك");
             } catch (error) {
-              console.error("failed to migrate local cart", error);
+              console.error("خط في إضافة المنتجات", error);
             }
           }
         }
@@ -112,7 +112,7 @@ export function CartContextProvider({ children }) {
     const { _id, images, title, selectedColor, selectedSize ,stock , price, category, promotionId} = product;
     if (isLoggedIn) {
       if (stock < 1) {
-          toast.warning(`Product not available in stock ${title}`);
+          toast.warning(` هذا المنتج غير متوفر في المخزون`);
           return;
         }
       try {
@@ -129,7 +129,7 @@ export function CartContextProvider({ children }) {
         }, { skipRedirect: true });
         toast.success(
           <div className="flex flex-col gap-4 justify-center items-center w-full">
-            <div>Product added to cart</div>
+            <div>تمت إضافة المنتج الى سلة التسوق</div>
             <Link href="/Cart" className=" w-full border border-accent text-accent hover:bg-accent hover:text-white transition  text-center py-2">View Cart  <ShoppingCart sx={{ fontSize: "16px" }} /></Link>
           </div>
         );
@@ -148,7 +148,7 @@ export function CartContextProvider({ children }) {
       if (existingIndex !== -1) {
         const updated = [...cart];
         if (updated[existingIndex].quantity >= stock) {
-          toast.warning(`Product not available in stock ${title}`);
+          toast.warning(` هذا المنتج غير متوفر في المخزون `);
           return;
         }
         updated[existingIndex].quantity += 1;
@@ -172,7 +172,7 @@ export function CartContextProvider({ children }) {
       }
       toast.success(
         <div className="flex flex-col gap-4 justify-center items-center w-full">
-          <div>Product added to cart</div>
+          <div>تمت إضافة المنتج الى سلة التسوق</div>
           <Link href="/Cart" className=" w-full border border-accent text-accent hover:bg-accent hover:text-white transition text-center py-2">View Cart  <ShoppingCart sx={{ fontSize: "16px" }} /></Link>
         </div>
       , {
@@ -206,10 +206,10 @@ export function CartContextProvider({ children }) {
           data: {productId, selectedColor, selectedSize },
         }, { skipRedirect: true });
         await fetchServerCart();
-        toast.error("Product removed from cart");
+        toast.error("تم إزالة المنتج من سلة التسوق");
       } catch (error) {
         console.error("Failed to remove product", error);
-        toast.error("An error occurred while removing the product");
+        toast.error("حدث خطأ أثناء إزالة المنتج");
       }
     } else {
       setCart(prev => 
@@ -222,7 +222,7 @@ export function CartContextProvider({ children }) {
             )
         )
       );
-      toast.error("Product removed from cart");
+      toast.error("تم إزالة المنتج من سلة التسوق");
     }
   };
 
@@ -245,7 +245,7 @@ export function CartContextProvider({ children }) {
   const increaseQuantity = async (productId, selectedColor, selectedSize, stock, quantity) => {
     if (isLoggedIn) {
       if (quantity >= stock) {
-        toast.warning("Product not available in stock");
+        toast.warning("المنتج غير متوفر في المخزون");
         return;
       }
       try {
@@ -271,7 +271,7 @@ export function CartContextProvider({ children }) {
             if ((item.quantity || 1) < (stock || Infinity)) {
               return { ...item, quantity: (item.quantity || 1) + 1};
             } else {
-              toast.warning("Product not available in stock");
+              toast.warning("المنتج غير متوفر في المخزون");
             }
           }
           return item;

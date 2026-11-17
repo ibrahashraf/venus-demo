@@ -22,27 +22,27 @@ export default function WishListPage() {
     return (
         <>
         <Head>
-            <title>Wish List | Venus Outlet</title>
+            <title>المفضلة | Venus Outlet</title>
             <meta
                 name="description"
-                content="Your favorite products at Venus Outlet"
+                content="منتجاتك المفضلة في فينوس أوتلت"
             />
         </Head>
             <ErrorBoundary>
                 {!isAuthenticated ? (
                     <>
                     <main className="max-w-7xl mx-auto px-4 py-8 min-h-[60vh]">
-                        <h1 className="text-3xl font-bold text-center mb-8">Wish List</h1>
+                        <h1 className="text-3xl font-bold text-center mb-8">المفضلة</h1>
                         <div className="flex flex-col items-center justify-center text-gray-500 mt-12">
                             <HeartOff className="w-16 h-16 mb-4" />
-                            <p className="text-lg">Please log in to view your wish list.</p>
+                            <p className="text-lg">يرجى تسجيل الدخول لعرض قائمة المفضلة.</p>
                         </div>
                     </main>
                     </>
                 ) 
                 :(
                 <main className="max-w-7xl mx-auto px-4 py-8 min-h-[60vh]">
-                    <h1 className="text-3xl font-bold text-center mb-8">Wish List</h1>
+                    <h1 className="text-3xl font-bold text-center mb-8">المفضلة</h1>
 
                     {loading ? (
                         <div className="flex justify-center items-center mt-20">
@@ -51,8 +51,8 @@ export default function WishListPage() {
                         ) : wishlist.length === 0 ? (
                         <div className="flex flex-col items-center justify-center gap-4 text-gray-500 mt-12">
                             <HeartOff className="w-16 h-16 mb-4" />
-                            <p className="text-lg">No products in your wish list.</p>
-                            <Link href="/Products" className="text-primary  rounded-sm px-5 py-2 mt-4 border border-primary hover:bg-primary hover:text-neutral-50 transition">Browse Store</Link>
+                            <p className="text-lg">لا توجد منتجات في المفضلة.</p>
+                            <Link href="/Products" className="text-primary  rounded-sm px-5 py-2 mt-4 border border-primary hover:bg-primary hover:text-neutral-50 transition">تصفح المتجر</Link>
                         </div>
                         ) : (
                         <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6" role="list">

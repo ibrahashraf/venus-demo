@@ -25,27 +25,27 @@ export default function OrdersPage() {
 
   if (status === "loading") return (
     <>
-      <p className="text-center py-10">Loading...</p>
+      <p className="text-center py-10">جاري التحميل...</p>
     </>
   );
   if (status === "unauthenticated") return (
     <>
-      <p className="text-center py-10">Please log in to view your orders.</p>
+      <p className="text-center py-10">يرجى تسجيل الدخول لعرض طلباتك.</p>
     </>
   );
 
   return (
     <>
     <Head>
-      <title>Previous Orders | Venus Outlet</title>
+      <title>الطلبات السابقة | Venus Outlet</title>
       <meta
         name="description"
-        content="List of previous orders for the user"
+        content="قائمة الطلبات السابقة للمستخدم"
       />
     </Head>
       <ErrorBoundary>
         <div className="max-w-3xl mx-auto py-10 min-h-[60vh]">
-          <h1 className="text-3xl font-bold mb-6 text-center">Previous Orders</h1>
+          <h1 className="text-3xl font-bold mb-6 text-center">الطلبات السابقة</h1>
           {loading 
             ? (
             
@@ -82,37 +82,37 @@ export default function OrdersPage() {
                 <div className="h-5 w-28 bg-gray-300 rounded skeleton"></div>
               </div>
             ) : orders.length === 0 ? (
-              <p className="text-center text-gray-600">No orders found.</p>
+              <p className="text-center text-gray-600">لا توجد طلبات.</p>
             ) : (
               orders.map((order, i) => (
                 <div key={order._id} className="border rounded-lg p-10 mb-4 shadow-md bg-white">
                   <h2 className="text-xl font-semibold mb-2 text-left" dir="ltr">{new Date(order.createdAt).toLocaleTimeString("en-GB", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: true })}</h2>
-                  <p><strong>Status</strong> : {order.status}</p>
-                  <p><strong>Name</strong> : {order.name}</p>
-                  <p><strong>Phone Number:</strong> {order.phone}</p>
-                  <p><strong>Address</strong> : {order.address}, {order.city}, {order.governorate}</p>
-                  <p><strong>Payment Method</strong> : {order.paymentMethod}</p>
-                  <p><strong>Total</strong> : EGP {order.total}</p>
-                  <p><strong>Payment Status</strong> : {order.paid ? "Paid" : "Not Paid"}</p>
+                  <p><strong>الحالة</strong> : {({ Pending: "قيد الانتظار", Confirmed: "مؤكد", Cancelled: "ملغي", Shipped: "تم الشحن", Delivered: "تم التوصيل" }[order.status] || order.status)}</p>
+                  <p><strong>الاسم</strong> : {order.name}</p>
+                  <p><strong>رقم الهاتف:</strong> {order.phone}</p>
+                  <p><strong>العنوان</strong> : {order.address}, {order.city}, {order.governorate}</p>
+                  <p><strong>طريقة الدفع</strong> : {order.paymentMethod === "Pay on Delivery" ? "الدفع عند الاستلام" : order.paymentMethod === "Paymob" ? "بطاقة ائتمان" : order.paymentMethod}</p>
+                  <p><strong>الإجمالي</strong> : {order.total} جنيه</p>
+                  <p><strong>حالة الدفع</strong> : {order.paid ? "مدفوع" : "غير مدفوع"}</p>
                   { ( order.status === "Pending" || order.status === "Confirmed") && 
                   ( order.cancellationRequest.status === "none" ) ? (
                     <Link 
                       href={`/orders/${order._id}`}
                       className=" text-accent block text-start w-fit mt-4"
                     >
-                      Request Cancellation
+                      طلب إلغاء
                     </Link>
                   ) : (order.cancellationRequest.status === "requested") ? (
-                    <p className="mt-4 text-yellow-500">Cancellation request submitted.</p>
+                    <p className="mt-4 text-yellow-500">تم إرسال طلب الإلغاء.</p>
                   ) : (order.cancellationRequest.status === "approved") ? (
-                    <p className="mt-4 text-green-500">Order cancelled.</p>
+                    <p className="mt-4 text-green-500">تم إلغاء الطلب.</p>
                   ) : (order.cancellationRequest.status === "denied") ? (
-                    <p className="mt-4 text-red-500">Cancellation request denied.</p>
+                    <p className="mt-4 text-red-500">تم رفض طلب الإلغاء.</p>
                   ) : null
                   }
                   <div className="font-bold text-primary">
                   { order.paid && order.status !== "Cancelled" && (<PDFDownloadLink document={<InvoicePDF order={order} />} fileName={`invoice${order._id}.pdf`}>
-                      {({ loading }) => (loading ? "...." : "Download Invoice")}
+                      {({ loading }) => (loading ? "...." : "تحميل الفاتورة")}
                     </PDFDownloadLink>)}
                   </div>
                 </div>

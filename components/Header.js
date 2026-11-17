@@ -109,10 +109,8 @@ export default function Header() {
   };
 
   return (
-    <header className={`transition duration-500 ease-in-out py-4 px-6  z-50 w-full sticky top-0 ${isScrolled || mobileMenuOpen ? 'bg-primary ' : 'bg-neutral-200 '}`} dir='rtl'>
-      {isHome && (
-        <div className={`  ${isScrolled || mobileMenuOpen ? 'bg-primary' : 'bg-white'}  w-24 sm:w-32 md:w-40 h-full absolute top-0 transition left-[20%] `} />
-      )}
+    <header className={`transition duration-500 ease-in-out py-3 px-6  z-50 w-full sticky top-0 ${isScrolled || mobileMenuOpen ? 'bg-primary ' : 'bg-neutral-50 '}`} dir='rtl'>
+    
       <div className="container mx-auto flex justify-between items-center">
         {/* User Section */}
         <div className="flex items-center gap-5">
@@ -121,7 +119,7 @@ export default function Header() {
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className={"md:hidden z-50 "}
-            aria-label={"Open menu"}
+            aria-label={"فتح القائمة"}
           >
             {mobileMenuOpen ? <Close fontSize="medium"  className={'text-neutral-200 animate-rotateIn'} /> : <Menu fontSize="medium"  className={isScrolled || mobileMenuOpen ? 'text-neutral-200' : 'text-primary'} /> }
           </button>
@@ -196,7 +194,7 @@ export default function Header() {
         
 
         {/* Center Navigation (Desktop only) */}
-        <nav className={`hidden md:flex gap-8 text-xl ${isScrolled || mobileMenuOpen ? 'text-neutral-200' : 'text-primary'}`}>
+        <nav className={`hidden md:flex gap-8 text-lg ${isScrolled || mobileMenuOpen ? 'text-neutral-200' : 'text-primary'}`}>
           {categories.length > 0 && categories.map((category) => (
             <Link 
             key={category._id} 
@@ -204,8 +202,8 @@ export default function Header() {
             className="hover:text-red-400  transition"
             >{category.name}</Link>
           ))}
-          <Link href="/Products" className="hover:text-red-400 transition">Products</Link>
-          <Link href="/" className="hover:text-red-400 transition">Home</Link>
+          <Link href="/Products" className="hover:text-red-400 transition">المنتجات</Link>
+          <Link href="/" className="hover:text-red-400 transition">الرئيسية</Link>
         </nav>
 
         
@@ -213,7 +211,7 @@ export default function Header() {
             {/* logo + text */}
             <Link href="/">
               <svg
-                className={`transition md:h-12 md:w-24 max-md:h-10 max-md:w-20`}
+                className={`transition md:h-10 md:w-20 max-md:h-10 max-md:w-20`}
                 viewBox="0 0 2100 1000"
                 fill="none"
               >
@@ -250,19 +248,19 @@ export default function Header() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="bg-neutral-200  fixed  pt-20 h-[calc(100vh-73px)] overflow-y-auto w-screen top-[72px] left-0 z-50 animate-slideFromLeft ">
+        <div className="bg-neutral-50  fixed  pt-20 h-[calc(100vh-73px)] overflow-y-auto w-screen top-[72px] left-0 z-50 animate-slideFromLeft ">
           <div className="flex items-center justify-between absolute top-0 w-full p-5">
             {session && (
-              <div className="text-2xl font-bold bg-neutral-200 absolute top-6 left-1/2 transform -translate-x-1/2 text-accent">{session.user.name}</div>
+              <div className="text-2xl font-bold bg-neutral-50 absolute top-6 left-1/2 transform -translate-x-1/2 text-accent">{session.user.name}</div>
             )}
           </div>
           <div className="flex p-1 pb-4 flex-col gap-4 text-2xl  [&>*]:w-full [&>*]:pt-6  [&>*]:pr-8  w-full items-center justify-start ">
 
             <Link href="/" onClick={() => setMobileMenuOpen(false)}>
-              Home
+              الرئيسية
             </Link>
             <Link href="/Products"onClick={() => setMobileMenuOpen(false)}>
-             Products
+             المنتجات
             </Link>
             {categories.length > 0 && categories.map((category) => (
               <Link 
@@ -273,12 +271,12 @@ export default function Header() {
               >{category.name}</Link>
             ))}
             <Link href="/ContactUs" onClick={() => setMobileMenuOpen(false)}>
-              Contact Us 
+              تواصل معنا
             </Link>
             {session ? (
               <>
                 <Link href="/Orders" onClick={() => setMobileMenuOpen(false)}>
-                  Track Orders
+                  تتبع الطلبات
                 </Link>
               </>
             ) : (
@@ -289,7 +287,7 @@ export default function Header() {
                 }}
                 className="pl-8"
               >
-                Sign In
+                تسجيل الدخول
                 <Login className="text-3xl mr-2" />
               </button>
             )}

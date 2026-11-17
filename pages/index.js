@@ -19,26 +19,26 @@ export default function Home() {
         </title>
         <meta
           name="description"
-          content="Venus Outlet is a leading fashion retailer offering the latest trends in women's and children's clothing across our branches in Mansoura and Alexandria."
+          content="فينوس أوتلت متجر رائد للأزياء يقدم أحدث صيحات ملابس النساء والأطفال عبر فروعنا في المنصورة والإسكندرية."
         />
         <link rel="icon" href="/favicon.ico" />
         <link rel="canonical" href="https://venusoutlet.net/" />
         <meta
           property="og:title"
-          content="Venus Outlet | Women's and Children's Fashion"
+          content="فينوس أوتلت | أزياء النساء والأطفال"
         />
         <meta
           property="og:description"
-          content="Venus Outlet offers the latest trends in women's and children's clothing across our branches in Mansoura and Alexandria."
+          content="فينوس أوتلت يقدم أحدث صيحات ملابس النساء والأطفال عبر فروعنا في المنصورة والإسكندرية."
         />
         <meta property="og:image" content="https://venusoutlet.net/og-image.jpg" />
         <meta property="og:url" content="https://venusoutlet.net/" />
         <meta property="og:type" content="website" />
       </Head>
       <Featured />
-      <ErrorBoundary>
+      {/* <ErrorBoundary>
         <CategoriesSection />
-      </ErrorBoundary>
+      </ErrorBoundary> */}
       <ErrorBoundary>
         <PromotionBanner  />
       </ErrorBoundary>

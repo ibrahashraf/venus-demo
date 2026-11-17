@@ -22,7 +22,7 @@ export default function CategoriesSection() {
   }, []);
 
   return (
-    <div className="bg-neutral-200 min-h-[calc(100vh-73px)] md:min-h-[calc(100vh-80px)] py-12 relative overflow-hidden">
+    <div className="bg-neutral-50 min-h-[calc(100vh-73px)] md:min-h-[calc(100vh-80px)] py-12 relative overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-[49]">
 
         {/* Categories Grid */}
