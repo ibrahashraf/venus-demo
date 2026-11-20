@@ -27,7 +27,7 @@ export default function Featured() {
           </h1>
 
           <h2 className="mt-2 text-3xl font-extrabold leading-tight text-accent md:text-5xl max-md:mb-4">
-            تخفيضات تصل إلى 50%
+            تخفيضات تصل إلى %50
           </h2>
 
           <p className="md:mt-6 max-w-xl max-md:max-w-[190px] ml-auto text-sm leading-7 text-gray-600 md:text-lg">

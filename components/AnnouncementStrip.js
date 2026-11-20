@@ -7,7 +7,7 @@ export default function AnnouncementStrip() {
       aria-label="إعلان"
       className="bg-primary px-4 py-2 text-center text-sm font-semibold text-white"
     >
-      أهلاً بكم في فينوس أوتلت | اكتشفوا أحدث صيحات الأزياء
+     عرض اطلاق الموقع - تخفيضات تصل إلى %50
     </aside>
   );
 }
