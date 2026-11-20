@@ -23,11 +23,11 @@ export default function Featured() {
           </p>
 
           <h1 className="text-3xl font-bold leading-tight md:text-5xl">
-            أحدث صيحات الأزياء
+            عرض اطلاق الموقع
           </h1>
 
           <h2 className="mt-2 text-3xl font-extrabold leading-tight text-accent md:text-5xl max-md:mb-4">
-            عشانك وعشان ولادك
+            تخفيضات تصل إلى 50% على جميع المنتجات
           </h2>
 
           <p className="md:mt-6 max-w-xl max-md:max-w-[190px] ml-auto text-sm leading-7 text-gray-600 md:text-lg">
