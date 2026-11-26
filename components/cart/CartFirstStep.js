@@ -220,13 +220,13 @@ export default function CartFirstStep(
 
                         {(discountAmount + couponDiscount) > 0 && (
                             <div className="flex justify-between text-lg text-green-600">
-                                <span>{ discountAmount} - USD </span> 
+                                <span>{ discountAmount} - EGP </span> 
                                 <span>الخصم</span>
                             </div>
                         )}
 
                         <div className="flex justify-between text-xl font-bold border-t pt-3">
-                            <span>{totalBeforeShipping} USD</span>
+                            <span>{totalBeforeShipping} EGP</span>
                             <span>الإجمالي</span>
                         </div>
                         <div>غير شامل الشحن</div>

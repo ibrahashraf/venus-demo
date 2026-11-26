@@ -189,14 +189,12 @@ export default function ProductPage() {
     <>
       <Head>
         <title>
-          {product.metaTitle 
-            || `${product.name} | ${product.category?.metaTitle || product.category?.name}`}
+          {`${product.title}`}
         </title>
         <meta
           name="description"
           content={
-            product.metaDescription 
-            || `${product.name} متوفر في ${product.category?.metaDescription || product.category?.name} في متجرنا`
+             `${product.title} متوفر في في متجرنا`
           }
         />
         {/* Product Structured Data */}
@@ -321,10 +319,10 @@ export default function ProductPage() {
                         ? (
                           <div className="flex items-center justify-start gap-2">
                             <p className="text-xl font-bold text-accent  mb-6" dir="ltr">
-                              {discountedPrice} USD
+                              {discountedPrice} EGP
                             </p>
                             <p className="text-xl line-through text-neutral-800  mb-6" dir="ltr">
-                              {variant?.price} USD
+                              {variant?.price} EGP
                             </p>
                           </div>
                         )
@@ -332,16 +330,16 @@ export default function ProductPage() {
                         ? (
                           <div className="flex items-center justify-start gap-2">
                             <p className="text-xl font-bold text-accent  mb-6" dir="ltr">
-                              {variant?.price} USD
+                              {variant?.price} EGP
                             </p>
                             <p className="text-xl line-through text-neutral-800  mb-6" dir="ltr">
-                              {compareAtPrice} USD
+                              {compareAtPrice} EGP
                             </p>
                           </div>
                         ) 
                         : (
                           <p className="text-3xl font-semibold text-gray-900 mb-6">
-                            <span>{variant?.price} USD</span>
+                            <span>{variant?.price} EGP</span>
                           </p>
                         )
                     }

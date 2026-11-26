@@ -31,7 +31,7 @@ export default function CheckoutItems({ products }) {
                 <p className="font-light text-2xl sm:text-xl max-sm:text-lg">{cartItem.title}</p>
               </div>
               <p className="text-lg font-bold text-gray-700">
-                {cartItem.price} USD
+                {cartItem.price} EGP
               </p>
 
               {cartItem.selectedColor && (

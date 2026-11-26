@@ -66,17 +66,17 @@ export default function CartItems({ products }) {
                 (
                   <div className="flex items-center gap-2">
                     <p className="text-lg font-bold text-accent">
-                      {cartItem.price} USD
+                      {cartItem.price} EGP
                     </p>
                     <p className="text-lg line-through text-gray-700">
-                      {compareAtPrice} USD
+                      {compareAtPrice} EGP
                     </p>
                   </div>
                 )
                 :
                 (
                   <p className="text-lg font-bold text-gray-700">
-                    {cartItem.price} USD
+                    {cartItem.price} EGP
                   </p>
                 )
               }

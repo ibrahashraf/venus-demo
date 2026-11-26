@@ -179,12 +179,12 @@ export default function CartSecondStep( {
         <div className="space-y-3">
           <div className="flex justify-between text-lg">
             <span>الإجمالي ({cart.length}) منتجات</span>
-            <span>{subtotal} USD</span>
+            <span>{subtotal} EGP</span>
           </div>
           {shippingCost > 0 && (
             <div className="flex justify-between text-lg">
               <span>تكلفة الشحن</span>
-              <span>{shippingCost} USD</span>
+              <span>{shippingCost} EGP</span>
             </div>
           )}
           {estimatedDelivery && (
@@ -197,12 +197,12 @@ export default function CartSecondStep( {
           {discountAmount > 0 && (
             <div className="flex justify-between text-lg text-green-600">
               <span>الخصم</span>
-              <span>{couponDiscount || discountAmount} USD -</span>
+              <span>{couponDiscount || discountAmount} EGP -</span>
             </div>
           )}
           <div className="flex justify-between text-xl font-bold border-t pt-3">
             <span>الإجمالي</span>
-            <span>{total} USD</span>
+            <span>{total} EGP</span>
           </div>
         </div>
         {formError && (

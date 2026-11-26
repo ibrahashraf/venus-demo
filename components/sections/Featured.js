@@ -4,15 +4,16 @@ import Link from 'next/link';
 import Image from 'next/image';
 import featuredImage from '../../public/assets/featured.png';
 import featuredMobileImage from '../../public/assets/featuredmobile.png';
-import Kids from '../../public/assets/kids.png';
-import Women from '../../public/assets/women.png';
+import GirlPng from '../../public/assets/girl.png';
+import BoyPng from '../../public/assets/boy.png';
+import ToddlerPng from '../../public/assets/toddler.png';
 
 export default function Featured() {
   return (
-    <section className="relative isolate min-h-[680px] overflow-hidden bg-neutral-50 text-primary">
+    <section className="relative isolate min-h-[680px] overflow-hidden bg-neutral-50 text-primary flex flex-col items-center justify-center">
 
       {/* Main content */}
-      <div className="relative overflow-hidden z-10 mx-auto flex  max-w-5xl items-center justify-end max-md:px-4 lg:pr-20 md:mt-10 max-md:pb-14">
+      <div className="relative overflow-hidden z-10 mx-auto flex w-full  max-w-5xl items-center justify-end max-md:px-4 lg:pr-20 md:mt-10 max-md:pb-14">
 
         {/* Text */}
         <div className="relative z-10 w-[56%] max-w-[650px] text-right max-md:w-full max-md:self-start max-md:mt-4">
@@ -22,11 +23,11 @@ export default function Featured() {
             <span className="absolute -left-12 top-1/2 h-[2px] w-10 -translate-y-1/2 bg-accent" />
           </p>
 
-          <h1 className="text-3xl font-bold leading-tight md:text-5xl">
+          <h1 className="text-3xl font-bold leading-tight md:text-4xl">
             عرض اطلاق الموقع
           </h1>
 
-          <h2 className="mt-2 text-3xl font-extrabold leading-tight text-accent md:text-5xl max-md:mb-4">
+          <h2 className="mt-2 text-3xl font-extrabold leading-tight text-accent md:text-4 xl max-md:mb-4">
             تخفيضات تصل إلى %50
           </h2>
 
@@ -41,7 +42,7 @@ export default function Featured() {
               href="/Products"
               className="inline-flex items-center justify-center py-2 md:py-3 max-md:w-[130px]  max-md:text-sm font-bold md:px-9 gap-2 rounded-lg border border-primary  transition hover:bg-primary hover:text-white"
             >
-              شوف الكولكشن
+              عرض الكولكشن
             </Link>
             <Link
               href="/Products"
@@ -73,24 +74,57 @@ export default function Featured() {
         </div>
 
       </div>
-      <div className="flex max-md:flex-col-reverse container mx-auto md:px-40 md:py-10 justify-center items-center gap-1 max-md:mt-10">
+      <div className="flex max-md:flex-col-reverse container mx-auto md:px-40 md:py-10 justify-center items-center gap-4 max-md:mt-10">
           <Link
-          className="w-full md:w-1/2 p-1 "
-            href="/products">
+            className="w-full md:w-1/3 pt-2 flex justify-center items-center border border-gray-300 rounded-lg shadow-md "
+            href="/Products?category=6b084401386e349cd1438bda">
             <Image
-              src={Women}
-              alt="تشكيلة فينوس للنساء"
-              className="w-full object-contain"
-            />
+              src={GirlPng}
+              alt="تشكيلة فينوس للبنات"
+              className="w-[50%] object-contain"
+              />
+              <div className="flex-col items-center justify-center gap-4 text-center text-lg font-bold">
+                <p>
+                   تشكيلة البناتي   
+                </p>
+                <p className= "text-accent">
+                 <ArrowBack />  عرض 
+                </p>
+              </div>
           </Link>
           <Link
-          className="w-full md:w-1/2 p-1"
-            href="/products">
+            className="w-full md:w-1/3 pt-2 flex justify-center items-center border border-gray-300 rounded-lg shadow-md"
+            href="/Products?category=6b0843f7386e349cd1438bd6">
             <Image
-              src={Kids}
-              alt="تشكيلة فينوس للأطفال"
-            className="w-full object-contain"
-          />
+              src={BoyPng}
+              alt="تشكيلة فينوس للأولاد"
+              className="w-[50%] object-contain"
+              />
+              <div className="flex-col items-center justify-center gap-4 text-center text-lg font-bold">
+                <p>
+                  تشكيلة الأولادي
+                </p>
+                 <p className= "text-accent">
+                 <ArrowBack />  عرض 
+                </p>
+              </div>
+          </Link>
+          <Link
+            className="w-full md:w-1/3 pt-2 flex justify-center items-center border border-gray-300 rounded-lg shadow-md"
+            href="/Products?category=6b08440b386e349cd1438bde">
+            <Image
+              src={ToddlerPng}
+              alt="تشكيلة فينوس للرضع"
+              className="w-[50%] object-contain"
+              />
+              <div className="flex-col items-center justify-center gap-4 text-center text-lg font-bold">
+                <p>
+                  تشكيلة المواليد
+                </p>
+                 <p className= "text-accent">
+                <ArrowBack />   عرض 
+                </p>
+              </div>
           </Link>
       </div>
     </section>

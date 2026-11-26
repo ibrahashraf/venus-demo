@@ -7,6 +7,7 @@ export default function ProductBox(product) {
   const firstVariant = product.variants[0];
   const price = firstVariant?.price || 0;
   const compareAtPrice = firstVariant?.compareAtPrice || null;
+  const size = firstVariant?.size || null;
 
   return (
     <Link
@@ -21,6 +22,9 @@ export default function ProductBox(product) {
           height={600}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
+        <div className="absolute top-2 left-2 bg-accent text-white text-xs px-2 py-1 rounded">
+          {size}
+        </div>
       </div>
 
       <div className="p-3 flex justify-between">
@@ -30,12 +34,12 @@ export default function ProductBox(product) {
 
         {compareAtPrice ? (
           <div className="text-sm flex gap-2" dir="ltr">
-            <p className="text-accent font-bold ml-1">{price} USD</p>
-            <span className="line-through text-gray-500">{compareAtPrice} USD</span>
+            <p className="text-accent font-bold ml-1">{price} EGP</p>
+            <span className="line-through text-gray-500">{compareAtPrice} EGP</span>
           </div>
         ) : (
           <div dir="ltr" className="text-sm font-bold text-gray-700">
-            {price} USD
+            {price} EGP
           </div>
         )}
       </div>
